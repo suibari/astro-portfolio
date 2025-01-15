@@ -1,4 +1,22 @@
-<p>すいばりです</p>
-<p>平成初めの生まれ</p>
-<p>ものづくりが好き、開発とかイラストとか動画編集とか</p>
-<p>人生の遠回りを楽しもう</p>
+---
+import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
+---
+<Layout>
+  <div class="w-full h-5/6 flex justify-center items-center">
+    <div class="flex-col text-center text-xl">
+      <p>すいばりです</p>
+      <p>平成はじめの生まれ</p>
+      <p>創作やものづくりが好き、開発とかイラストとか動画編集とか</p>
+      <p>ブラックボックス的なものがうにょうにょ動くのを見るのが好き、AIとか</p>
+      <p>明日は明日の風が吹く</p>
+      <p>遠回りを楽しむ</p>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  p {
+    margin-bottom: 10px;
+  }
+</style>

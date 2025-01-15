@@ -1,4 +1,5 @@
 ---
+import '../styles/global.css';
 import type { Record } from '../types/record';
 import Layout from '../layouts/Layout.astro';
 import Welcome from '../components/Welcome.astro'
@@ -35,6 +36,7 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
   </div>
 
   <section>
+    <h1 class="text-4xl vt323-regular p-2">LATEST NEWS</h1>
     <div class="flex gap-2 p-2">
       <div class="w-1/3">
         <Content {...developLatest[0]} />

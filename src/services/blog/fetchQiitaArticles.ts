@@ -24,6 +24,6 @@ export async function fetchQiitaArticles(username: String, token: String) {
     title: item.title,
     link: item.url,
     date: new Date(item.created_at).toLocaleDateString(),
-    image: item.user?.profile_image_url || 'https://via.placeholder.com/300', // プロフィール画像を使用
+    image: null, // プロフィール画像を使用
   }));
 }
