@@ -1,0 +1,67 @@
+---
+export interface Props {
+  text: string;
+  image?: string; // 画像は任意
+  date: string; // ISO 8601形式を想定
+  link: string;
+}
+
+// propsの解構
+const { text, image, date, link } = Astro.props;
+---
+
+<article class="post">
+  <a href={link} target="_blank" rel="noopener noreferrer" class="post-link">
+    <div class="post-content">
+      <div style="display: flex;">
+        {image && <img src={image} alt="Bluesky Post Image" class="post-image" />}
+        <p class="post-text">{text}</p>
+      </div>
+      <time class="post-date">{new Date(date).toLocaleString()}</time>
+    </div>
+  </a>
+</article>
+
+<style>
+  .post {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .post:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .post-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-text {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .post-image {
+    max-width: 50px;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+  }
+
+  .post-date {
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 0.5rem;
+    align-self: flex-end;
+  }
+</style>

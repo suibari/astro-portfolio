@@ -1,11 +1,43 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import type { Record } from '../types/record';
 import Layout from '../layouts/Layout.astro';
+import Content from '../components/Content.astro';
+import Post from '../components/Post.astro';
+import { fetchBlueskyPosts } from '../services/bluesky/fetchBlueskyPosts';
+import { fetchRSS } from '../services/blog/fetchRSS';
+import { developments } from '../data/developments.ts';
+import fetchPixivArtworks from '../services/illust/fetchPixivArtworks';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const blueSkyFeeds = await fetchBlueskyPosts(); // Blueskyのポストデータを取得
+const Records = blueSkyFeeds[0].post.record as Record;
+
+const noteArticles = await fetchRSS('https://note.com/suibari/rss');
+const developLatest = developments; // Developの最新コンテンツ
+const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテンツ
 ---
-
 <Layout>
-	<Welcome />
+  <h1>トップページ</h1>
+
+  <section>
+    <h2>News</h2>
+    <div>
+      {blueSkyFeeds.slice(0, 5).map((feed) => (
+        <Post
+          text={(feed.post.record as {text: string}).text}
+          image={feed.post.author.avatar}
+          date={(feed.post.record as {createdAt: string}).createdAt}
+          link={feed.post.uri}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>最新コンテンツ</h2>
+    <div style="display: flex; gap: 20px;">
+      <Content {...developLatest[0]} />
+      <Content {...illustLatest[0]} />
+      <Content {...noteArticles[0]} />
+    </div>
+  </section>
 </Layout>

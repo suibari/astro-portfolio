@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Content from '../components/Content.astro';
+import { fetchRSS } from '../services/blog/fetchRSS';
+import { fetchQiitaArticles } from '../services/blog/fetchQiitaArticles';
+
+// Note
+const noteArticles = await fetchRSS('https://note.com/suibari/rss');
+const qiitaArticles = await fetchQiitaArticles("Suibari_cha", import.meta.env.QIITA_ACCESS_TOKEN);
+
+const blogArticles = [...noteArticles, ...qiitaArticles];
+---
+<Layout>
+  <h1>ブログ記事一覧</h1>
+  <div>
+    {blogArticles.map((item) => (
+      <Content title={item.title} image={item.image || 'https://via.placeholder.com/300'} date={item.date} link={item.link} />
+    ))}
+  </div>
+</Layout>
