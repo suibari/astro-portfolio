@@ -10,58 +10,16 @@ export interface Props {
 const { text, image, date, link } = Astro.props;
 ---
 
-<article class="post">
-  <a href={link} target="_blank" rel="noopener noreferrer" class="post-link">
-    <div class="post-content">
-      <div style="display: flex;">
-        {image && <img src={image} alt="Bluesky Post Image" class="post-image" />}
-        <p class="post-text">{text}</p>
+<article class="border border-gray-300 rounded-lg p-4 bg-gray-50 transition-shadow duration-300 hover:shadow-md">
+  <a href={link} target="_blank" rel="noopener noreferrer" class="block text-inherit">
+    <div class="flex flex-col">
+      <div class="flex items-center space-x-4">
+        {image && <img src={image} alt="Bluesky Post Image" class="w-12 h-12 rounded-md" />}
+        <p class="text-base text-gray-800">{text}</p>
       </div>
-      <time class="post-date">{new Date(date).toLocaleString()}</time>
+      <time class="mt-2 text-sm text-gray-500 self-end">
+        {new Date(date).toLocaleString()}
+      </time>
     </div>
   </a>
 </article>
-
-<style>
-  .post {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1rem 0;
-    background-color: #f9f9f9;
-    transition: box-shadow 0.3s ease;
-  }
-
-  .post:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .post-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-
-  .post-content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .post-text {
-    font-size: 1rem;
-    margin: 0 0 0.5rem;
-  }
-
-  .post-image {
-    max-width: 50px;
-    border-radius: 4px;
-    margin: 0.5rem 0;
-  }
-
-  .post-date {
-    font-size: 0.875rem;
-    color: #666;
-    margin-top: 0.5rem;
-    align-self: flex-end;
-  }
-</style>

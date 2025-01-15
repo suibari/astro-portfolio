@@ -1,6 +1,7 @@
 ---
 import type { Record } from '../types/record';
 import Layout from '../layouts/Layout.astro';
+import Welcome from '../components/Welcome.astro'
 import Content from '../components/Content.astro';
 import Post from '../components/Post.astro';
 import { fetchBlueskyPosts } from '../services/bluesky/fetchBlueskyPosts';
@@ -9,35 +10,41 @@ import { developments } from '../data/developments.ts';
 import fetchPixivArtworks from '../services/illust/fetchPixivArtworks';
 
 const blueSkyFeeds = await fetchBlueskyPosts(); // Blueskyのポストデータを取得
-const Records = blueSkyFeeds[0].post.record as Record;
 
 const noteArticles = await fetchRSS('https://note.com/suibari/rss');
 const developLatest = developments; // Developの最新コンテンツ
 const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテンツ
 ---
 <Layout>
-  <h1>トップページ</h1>
-
-  <section>
-    <h2>News</h2>
-    <div>
-      {blueSkyFeeds.slice(0, 5).map((feed) => (
-        <Post
-          text={(feed.post.record as {text: string}).text}
-          image={feed.post.author.avatar}
-          date={(feed.post.record as {createdAt: string}).createdAt}
-          link={feed.post.uri}
-        />
-      ))}
+  <div class="flex w-full">
+    <div class="flex items-center">
+      <Welcome />
     </div>
-  </section>
+    <section class="ml-auto">
+      <div class="flex flex-col ml-auto w-max max-w-md space-y-2 p-2 break-words">
+        {blueSkyFeeds.slice(0, 5).map((feed) => (
+          <Post
+            text={(feed.post.record as {text: string}).text}
+            image={feed.post.author.avatar}
+            date={(feed.post.record as {createdAt: string}).createdAt}
+            link={feed.post.uri}
+          />
+        ))}
+      </div>
+    </section>
+  </div>
 
   <section>
-    <h2>最新コンテンツ</h2>
-    <div style="display: flex; gap: 20px;">
-      <Content {...developLatest[0]} />
-      <Content {...illustLatest[0]} />
-      <Content {...noteArticles[0]} />
+    <div class="flex gap-2 p-2">
+      <div class="w-1/3">
+        <Content {...developLatest[0]} />
+      </div>
+      <div class="w-1/3">
+        <Content {...illustLatest[0]} />
+      </div>
+      <div class="w-1/3">
+        <Content {...noteArticles[0]} />
+      </div>
     </div>
   </section>
 </Layout>
