@@ -1,5 +1,6 @@
 ---
 import Header from "../components/Header.astro"
+import Footer from "../components/Footer.astro"
 ---
 <!doctype html>
 <html lang="ja">
@@ -16,13 +17,6 @@ import Header from "../components/Header.astro"
 	<body class="m-0 w-full h-full">
 		<Header />
 		<slot />
+		<Footer />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}

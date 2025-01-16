@@ -11,9 +11,9 @@ const qiitaArticles = await fetchQiitaArticles("Suibari_cha", import.meta.env.QI
 const blogArticles = [...noteArticles, ...qiitaArticles];
 ---
 <Layout>
-  <div class="flex flex-wrap gap-2 w-full p-2">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
     {blogArticles.map((item) => (
-      <div class="w-1/4 max-w-[calc(25%-0.5rem)]">
+      <div>
         <Content title={item.title} image={item.image} date={item.date} link={item.link} />
       </div>
     ))}

@@ -5,9 +5,9 @@ import Content from '../components/Content.astro';
 import { developments } from '../data/developments.ts';
 ---
 <Layout>
-  <div class="flex flex-wrap gap-2 w-full p-2">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
     {developments.map((project) => (
-      <div class="w-1/4 max-w-[calc(25%-0.5rem)]">
+      <div>
         <Content 
           title={project.title}
           image={project.image}

@@ -8,6 +8,7 @@ const did = "did:plc:uixgxpiqf4i63p6rgpu7ytmx";
 
 export const fetchBlueskyPosts = async () => {
   if (import.meta.env.BSKY_REFRESH_TOKEN) {
+    // development
     await agent.resumeSession({
       accessJwt: import.meta.env.BSKY_ACCESS_TOKEN,
       refreshJwt: import.meta.env.BSKY_REFRESH_TOKEN,
@@ -16,6 +17,7 @@ export const fetchBlueskyPosts = async () => {
       active: false
     });
   } else {
+    // production
     const {data: data_token} = await agent.login({
       identifier: identifier,
       password: import.meta.env.BSKY_PASSWORD,

@@ -1,22 +1,57 @@
+---
+import SimpleLineIconsMenu from "./SimpleLineIconsMenu.astro"
+---
 <header class="sticky top-0 z-10 bg-dark-blue shadow-md">
   <nav class="flex justify-between items-center px-6 py-4">
-    <div class="flex">
-      <a href="/" class="text-gray-100 hover:text-blue-600 text-4xl vt323-regular">S.O.S.!!</a>
+    <!-- ロゴ -->
+    <a href="/" class="text-gray-100 hover:text-orange-600 text-4xl vt323-regular">
+      S.O.S.!!
+    </a>
+
+    <!-- デスクトップメニュー -->
+    <div class="hidden md:flex space-x-12">
+      <a href="/develop" class="text-gray-100 hover:text-orange-600">Develop</a>
+      <a href="/illust" class="text-gray-100 hover:text-orange-600">Illust</a>
+      <a href="/blog" class="text-gray-100 hover:text-orange-600">Blog</a>
+      <a href="/about" class="text-gray-100 hover:text-orange-600">About</a>
     </div>
 
-    <div class="flex space-x-12">
-      <div>
-        <a href="/develop" class="text-gray-100 hover:text-blue-600">Develop</a>
-      </div>
-      <div>
-        <a href="/illust" class="text-gray-100 hover:text-blue-600">Illust</a>
-      </div>
-      <div>
-        <a href="/blog" class="text-gray-100 hover:text-blue-600">Blog</a>
-      </div>
-      <div>
-        <a href="/about" class="text-gray-100 hover:text-blue-600">About</a>
-      </div>
+    <!-- ハンバーガーメニュー -->
+    <div class="md:hidden">
+      <button id="menu-toggle" class="text-gray-100 hover:text-orange-600">
+        <!-- Simple Icons でハンバーガーアイコン -->
+        <SimpleLineIconsMenu />
+      </button>
     </div>
   </nav>
+
+  <!-- モバイル用メニュー -->
+  <div id="mobile-menu" class="hidden bg-dark-blue text-white space-y-2 text-right p-4 md:hidden">
+    <a href="/develop" class="block hover:text-orange-600">Develop</a>
+    <a href="/illust" class="block hover:text-orange-600">Illust</a>
+    <a href="/blog" class="block hover:text-orange-600">Blog</a>
+    <a href="/about" class="block hover:text-orange-600">About</a>
+  </div>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.querySelector('#menu-toggle');
+    const mobileMenu = document.querySelector('#mobile-menu');
+    
+    // ハンバーガーメニューの初期状態を非表示に設定
+    mobileMenu?.classList.add('hidden');
+
+    toggleButton?.addEventListener('click', () => {
+      const isVisible = !mobileMenu?.classList.contains('hidden');
+      
+      if (isVisible) {
+        // すでに表示されている場合は閉じる
+        mobileMenu?.classList.add('hidden');
+      } else {
+        // 非表示なら表示する
+        mobileMenu?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

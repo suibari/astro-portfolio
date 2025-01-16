@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import type { Record } from '../types/record';
 import Layout from '../layouts/Layout.astro';
 import Welcome from '../components/Welcome.astro'
 import Content from '../components/Content.astro';
@@ -17,36 +16,34 @@ const developLatest = developments; // Developの最新コンテンツ
 const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテンツ
 ---
 <Layout>
-  <div class="flex w-full">
-    <div class="flex items-center">
+  <div class="flex flex-col md:flex-row w-full">
+    <div class="md:w-2/3 p-4 flex items-center">
       <Welcome />
     </div>
-    <section class="ml-auto">
-      <div class="flex flex-col ml-auto w-max max-w-md space-y-2 p-2 break-words">
+
+    <div class="border-t-2 border-soft-orange mx-4 lg:hidden"></div>
+    <section class="md:w-1/3 p-4">
+      <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">MOODS</h1>
+      <div class="flex flex-col space-y-4">
         {blueSkyFeeds.slice(0, 5).map((feed) => (
           <Post
             text={(feed.post.record as {text: string}).text}
             image={feed.post.author.avatar}
             date={(feed.post.record as {createdAt: string}).createdAt}
-            link={feed.post.uri}
+            link={feed.post.uri.replace('at://', 'https://bsky.app/profile/').replace('app.bsky.feed.post', 'post')}
           />
         ))}
       </div>
     </section>
   </div>
 
-  <section>
-    <h1 class="text-4xl vt323-regular p-2">LATEST NEWS</h1>
-    <div class="flex gap-2 p-2">
-      <div class="w-1/3">
-        <Content {...developLatest[0]} />
-      </div>
-      <div class="w-1/3">
-        <Content {...illustLatest[0]} />
-      </div>
-      <div class="w-1/3">
-        <Content {...noteArticles[0]} />
-      </div>
+  <div class="border-t-2 border-soft-orange mx-4"></div>
+  <section class="p-4">
+    <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">NEWS</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Content {...developLatest[0]} />
+      <Content {...illustLatest[0]} />
+      <Content {...noteArticles[0]} />
     </div>
   </section>
 </Layout>
