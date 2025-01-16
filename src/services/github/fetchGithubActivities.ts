@@ -18,10 +18,14 @@ const GITHUB_API_URL = "https://api.github.com";
  */
 async function fetchCommitsForRepo(repoName: string, repoUrl: string): Promise<Commit[]> {
   try {
-    const response = await axios.get(`${GITHUB_API_URL}/repos/${repoName}/commits?client_id=${import.meta.env.GITHUB_CLIENT_ID}&client_secret=${import.meta.env.GITHUB_SECRET}`, {
+    const response = await axios.get(`${GITHUB_API_URL}/repos/${repoName}/commits`, {
       headers: {
         Accept: "application/vnd.github+json",
       },
+      auth: {
+        username: import.meta.env.GITHUB_CLIENT_ID,
+        password: import.meta.env.GITHUB_SECRET,
+      }
     });
 
     return response.data.map((commit: any) => ({

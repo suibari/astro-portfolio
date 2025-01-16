@@ -4,11 +4,10 @@ import { fetchGithubActivities } from '../services/github/fetchGithubActivities'
 const commits = await fetchGithubActivities();
 
 // サーバーから受け取ったUTCの日時をJSTに変換
-const formatJSTDate = (utcDateString: string) => {
+const formatDate = (utcDateString: string) => {
   const utcDate = new Date(utcDateString);
-  const jstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000); // UTCから+9時間のオフセット
 
-  return jstDate.toLocaleString('ja-JP', {
+  return utcDate.toLocaleString('ja-JP', {
     timeZone: 'Asia/Tokyo',
     hour12: false, // 24時間形式
   });
@@ -25,7 +24,7 @@ const formatJSTDate = (utcDateString: string) => {
         </tr>
       </thead>
       <tbody>
-        {commits.slice(0, 3).map((commit, index) => (
+        {commits.slice(0, 5).map((commit, index) => (
           <tr class="bg-white">
             <td class="border border-gray-300 px-4 py-2">
               <a
@@ -37,7 +36,7 @@ const formatJSTDate = (utcDateString: string) => {
                 {commit.repo}
               </a>
             </td>
-            <td class="border border-gray-300 px-4 py-2 text-gray-700">{formatJSTDate(commit.date)}</td>
+            <td class="border border-gray-300 px-4 py-2 text-gray-700">{formatDate(commit.date)}</td>
             <td class="border border-gray-300 px-4 py-2 text-gray-600">{commit.message}</td>
           </tr>
         ))}

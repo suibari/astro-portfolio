@@ -18,7 +18,10 @@ const { text, image, date, link } = Astro.props;
         <p class="text-base text-gray-800">{text}</p>
       </div>
       <time class="mt-2 text-sm text-gray-500 self-end">
-        {new Date(date).toLocaleString()}
+        {new Date(date).toLocaleString('ja-JP', {
+          timeZone: 'Asia/Tokyo',
+          hour12: false, // 24時間形式
+        })}
       </time>
     </div>
   </a>
