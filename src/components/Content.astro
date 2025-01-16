@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 export interface ContentProps {
   title: string;
   image: string;
-  tags: Array<String>;
+  tags: Array<string>;
   description: string;
   date: string;
   link: string;
@@ -33,7 +33,15 @@ const { title, image, tags, description, date, link } = Astro.props as ContentPr
     )}
     <div class="p-4">
       <h3 class="text-lg font-bold mb-2 text-gray-800">{title}</h3>
-      {tags && <p class="mb-2">{tags}</p>}
+      {tags && (
+        <div class="flex flex-wrap gap-2 mb-2">
+          {tags.map((tag: string) => (
+            <span class="bg-gray-200 text-gray-800 text-sm px-2 py-1 rounded">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
       {description && <p class="mb-2">{description}</p>}
       <p class="text-sm text-gray-600">{formatDate(date)}</p>
     </div>

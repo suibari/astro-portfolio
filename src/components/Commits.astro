@@ -1,0 +1,47 @@
+---
+import { fetchGithubActivities } from '../services/github/fetchGithubActivities';
+
+const commits = await fetchGithubActivities();
+
+// サーバーから受け取ったUTCの日時をJSTに変換
+const formatJSTDate = (utcDateString: string) => {
+  const utcDate = new Date(utcDateString);
+  const jstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000); // UTCから+9時間のオフセット
+
+  return jstDate.toLocaleString('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    hour12: false, // 24時間形式
+  });
+};
+---
+<div class="p-2">
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border-collapse border border-gray-300">
+      <thead class="bg-dark-blue text-gray-200">
+        <tr>
+          <th class="border border-gray-300 px-4 py-2 text-left">Project</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Date</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Commit Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        {commits.slice(0, 3).map((commit, index) => (
+          <tr class="bg-white">
+            <td class="border border-gray-300 px-4 py-2">
+              <a
+                href={commit.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 hover:text-orange-600 hover:underline"
+              >
+                {commit.repo}
+              </a>
+            </td>
+            <td class="border border-gray-300 px-4 py-2 text-gray-700">{formatJSTDate(commit.date)}</td>
+            <td class="border border-gray-300 px-4 py-2 text-gray-600">{commit.message}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>

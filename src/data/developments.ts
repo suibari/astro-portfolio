@@ -2,27 +2,37 @@ export const developments = [
   {
     title: "Blu-lyzer",
     image: "/images/lyzer_ogp.png",
+    tags: ["#node.js", "#Bluesky", "#Vercel"],
     description: "Bluesky総合解析Web App",
     date: "2024-09-22",
     link: "https://blu-lyzer.vercel.app/",
+    repoName: "blu-lyzer",
+    repoUrl: "https://github.com/suibari/blu-lyzer",
   },
   {
     title: "ひろがるBluesky!",
     image: "/images/hirogaru_ogp.jpg",
+    tags: ["#node.js", "#Bluesky", "#Vercel"],
     description: "Bluesky相関図Web App",
     date: "2024-03-06",
     link: "https://hirogaru-bluesky.vercel.app/",
+    repoName: "hirogaru-bluesky",
+    repoUrl: "https://github.com/suibari/hirogaru-bluesky",
   },
   {
     title: "Bluesky全肯定bot",
     image: "/images/bsky_bot.jpg",
+    tags: ["#node.js", "#Bluesky", "#RaspberryPi", "#Gemini"],
     description: "フォロワーの投稿を全肯定するBluesky Bot",
     date: "2024-02-19",
     link: "https://bsky.app/profile/suibari-bot.bsky.social",
+    repoName: "bsky-affirmative-bot",
+    repoUrl: "https://github.com/suibari/bsky-affirmative-bot",
   },
   {
     title: "スマート電光掲示板",
     image: "/images/smartpanel.jpg",
+    tags: ["#Python", "#RaspberryPi"],
     description: "Raspberry Piを使ったスマート電光掲示板",
     date: "2023-11-11",
     link: "https://qiita.com/Suibari_cha/items/6ec3909ecabd3dd7edd4",
@@ -30,6 +40,7 @@ export const developments = [
   {
     title: "NPB live-cloud",
     image: "/images/livecloud.png",
+    tags: ["#node.js", "#Twitter", "#heroku"],
     description: "プロ野球ワードクラウドWeb App",
     date: "2020-12-20",
     link: "https://qiita.com/Suibari_cha/items/bc529cd6c95b36a50e8b",
@@ -37,6 +48,7 @@ export const developments = [
   {
     title: "プロ野球選手名鑑LINE bot",
     image: "/images/linebot.png",
+    tags: ["#node.js", "#heroku"],
     description: "プロ野球選手のリアルタイム情報を返すLINE Bot",
     date: "2020-08-14",
     link: "https://qiita.com/Suibari_cha/items/79e706586da520b7bd66",
@@ -44,6 +56,7 @@ export const developments = [
   {
     title: "TOEIC対策クイズApp",
     image: "",
+    tags: ["#Google App Script"],
     description: "TOEICスコアアップのためのクイズアプリ",
     date: "2018-05-08",
     link: "https://qiita.com/Suibari_cha/items/39bb606bc4ef7498127c",
@@ -51,6 +64,7 @@ export const developments = [
   {
     title: "日本史人物家系図検索",
     image: "",
+    tags: ["node.js"],
     description: "日本史人物の関係検索スクリプト",
     date: "2017-03-04",
     link: "https://qiita.com/Suibari_cha/items/f80def5aef5eaadf6399",
@@ -58,6 +72,7 @@ export const developments = [
   {
     title: "プロ野球実況Twiiterアプリ",
     image: "/images/jsp.jpg",
+    tags: ["#Java", "#Twitter"],
     description: "プロ野球実況に特化したデスクトップApp",
     date: "2016-04-12",
     link: "https://x.com/Suibari_cha/status/719886454357254144",
@@ -65,6 +80,7 @@ export const developments = [
   {
     title: "プロ野球リーグシミュレータ",
     image: "/images/vba.png",
+    tags: ["#VBA"],
     description: "プロ野球リーグ戦をシミュレーションするExcel VBA",
     date: "2016-01-28",
     link: "https://qiita.com/Suibari_cha/items/808a00a43a665c4ecc78",
