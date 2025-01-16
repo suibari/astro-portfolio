@@ -1,8 +1,18 @@
 export const developments = [
   {
+    title: "S.O.S.!!",
+    image: "/ogp.png",
+    tags: ["#Typescript", "#Astro.js", "#Cloudflare Pages"],
+    description: "本サイト",
+    date: "2025-01-16",
+    link: "https://github.com/suibari/astro-portfolio",
+    repoName: "astro-portfolio",
+    repoUrl: "https://github.com/suibari/astro-portfolio",
+  },
+  {
     title: "Blu-lyzer",
     image: "/images/lyzer_ogp.png",
-    tags: ["#node.js", "#Bluesky", "#Vercel"],
+    tags: ["#node.js", ,"Sveltekit", "#Bluesky", "#Vercel"],
     description: "Bluesky総合解析Web App",
     date: "2024-09-22",
     link: "https://blu-lyzer.vercel.app/",
@@ -12,7 +22,7 @@ export const developments = [
   {
     title: "ひろがるBluesky!",
     image: "/images/hirogaru_ogp.jpg",
-    tags: ["#node.js", "#Bluesky", "#Vercel"],
+    tags: ["#node.js", "Sveltekit", "#Bluesky", "#Vercel"],
     description: "Bluesky相関図Web App",
     date: "2024-03-06",
     link: "https://hirogaru-bluesky.vercel.app/",
