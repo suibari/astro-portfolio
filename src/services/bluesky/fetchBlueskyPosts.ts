@@ -2,11 +2,17 @@ import { AtpAgent } from '@atproto/api';
 import type { QueryParams } from '@atproto/api/dist/client/types/app/bsky/feed/getAuthorFeed';
 const agent = new AtpAgent({service: 'https://bsky.social'});
 
-const THRD_LIKE = 8;
+const THRD_LIKE = 10;
 const identifier = "suibari.com";
 const did = "did:plc:uixgxpiqf4i63p6rgpu7ytmx";
 
 export const fetchBlueskyPosts = async () => {
+  // const {data: data_token} = await agent.login({
+  //   identifier: identifier,
+  //   password: import.meta.env.BSKY_PASSWORD,
+  // });
+  // console.log(data_token);
+
   if (import.meta.env.BSKY_REFRESH_TOKEN) {
     // development
     await agent.resumeSession({
