@@ -17,10 +17,8 @@ const developLatest = developments; // Developの最新コンテンツ
 const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテンツ
 ---
 <Layout>
-  <div class="relative min-h-screen bg-cover bg-center bg-fixed"
-    style="transform: translateZ(0);">
-    <div class="absolute inset-0 bg-[url('/images/bsky_bot_bg.png')] bg-cover bg-center bg-fixed opacity-25"
-      style="transform: translateZ(0);">
+  <div class="relative min-h-screen bg-cover bg-center bg-fixed will-change-transform">
+    <div class="absolute inset-0 bg-[url('/images/bsky_bot_bg.png')] bg-cover bg-center bg-fixed opacity-25"></div>
 
     <!-- Contents -->
     <div class="relative z-10">
