@@ -13,5 +13,13 @@ export default {
       },
     },
   },
-	plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.clip-path-inset': {
+          'clip-path': 'inset(0)',
+        },
+      })
+    },
+  ],
 }

@@ -17,8 +17,11 @@ const developLatest = developments; // Developの最新コンテンツ
 const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテンツ
 ---
 <Layout>
-  <div class="relative min-h-screen bg-cover bg-center bg-fixed will-change-transform">
-    <div class="absolute inset-0 bg-[url('/images/bsky_bot_bg.png')] bg-cover bg-center bg-fixed opacity-25"></div>
+  <div class="relative min-h-screen">
+    <!-- iOS でも固定背景を維持するためのラッパー -->
+    <div class="absolute top-0 left-0 w-screen min-h-full clip-path-inset">
+      <div class="fixed w-full h-full bg-[url('/images/bsky_bot_bg.png')] bg-cover bg-center z-[-1] opacity-25"></div>
+    </div>
 
     <!-- Contents -->
     <div class="relative z-10">
@@ -60,6 +63,5 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
       </section>
     </div>
 
-    </div>
   </div>
 </Layout>
