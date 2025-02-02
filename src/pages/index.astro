@@ -17,7 +17,9 @@ const developLatest = developments; // Developの最新コンテンツ
 const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテンツ
 ---
 <Layout>
-  <div class="relative min-h-screen bg-cover bg-center before:fixed before:inset-0 before:bg-[url('/images/bsky_bot_bg.png')] before:bg-cover before:bg-center before:opacity-25 before:-z-10">
+  <div class="relative min-h-screen bg-cover bg-center
+    before:fixed before:inset-0 before:bg-[url('/images/bsky_bot_bg.png')]
+    before:bg-cover before:bg-center before:opacity-25 before:-z-10 before:content-['']">
 
     <!-- Contents -->
     <div class="relative z-10">
