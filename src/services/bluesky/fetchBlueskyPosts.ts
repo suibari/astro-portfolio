@@ -39,6 +39,8 @@ export const fetchBlueskyPosts = async () => {
   
   // いいねが規定値以上を抽出
   const feedBuzz = data_feed.feed.filter(f => Number(f.post.likeCount) >= THRD_LIKE);
+  // 自分自身のポストのみ抽出
+  const feedResult = feedBuzz.filter(f => f.post.author.did === did);
 
-  return feedBuzz;
+  return feedResult;
 }
