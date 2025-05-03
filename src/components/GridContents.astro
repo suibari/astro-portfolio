@@ -20,8 +20,6 @@ interface Props {
 
 const { items, columns = 2, mdColumns = 4 } = Astro.props as Props;
 ---
-
----
 <div class={`grid grid-cols-${columns} md:grid-cols-${mdColumns} gap-2 w-full p-2`}>
   {items.map((item, index) => (
     <div class={index >= 2 ? "hidden md:block" : ""}>
