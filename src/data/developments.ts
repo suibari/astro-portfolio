@@ -1,5 +1,15 @@
 export const developments = [
   {
+    title: "LikesBack",
+    image: "/images/likesback.jpg",
+    tags: ["#Typescript", ,"#ATprotocol"],
+    description: "Blueskyカスタムフィード",
+    date: "2025-05-01",
+    link: "https://bsky.app/profile/did:plc:uixgxpiqf4i63p6rgpu7ytmx/feed/likesBack",
+    repoName: "bsky_feed_LikesBack",
+    repoUrl: "https://github.com/suibari/bsky_feed_LikesBack",
+  },
+  {
     title: "HuntersAt",
     image: "/images/ogp_huntersat.png",
     tags: ["#Typescript", ,"Sveltekit", "#ATprotocol", "#CloudflarePages"],
@@ -38,6 +48,22 @@ export const developments = [
     link: "https://github.com/suibari/astro-portfolio",
     repoName: "astro-portfolio",
     repoUrl: "https://github.com/suibari/astro-portfolio",
+  },
+  {
+    title: "ポケットクイズ",
+    image: "/images/pocketquiz.png",
+    tags: ["#node.js", "#Alexaスキル", "#Alexa Skills Kit"],
+    description: "Alexaのポケモンクイズ&図鑑スキル",
+    date: "2024-09-03",
+    link: "https://www.amazon.co.jp/suibari-%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%82%AF%E3%82%A4%E3%82%BA%EF%BC%88%E9%9D%9E%E5%85%AC%E5%BC%8F%EF%BC%89/dp/B0DFPPR1B1/",
+  },
+  {
+    title: "タイプチェッカー",
+    image: "/images/typechecker.png",
+    tags: ["#node.js", "#Alexaスキル", "#Alexa Skills Kit"],
+    description: "Alexaのポケモンタイプ相性確認スキル",
+    date: "2024-08-26",
+    link: "https://www.amazon.co.jp/suibari-%E3%82%BF%E3%82%A4%E3%83%97%E3%83%81%E3%82%A7%E3%83%83%E3%82%AB%E3%83%BC%EF%BC%88%E9%9D%9E%E5%85%AC%E5%BC%8F%EF%BC%89/dp/B0DDMXSYPZ/",
   },
   {
     title: "ひろがるBluesky!",
