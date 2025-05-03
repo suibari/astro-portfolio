@@ -2,7 +2,7 @@ export const developments = [
   {
     title: "LikesBack",
     image: "/images/likesback.jpg",
-    tags: ["#Typescript", ,"#ATprotocol"],
+    tags: ["#Typescript", "#ATprotocol"],
     description: "Blueskyカスタムフィード",
     date: "2025-05-01",
     link: "https://bsky.app/profile/did:plc:uixgxpiqf4i63p6rgpu7ytmx/feed/likesBack",
@@ -12,7 +12,7 @@ export const developments = [
   {
     title: "HuntersAt",
     image: "/images/ogp_huntersat.png",
-    tags: ["#Typescript", ,"Sveltekit", "#ATprotocol", "#CloudflarePages"],
+    tags: ["#Typescript", "#Sveltekit", "#ATprotocol", "#CloudflarePages"],
     description: "モンスターハンターギルドカード生成",
     date: "2025-02-24",
     link: "https://huntersat.suibari.com/",
@@ -22,7 +22,7 @@ export const developments = [
   {
     title: "DrawAt",
     image: "/images/ogp_drawat.png",
-    tags: ["#Typescript", ,"Sveltekit", "#ATprotocol", "#CloudflarePages"],
+    tags: ["#Typescript", "#Sveltekit", "#ATprotocol", "#CloudflarePages"],
     description: "ATProtocol簡易お絵描きチャット",
     date: "2025-02-09",
     link: "https://drawat.suibari.com/",
@@ -32,7 +32,7 @@ export const developments = [
   {
     title: "Blu-lyzer",
     image: "/images/lyzer_ogp.png",
-    tags: ["#Typescript", ,"Sveltekit", "#Bluesky", "#Vercel"],
+    tags: ["#Typescript", "#Sveltekit", "#Bluesky", "#Vercel"],
     description: "Bluesky総合解析Web App",
     date: "2024-09-22",
     link: "https://blu-lyzer.suibari.com/",
@@ -68,7 +68,7 @@ export const developments = [
   {
     title: "ひろがるBluesky!",
     image: "/images/hirogaru_ogp.jpg",
-    tags: ["#node.js", "Sveltekit", "#Bluesky", "#Vercel"],
+    tags: ["#node.js", "#Sveltekit", "#Bluesky", "#Vercel"],
     description: "Bluesky相関図Web App",
     date: "2024-03-06",
     link: "https://hirogaru-bluesky.vercel.app/",

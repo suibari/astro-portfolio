@@ -9,6 +9,8 @@ import { fetchRSS } from '../services/blog/fetchRSS';
 import { developments } from '../data/developments';
 import fetchPixivArtworks from '../services/illust/fetchPixivArtworks';
 import Commits from '../components/Commits.astro';
+import GridContents from '../components/GridContents.astro';
+import { merchandises } from '../data/merchandises'
 
 const blueSkyFeeds = await fetchBlueskyPosts(); // Blueskyのポストデータを取得
 
@@ -34,7 +36,7 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
         <section class="md:w-1/3 p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">MOODS</h1>
           <div class="flex flex-col space-y-4">
-            {blueSkyFeeds.slice(0, 5).map((feed) => (
+            {blueSkyFeeds.slice(0, 3).map((feed) => (
               <Post
                 text={(feed.post.record as {text: string}).text}
                 image={feed.post.author.avatar}
@@ -50,6 +52,12 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
       <section class="p-4">
         <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">DEVELOPMENT NEWS</h1>
         <Commits />
+      </section>
+
+      <div class="border-t-2 border-soft-orange mx-4"></div>
+      <section class="p-4">
+        <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">GOODS: Now on sale!</h1>
+        <GridContents items={merchandises} mdColumns={3} />
       </section>
 
       <div class="border-t-2 border-soft-orange mx-4"></div>

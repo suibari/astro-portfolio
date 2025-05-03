@@ -1,0 +1,35 @@
+---
+import Content from './Content.astro';
+
+export interface GridItem {
+  title: string;
+  image: string;
+  tags?: string[];
+  description: string;
+  date: string;
+  link: string;
+  repoName?: string;
+  repoUrl?: string;
+}
+
+interface Props {
+  items: GridItem[];
+  columns?: number; // デフォルト値あり
+  mdColumns?: number; // 中サイズ以上の列数
+}
+
+const { items, columns = 2, mdColumns = 4 } = Astro.props as Props;
+---
+
+<div class=`grid grid-cols-${columns} md:grid-cols-${mdColumns} gap-2 w-full p-2`>
+  {items.map((item) => (
+    <Content 
+      title={item.title}
+      image={item.image}
+      tags={item.tags}
+      description={item.description}
+      date={item.date}
+      link={item.link}
+    />
+  ))}
+</div>
