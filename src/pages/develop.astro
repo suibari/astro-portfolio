@@ -1,9 +1,13 @@
 ---
 import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
-import GridContent from '../components/GridContents.astro';
 import { developments } from '../data/developments';
+import Content from '../components/Content.astro';
 ---
 <Layout>
-  <GridContent items={developments} columns={2} mdColumns={4} />
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
+    {developments.map((item: { title: String; image: String; date: String; link: String; }) => (
+      <Content title={item.title} image={item.image} date={item.date} link={item.link} />
+    ))}
+  </div>
 </Layout>

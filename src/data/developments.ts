@@ -1,5 +1,25 @@
 export const developments = [
   {
+    title: "てのりbotたん",
+    image: "/images/tenori_bot.jpg",
+    tags: ["#C++", "M5Stack", "#SpeechToSpeech"],
+    description: "AI対話デバイス。ウェイクワード検出機能つき",
+    date: "2025-07-17",
+    link: "https://bsky.app/profile/suibari.com/post/3luhemk7tms2v",
+    repoName: "m5stack-tenori-bot",
+    repoUrl: "https://github.com/suibari/m5stack-tenori-bot",
+  },
+    {
+    title: "SkyPutter",
+    image: "/images/skyputter.png",
+    tags: ["#Kotlin", "#Android", "#ATprotocol"],
+    description: "Bluesky投稿専用クライアント。自分のアウトプットに集中",
+    date: "2025-06-28",
+    link: "https://play.google.com/store/apps/details?id=com.suibari.skyputter",
+    repoName: "SkyPutter",
+    repoUrl: "https://github.com/suibari/SkyPutter",
+  },
+  {
     title: "LikeTracer",
     image: "/images/liketracer.png",
     tags: ["#Typescript", "#ATprotocol"],
