@@ -2,7 +2,7 @@ export const developments = [
   {
     title: "てのりbotたん",
     image: "/images/tenori_bot.jpg",
-    tags: ["#C++", "M5Stack", "#SpeechToSpeech"],
+    tags: ["#C++", "#M5Stack", "#Gemini", "#SpeechToSpeech"],
     description: "AI対話デバイス。ウェイクワード検出機能つき",
     date: "2025-07-17",
     link: "https://bsky.app/profile/suibari.com/post/3luhemk7tms2v",
@@ -12,7 +12,7 @@ export const developments = [
     {
     title: "SkyPutter",
     image: "/images/skyputter.png",
-    tags: ["#Kotlin", "#Android", "#ATprotocol"],
+    tags: ["#Kotlin", "#Android", "#ATprotocol", "#Bluesky"],
     description: "Bluesky投稿専用クライアント。自分のアウトプットに集中",
     date: "2025-06-28",
     link: "https://play.google.com/store/apps/details?id=com.suibari.skyputter",
@@ -22,7 +22,7 @@ export const developments = [
   {
     title: "LikeTracer",
     image: "/images/liketracer.png",
-    tags: ["#Typescript", "#ATprotocol"],
+    tags: ["#Typescript", "#ATprotocol", "#Bluesky"],
     description: "Blueskyカスタムフィード。いいねした人を追跡する",
     date: "2025-05-04",
     link: "https://bsky.app/profile/did:plc:uixgxpiqf4i63p6rgpu7ytmx/feed/likeTracer",
@@ -32,7 +32,7 @@ export const developments = [
   {
     title: "LikesBack",
     image: "/images/likesback.jpg",
-    tags: ["#Typescript", "#ATprotocol"],
+    tags: ["#Typescript", "#ATprotocol", "#Bluesky"],
     description: "Blueskyカスタムフィード。いいねしてくれた人を表示する",
     date: "2025-05-01",
     link: "https://bsky.app/profile/did:plc:uixgxpiqf4i63p6rgpu7ytmx/feed/likesBack",
@@ -150,7 +150,7 @@ export const developments = [
   {
     title: "日本史人物家系図検索",
     image: "",
-    tags: ["node.js"],
+    tags: ["#node.js"],
     description: "日本史人物の関係検索スクリプト",
     date: "2017-03-04",
     link: "https://qiita.com/Suibari_cha/items/f80def5aef5eaadf6399",
