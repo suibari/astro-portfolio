@@ -13,7 +13,7 @@ export const merchandises = [
     tags: ["#全肯定botたん", "#アクキー"],
     description: "全肯定botたんのアクリルキーホルダー",
     date: "2025-04-28",
-    link: "https://suzuri.jp/suibari/17772397/acrylic-stand/50mm/clear"
+    link: "https://suzuri.jp/suibari/17772397/acrylic-keychain/50x50mm/clear"
   },
   {
     title: "ラテちゃんシャツ",

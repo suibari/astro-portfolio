@@ -72,7 +72,7 @@ export const developments = [
   {
     title: "S.O.S.!!",
     image: "/ogp.png",
-    tags: ["#Typescript", "#Astro.js", "#Cloudflare Pages"],
+    tags: ["#Typescript", "#Astro.js", "#CloudflarePages"],
     description: "本サイト",
     date: "2025-01-16",
     link: "https://github.com/suibari/astro-portfolio",
@@ -82,7 +82,7 @@ export const developments = [
   {
     title: "ポケットクイズ",
     image: "/images/pocketquiz.png",
-    tags: ["#node.js", "#Alexaスキル", "#Alexa Skills Kit"],
+    tags: ["#node.js", "#Alexaスキル", "#AlexaSkillsKit"],
     description: "Alexaのポケモンクイズ&図鑑スキル",
     date: "2024-09-03",
     link: "https://www.amazon.co.jp/suibari-%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%82%AF%E3%82%A4%E3%82%BA%EF%BC%88%E9%9D%9E%E5%85%AC%E5%BC%8F%EF%BC%89/dp/B0DFPPR1B1/",
@@ -90,7 +90,7 @@ export const developments = [
   {
     title: "タイプチェッカー",
     image: "/images/typechecker.png",
-    tags: ["#node.js", "#Alexaスキル", "#Alexa Skills Kit"],
+    tags: ["#node.js", "#Alexaスキル", "#AlexaSkillsKit"],
     description: "Alexaのポケモンタイプ相性確認スキル",
     date: "2024-08-26",
     link: "https://www.amazon.co.jp/suibari-%E3%82%BF%E3%82%A4%E3%83%97%E3%83%81%E3%82%A7%E3%83%83%E3%82%AB%E3%83%BC%EF%BC%88%E9%9D%9E%E5%85%AC%E5%BC%8F%EF%BC%89/dp/B0DDMXSYPZ/",
@@ -142,7 +142,7 @@ export const developments = [
   {
     title: "TOEIC対策クイズApp",
     image: "",
-    tags: ["#Google App Script"],
+    tags: ["#GoogleAppScript"],
     description: "TOEICスコアアップのためのクイズアプリ",
     date: "2018-05-08",
     link: "https://qiita.com/Suibari_cha/items/39bb606bc4ef7498127c",
