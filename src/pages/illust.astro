@@ -3,13 +3,16 @@ import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
 import Content from '../components/Content.astro';
 import fetchPixivArtworks from '../services/illust/fetchPixivArtworks';
+import FadeInComponent from '../components/FadeInComponent.astro';
 
 const illustrations = await fetchPixivArtworks(); // PixivのAPIからイラストデータを取得
 ---
 <Layout>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
-    {illustrations.map((item: { title: String; image: String; date: String; link: String; }) => (
-      <Content title={item.title} image={item.image} date={item.date} link={item.link} />
-    ))}
-  </div>
+  <FadeInComponent client:load>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
+      {illustrations.map((item: { title: String; image: String; date: String; link: String; }) => (
+        <Content title={item.title} image={item.image} date={item.date} link={item.link} />
+      ))}
+    </div>
+  </FadeInComponent>
 </Layout>

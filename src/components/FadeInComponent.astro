@@ -1,0 +1,32 @@
+---
+// No import needed here for the script
+---
+
+<div class="fade-in-element">
+  <slot />
+</div>
+
+<script>
+  // This script will run when the component is rendered and the DOM is ready.
+  // The 'visible' class will be added to the element with 'fade-in-element' class.
+  document.addEventListener('DOMContentLoaded', () => {
+    const elements = document.querySelectorAll('.fade-in-element');
+    elements.forEach((element, index) => {
+      setTimeout(() => {
+        element.classList.add('visible');
+      }, index * 100);
+    });
+  });
+</script>
+
+<style>
+  .fade-in-element {
+    opacity: 0;
+    transform: translateY(20px); /* Start 20px down */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+  .fade-in-element.visible {
+    opacity: 1;
+    transform: translateY(0); /* Move to original position */
+  }
+</style>

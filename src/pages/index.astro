@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
 import Welcome from '../components/Welcome.astro'
 import Content from '../components/Content.astro';
+import FadeInComponent from '../components/FadeInComponent.astro';
 import Post from '../components/Post.astro';
 import { fetchBlueskyPosts } from '../services/bluesky/fetchBlueskyPosts';
 import { fetchRSS } from '../services/blog/fetchRSS';
@@ -26,49 +27,56 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
     </div>
 
     <!-- Contents -->
-    <div class="relative z-10 md:px-20">
-      <div class="flex flex-col md:flex-row w-full">
-        <div class="md:w-2/3 p-4 flex items-center">
+    <div class="relative max-w-[960px] mx-auto z-10 md:px-10">
+      <div class="flex flex-col md:flex-row">
+        <div class="md:w-1/2 p-4 flex items-center">
           <Welcome />
         </div>
 
-        <div class="border-t-2 border-soft-orange mx-4 lg:hidden"></div>
         <div class="md:w-1/2 p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">MOODS</h1>
-          <div class="flex flex-col space-y-4">
-            {blueSkyFeeds.slice(0, 3).map((feed) => (
-              <Post
-                text={(feed.post.record as {text: string}).text}
-                image={feed.post.author.avatar}
-                date={(feed.post.record as {createdAt: string}).createdAt}
-                link={feed.post.uri.replace('at://', 'https://bsky.app/profile/').replace('app.bsky.feed.post', 'post')}
-              />
-            ))}
-          </div>
+          <FadeInComponent client:load>
+            <div class="flex flex-col space-y-4">
+              {blueSkyFeeds.slice(0, 3).map((feed) => (
+                <Post
+                  text={(feed.post.record as {text: string}).text}
+                  image={feed.post.author.avatar}
+                  date={(feed.post.record as {createdAt: string}).createdAt}
+                  link={feed.post.uri.replace('at://', 'https://bsky.app/profile/').replace('app.bsky.feed.post', 'post')}
+                />
+              ))}
+            </div>
+          </FadeInComponent>
         </div>
       </div>
 
       <main>
-      <div class="border-t-2 border-soft-orange mx-4"></div>
+        <div class="border-t-2 border-soft-orange mx-4"></div>
         <section class="p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">DEVELOPMENT NEWS</h1>
-          <Commits />
+          <FadeInComponent client:load>
+            <Commits />
+          </FadeInComponent>
         </section>
 
         <div class="border-t-2 border-soft-orange mx-4"></div>
         <section class="p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">GOODS: Now on sale!</h1>
-          <GridContents items={merchandises} mdColumns={3} />
+          <FadeInComponent client:load>
+            <GridContents items={merchandises} mdColumns={3} />
+          </FadeInComponent>
         </section>
 
         <div class="border-t-2 border-soft-orange mx-4"></div>
         <section class="p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">LATEST ACTIVITIES</h1>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Content {...developLatest[0]} />
-            <Content {...illustLatest[0]} />
-            <Content {...noteArticles[0]} />
-          </div>
+          <FadeInComponent client:load>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Content {...developLatest[0]} />
+              <Content {...illustLatest[0]} />
+              <Content {...noteArticles[0]} />
+            </div>
+          </FadeInComponent>
         </section>
       </main>
     </div>
