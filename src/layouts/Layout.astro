@@ -24,5 +24,15 @@ import Footer from "../components/Footer.astro"
 		<Header />
 		<slot />
 		<Footer />
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				const elements = document.querySelectorAll('.fade-in-element');
+				elements.forEach((element, index) => {
+					setTimeout(() => {
+						element.classList.add('visible');
+					}, index * 100);
+				});
+			});
+		</script>
 	</body>
 </html>

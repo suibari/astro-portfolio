@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
 import { developments } from '../data/developments';
 import Content from '../components/Content.astro';
-import FadeInComponent from '../components/FadeInComponent.astro';
 
 // Extract unique tags
 const allTags = developments.flatMap(item => item.tags);
@@ -33,7 +32,7 @@ const uniqueTags = [...new Set(allTags)];
     </div>
 
     <!-- Development items grid -->
-    <FadeInComponent client:load>
+    <div class="fade-in-element">
       <div id="developments-grid" class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
         {developments.map((item) => (
           <div class="content-item" data-tags={item.tags.join(',')}>
@@ -41,7 +40,7 @@ const uniqueTags = [...new Set(allTags)];
           </div>
         ))}
       </div>
-    </FadeInComponent>
+    </div>
   </div>
 
   <script src="src/scripts/develop-filter.js" defer is:inline></script>

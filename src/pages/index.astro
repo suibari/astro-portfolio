@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
 import Welcome from '../components/Welcome.astro'
 import Content from '../components/Content.astro';
-import FadeInComponent from '../components/FadeInComponent.astro';
 import Post from '../components/Post.astro';
 import { fetchBlueskyPosts } from '../services/bluesky/fetchBlueskyPosts';
 import { fetchRSS } from '../services/blog/fetchRSS';
@@ -35,7 +34,7 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
 
         <div class="md:w-1/2 p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">MOODS</h1>
-          <FadeInComponent client:load>
+          <div class="fade-in-element">
             <div class="flex flex-col space-y-4">
               {blueSkyFeeds.slice(0, 3).map((feed) => (
                 <Post
@@ -46,7 +45,7 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
                 />
               ))}
             </div>
-          </FadeInComponent>
+          </div>
         </div>
       </div>
 
@@ -54,29 +53,29 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
         <div class="border-t-2 border-soft-orange mx-4"></div>
         <section class="p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">DEVELOPMENT NEWS</h1>
-          <FadeInComponent client:load>
+          <div class="fade-in-element">
             <Commits />
-          </FadeInComponent>
+          </div>
         </section>
 
         <div class="border-t-2 border-soft-orange mx-4"></div>
         <section class="p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">GOODS: Now on sale!</h1>
-          <FadeInComponent client:load>
+          <div class="fade-in-element">
             <GridContents items={merchandises} mdColumns={3} />
-          </FadeInComponent>
+          </div>
         </section>
 
         <div class="border-t-2 border-soft-orange mx-4"></div>
         <section class="p-4">
           <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">LATEST ACTIVITIES</h1>
-          <FadeInComponent client:load>
+          <div class="fade-in-element">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Content {...developLatest[0]} />
               <Content {...illustLatest[0]} />
               <Content {...noteArticles[0]} />
             </div>
-          </FadeInComponent>
+          </div>
         </section>
       </main>
     </div>

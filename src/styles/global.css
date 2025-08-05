@@ -58,3 +58,14 @@ section {
   font-weight: 400;
   font-style: normal;
 }
+
+/* Fade-in/Fade-up styles */
+.fade-in-element {
+  opacity: 0;
+  transform: translateY(20px); /* Start 20px down */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+.fade-in-element.visible {
+  opacity: 1;
+  transform: translateY(0); /* Move to original position */
+}

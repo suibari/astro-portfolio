@@ -4,7 +4,6 @@ import Layout from '../layouts/Layout.astro';
 import Content from '../components/Content.astro';
 import { fetchRSS } from '../services/blog/fetchRSS';
 import { fetchQiitaArticles } from '../services/blog/fetchQiitaArticles';
-import FadeInComponent from '../components/FadeInComponent.astro';
 
 const noteArticles = await fetchRSS('https://note.com/suibari/rss');
 const qiitaArticles = await fetchQiitaArticles("Suibari_cha", import.meta.env.QIITA_ACCESS_TOKEN);
@@ -12,7 +11,7 @@ const qiitaArticles = await fetchQiitaArticles("Suibari_cha", import.meta.env.QI
 const blogArticles = [...noteArticles, ...qiitaArticles];
 ---
 <Layout>
-  <FadeInComponent client:load>
+  <div class="fade-in-element">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
       {blogArticles.map((item) => (
         <div>
@@ -20,5 +19,5 @@ const blogArticles = [...noteArticles, ...qiitaArticles];
         </div>
       ))}
     </div>
-  </FadeInComponent>
+  </div>
 </Layout>
