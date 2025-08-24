@@ -1,0 +1,157 @@
+---
+import Post from './Post.astro';
+---
+
+<div class="bg-white shadow-md rounded-lg">
+  <h2 class="text-2xl font-bold mb-4 flex items-center">
+    💖 Botたんのきもち (リアルタイム更新)
+  </h2>
+  <p class="text-gray-600 mb-4"><strong>現在時刻(JST):</strong> <span id="jst-time">--:--:--</span></p>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">元気</p>
+      <p id="energy" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">増えたフォロワー</p>
+      <p id="followers" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">いいねされた回数</p>
+      <p id="likes" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">全肯定した人数</p>
+      <p id="affirmations" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">占った回数</p>
+      <p id="fortune" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">応援した回数</p>
+      <p id="cheer" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">分析した回数</p>
+      <p id="analysis" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">DJした回数</p>
+      <p id="dj" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+  </div>
+  <div class="bg-gray-100 p-3 rounded-lg text-center">
+    <p class="font-semibold text-gray-700">今の気分</p>
+    <p id="mood" class="text-xl font-bold text-blue-600">---</p>
+  </div>
+
+  <div>
+    <h3 class="text-xl font-bold mb-2">いちおしポスト</h3>
+    <div id="top-post-container">
+      <p id="top-post-text">---</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import type { Props } from "./Post.astro";
+  import { AtpAgent } from '@atproto/api';
+  
+  // 認証不要の公開APIエンドポイントを指定
+  const agent = new AtpAgent({ service: 'https://public.api.bsky.app' });
+  
+  // Postコンポーネントを動的に生成するためのテンプレート
+  const createPostComponent = (post: Props) => `
+    <article class="border border-gray-300 rounded-lg p-4 bg-gray-50 transition-shadow duration-300 hover:shadow-md">
+      <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="block text-inherit">
+        <div class="flex flex-col">
+          <div class="flex items-center space-x-4">
+            ${post.image ? `<img src="${post.image}" alt="Bluesky Post Image" class="w-12 h-12 rounded-md" />` : ''}
+            <p class="text-base text-gray-800">${post.text}</p>
+          </div>
+          <time class="mt-2 text-sm text-gray-500 self-end">
+            ${new Date(post.date).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false })}
+          </time>
+        </div>
+      </a>
+    </article>
+  `;
+
+  const socket = new WebSocket(`wss://bot-tan.suibari.com`);
+
+  socket.onmessage = async (event) => {
+    const data = JSON.parse(event.data);
+    console.log('Received data:', data); // データ構造を確認するためにログ出力
+
+    const energyEl = document.getElementById('energy');
+    if (energyEl) energyEl.textContent = data.energy.toFixed(1);
+
+    const moodEl = document.getElementById('mood');
+    if (moodEl) moodEl.textContent = data.mood || 'No Status';
+
+    const followersEl = document.getElementById('followers');
+    if (followersEl) followersEl.textContent = data.dailyStats.followers;
+
+    const likesEl = document.getElementById('likes');
+    if (likesEl) likesEl.textContent = data.dailyStats.likes;
+
+    const affirmationsEl = document.getElementById('affirmations');
+    if (affirmationsEl) affirmationsEl.textContent = data.dailyStats.affirmations;
+
+    const fortuneEl = document.getElementById('fortune');
+    if (fortuneEl) fortuneEl.textContent = data.dailyStats.fortune;
+
+    const cheerEl = document.getElementById('cheer');
+    if (cheerEl) cheerEl.textContent = data.dailyStats.cheer;
+
+    const analysisEl = document.getElementById('analysis');
+    if (analysisEl) analysisEl.textContent = data.dailyStats.analysis;
+
+    const djEl = document.getElementById('dj');
+    if (djEl) djEl.textContent = data.dailyStats.dj;
+
+    const topPostContainer = document.getElementById('top-post-container');
+    if (topPostContainer && data.dailyStats.topPost) {
+      try {
+        const { data: postData } = await agent.getPosts({ uris: [data.dailyStats.topPost] });
+
+        if (!postData.posts || postData.posts.length === 0) {
+          throw new Error('Post not found');
+        }
+        const post = postData.posts[0];
+        
+        // Blueskyの投稿データから必要な情報を抽出
+        const postValue = post.record as any;
+        const postText = postValue?.text || 'テキストが取得できませんでした';
+        const postDate = postValue?.createdAt || new Date().toISOString();
+        const postLink = `https://bsky.app/profile/${post.author.handle}/post/${post.uri.split('/').pop()}`;
+        const authorIcon = post.author.avatar;
+
+        topPostContainer.innerHTML = createPostComponent({
+          text: postText,
+          image: authorIcon, // 投稿者のアイコンを使用
+          date: postDate,
+          link: postLink
+        });
+      } catch (error) {
+        console.error('Failed to fetch post from Bluesky:', error);
+        topPostContainer.innerHTML = `<p id="top-post-text">投稿の取得に失敗しました。</p>`;
+      }
+    } else if (topPostContainer) {
+      topPostContainer.innerHTML = `<p id="top-post-text">---</p>`;
+    }
+  };
+
+  function updateJSTTime() {
+    const now = new Date();
+    const jst = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+    const timeString = jst.toISOString().substr(11, 8);
+    const jstTimeEl = document.getElementById('jst-time');
+    if (jstTimeEl) jstTimeEl.textContent = timeString;
+  }
+
+  updateJSTTime();
+  setInterval(updateJSTTime, 1000);
+</script>
