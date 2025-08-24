@@ -52,7 +52,7 @@ import Post from './Post.astro';
     <div id="top-post-container">
       <p id="top-post-text">---</p>
     </div>
-    <div class=" bg-gray-100 p-3 rounded-lg text-center ">
+    <div class=" bg-gray-100 p-3 rounded-lg text-center mt-4">
       <p class="font-semibold text-gray-700">botたんのコメント:</p>
       <p id="daily-comment" class="text-xl font-bold text-blue-600">---</p>
     </div>
@@ -117,7 +117,7 @@ import Post from './Post.astro';
     if (djEl) djEl.textContent = data.dailyStats.dj;
 
     const dailyCommentEl = document.getElementById('daily-comment');
-    if (dailyCommentEl) dailyCommentEl.textContent = data.dailyStats.comment;
+    if (dailyCommentEl) dailyCommentEl.textContent = data.dailyStats.botComment;
 
     const topPostContainer = document.getElementById('top-post-container');
     if (topPostContainer && data.dailyStats.topPost) {
