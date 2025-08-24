@@ -22,8 +22,20 @@ import Post from './Post.astro';
       <p id="likes" class="text-xl font-bold text-blue-600">---</p>
     </div>
     <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">いいねされ速度 (毎分)</p>
+      <p id="likes-speed" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">全肯定した回数</p>
+      <p id="affirmationCount" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">全肯定速度 (毎分)</p>
+      <p id="affirmation-speed" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
       <p class="font-semibold text-gray-700">全肯定した人数</p>
-      <p id="affirmations" class="text-xl font-bold text-blue-600">---</p>
+      <p id="uniqueAffirmationUserCount" class="text-xl font-bold text-blue-600">---</p>
     </div>
     <div class="bg-gray-100 p-3 rounded-lg text-center">
       <p class="font-semibold text-gray-700">占った回数</p>
@@ -40,6 +52,10 @@ import Post from './Post.astro';
     <div class="bg-gray-100 p-3 rounded-lg text-center">
       <p class="font-semibold text-gray-700">DJした回数</p>
       <p id="dj" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">AI Request数</p>
+      <p id="rpd" class="text-xl font-bold text-blue-600">---</p>
     </div>
   </div>
   <div class="bg-gray-100 p-3 rounded-lg text-center">
@@ -90,7 +106,7 @@ import Post from './Post.astro';
     console.log('Received data:', data); // データ構造を確認するためにログ出力
 
     const energyEl = document.getElementById('energy');
-    if (energyEl) energyEl.textContent = data.energy.toFixed(1);
+    if (energyEl) energyEl.textContent = data.energy.toFixed(1) + "%";
 
     const moodEl = document.getElementById('mood');
     if (moodEl) moodEl.textContent = data.mood || 'No Status';
@@ -101,8 +117,11 @@ import Post from './Post.astro';
     const likesEl = document.getElementById('likes');
     if (likesEl) likesEl.textContent = data.dailyStats.likes;
 
-    const affirmationsEl = document.getElementById('affirmations');
-    if (affirmationsEl) affirmationsEl.textContent = data.dailyStats.affirmations;
+    const affirmationCountEl = document.getElementById('affirmationCount');
+    if (affirmationCountEl) affirmationCountEl.textContent = data.dailyStats.affirmationCount;
+
+    const uniqueAffirmationUserCountEl = document.getElementById('uniqueAffirmationUserCount');
+    if (uniqueAffirmationUserCountEl) uniqueAffirmationUserCountEl.textContent = data.dailyStats.uniqueAffirmationUserCount;
 
     const fortuneEl = document.getElementById('fortune');
     if (fortuneEl) fortuneEl.textContent = data.dailyStats.fortune;
@@ -116,8 +135,39 @@ import Post from './Post.astro';
     const djEl = document.getElementById('dj');
     if (djEl) djEl.textContent = data.dailyStats.dj;
 
+    const rpdEl = document.getElementById('rpd');
+    if (rpdEl) rpdEl.textContent = data.dailyStats.rpd;
+
     const dailyCommentEl = document.getElementById('daily-comment');
     if (dailyCommentEl) dailyCommentEl.textContent = data.dailyStats.botComment;
+
+    // --- New logic for speeds ---
+    const likesSpeedEl = document.getElementById('likes-speed');
+    const affirmationSpeedEl = document.getElementById('affirmation-speed');
+
+    // Check if lastInitializedDate is available in the data
+    if (data.dailyStats && data.dailyStats.lastInitializedDate && likesEl && affirmationCountEl && likesSpeedEl && affirmationSpeedEl) {
+        const now = new Date();
+        const lastInitializedDate = new Date(data.dailyStats.lastInitializedDate);
+        const timeDifferenceInSeconds = (now.getTime() - lastInitializedDate.getTime()) / 1000;
+
+        if (timeDifferenceInSeconds > 0) {
+            const likesPerMinute = (data.dailyStats.likes / timeDifferenceInSeconds) * 60;
+            const affirmationCountPerMinute = (data.dailyStats.affirmationCount / timeDifferenceInSeconds) * 60;
+
+            if (likesSpeedEl) likesSpeedEl.textContent = likesPerMinute.toFixed(1);
+            if (affirmationSpeedEl) affirmationSpeedEl.textContent = affirmationCountPerMinute.toFixed(1);
+        } else {
+            // Handle cases where time difference is zero or negative (should not happen with valid data)
+            if (likesSpeedEl) likesSpeedEl.textContent = 'N/A';
+            if (affirmationSpeedEl) affirmationSpeedEl.textContent = 'N/A';
+        }
+    } else {
+        // If lastInitializedDate is not available or elements are missing, display placeholder
+        if (likesSpeedEl) likesSpeedEl.textContent = '---';
+        if (affirmationSpeedEl) affirmationSpeedEl.textContent = '---';
+    }
+    // --- End of new logic ---
 
     const topPostContainer = document.getElementById('top-post-container');
     if (topPostContainer && data.dailyStats.topPost) {
