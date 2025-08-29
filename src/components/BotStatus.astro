@@ -99,7 +99,7 @@ import Post from './Post.astro';
     </article>
   `;
 
-  const socket = new WebSocket(`wss://bot-tan.suibari.com`);
+  const socket = new WebSocket(`wss://bot-tan.suibari.com/ws`);
 
   socket.onmessage = async (event) => {
     const data = JSON.parse(event.data);
