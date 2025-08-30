@@ -54,6 +54,10 @@ import Post from './Post.astro';
       <p id="dj" class="text-xl font-bold text-blue-600">---</p>
     </div>
     <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">記念日お祝い回数</p>
+      <p id="anniversary" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
       <p class="font-semibold text-gray-700">AI Request数</p>
       <p id="rpd" class="text-xl font-bold text-blue-600">---</p>
     </div>
@@ -134,6 +138,9 @@ import Post from './Post.astro';
 
     const djEl = document.getElementById('dj');
     if (djEl) djEl.textContent = data.dailyStats.dj;
+
+    const anniversaryEl = document.getElementById('anniversary');
+    if (anniversaryEl) anniversaryEl.textContent = data.dailyStats.anniversary;
 
     const rpdEl = document.getElementById('rpd');
     if (rpdEl) rpdEl.textContent = data.dailyStats.rpd;
