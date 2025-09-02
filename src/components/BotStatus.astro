@@ -58,6 +58,10 @@ import Post from './Post.astro';
       <p id="anniversary" class="text-xl font-bold text-blue-600">---</p>
     </div>
     <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">Rate Limit Point (毎時)</p>
+      <p id="bskyrate-hourly" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
       <p class="font-semibold text-gray-700">AI Request数</p>
       <p id="rpd" class="text-xl font-bold text-blue-600">---</p>
     </div>
@@ -170,8 +174,8 @@ import Post from './Post.astro';
             const likesPerMinute = (data.dailyStats.likes / timeDifferenceInSeconds) * 60;
             const affirmationCountPerMinute = (data.dailyStats.affirmationCount / timeDifferenceInSeconds) * 60;
 
-            if (likesSpeedEl) likesSpeedEl.textContent = likesPerMinute.toFixed(1);
-            if (affirmationSpeedEl) affirmationSpeedEl.textContent = affirmationCountPerMinute.toFixed(1);
+    if (likesSpeedEl) likesSpeedEl.textContent = likesPerMinute.toFixed(1);
+    if (affirmationSpeedEl) affirmationSpeedEl.textContent = affirmationCountPerMinute.toFixed(1);
         } else {
             // Handle cases where time difference is zero or negative (should not happen with valid data)
             if (likesSpeedEl) likesSpeedEl.textContent = 'N/A';
@@ -181,6 +185,24 @@ import Post from './Post.astro';
         // If lastInitializedDate is not available or elements are missing, display placeholder
         if (likesSpeedEl) likesSpeedEl.textContent = '---';
         if (affirmationSpeedEl) affirmationSpeedEl.textContent = '---';
+    }
+    // --- End of new logic ---
+
+    // --- New logic for bskyrate ---
+    const bskyrateHourlyEl = document.getElementById('bskyrate-hourly');
+    if (data.dailyStats && data.dailyStats.bskyrate && data.dailyStats.lastInitializedDate && bskyrateHourlyEl) {
+        const now = new Date();
+        const lastInitializedDate = new Date(data.dailyStats.lastInitializedDate);
+        const timeDifferenceInSeconds = (now.getTime() - lastInitializedDate.getTime()) / 1000;
+
+        if (timeDifferenceInSeconds > 0) {
+            const bskyratePerHour = (data.dailyStats.bskyrate / timeDifferenceInSeconds) * 3600;
+            if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = bskyratePerHour.toFixed(1);
+        } else {
+            if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = 'N/A';
+        }
+    } else {
+        if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = '---';
     }
     // --- End of new logic ---
 
