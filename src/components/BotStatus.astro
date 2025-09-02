@@ -62,9 +62,17 @@ import Post from './Post.astro';
       <p id="rpd" class="text-xl font-bold text-blue-600">---</p>
     </div>
   </div>
-  <div class="bg-gray-100 p-3 rounded-lg text-center">
+  <div id="mood-container" class="bg-gray-100 p-3 rounded-lg text-center cursor-pointer">
     <p class="font-semibold text-gray-700">今の気分</p>
     <p id="mood" class="text-xl font-bold text-blue-600">---</p>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-4 rounded-lg relative">
+      <button id="close-modal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+      <img src="https://bot-tan.suibari.com/image.png" alt="Bot-tan Mood Image" class="max-w-full max-h-[80vh] rounded">
+    </div>
   </div>
 
   <div>
@@ -218,4 +226,26 @@ import Post from './Post.astro';
 
   updateJSTTime();
   setInterval(updateJSTTime, 1000);
+
+  // Modal script
+  const moodContainer = document.getElementById('mood-container');
+  const imageModal = document.getElementById('image-modal');
+  const closeModal = document.getElementById('close-modal');
+
+  if (moodContainer && imageModal && closeModal) {
+    moodContainer.addEventListener('click', () => {
+      imageModal.classList.remove('hidden');
+    });
+
+    closeModal.addEventListener('click', () => {
+      imageModal.classList.add('hidden');
+    });
+
+    imageModal.addEventListener('click', (event) => {
+      // Close modal if the background is clicked
+      if (event.target === imageModal) {
+        imageModal.classList.add('hidden');
+      }
+    });
+  }
 </script>
