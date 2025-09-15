@@ -58,6 +58,10 @@ import Post from './Post.astro';
       <p id="anniversary" class="text-xl font-bold text-blue-600">---</p>
     </div>
     <div class="bg-gray-100 p-3 rounded-lg text-center">
+      <p class="font-semibold text-gray-700">質問コーナー回答数</p>
+      <p id="answer" class="text-xl font-bold text-blue-600">---</p>
+    </div>
+    <div class="bg-gray-100 p-3 rounded-lg text-center">
       <p class="font-semibold text-gray-700">Rate Limit Point (毎時)</p>
       <p id="bskyrate-hourly" class="text-xl font-bold text-blue-600">---</p>
     </div>
@@ -145,6 +149,9 @@ import Post from './Post.astro';
 
     const anniversaryEl = document.getElementById('anniversary');
     if (anniversaryEl) anniversaryEl.textContent = data.dailyStats.anniversary;
+
+    const answerEl = document.getElementById('answer');
+    if (answerEl) answerEl.textContent = data.dailyStats.answer;
 
     const rpdEl = document.getElementById('rpd');
     if (rpdEl) rpdEl.textContent = data.dailyStats.rpd;
