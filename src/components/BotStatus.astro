@@ -9,7 +9,10 @@ import TopPostPanel from './TopPostPanel.astro';
   <h2 class="text-2xl font-bold mb-4 flex items-center">
     💖 Botたんのきもち (リアルタイム更新)
   </h2>
-  <p class="text-gray-600 mb-4"><strong>現在時刻(JST):</strong> <span id="jst-time">--:--:--</span></p>
+  <p class="text-gray-600 mb-4 flex gap-2 items-center">
+    <span id="websocket-status" class="w-3 h-3 rounded-full"></span>
+    <strong>現在時刻(JST):</strong> <span id="jst-time" class="mr-2">--:--:--</span>
+  </p>
 
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
     <StatusPanel title="元気" value="---" id="energy" />
@@ -265,4 +268,42 @@ import TopPostPanel from './TopPostPanel.astro';
 
   updateJSTTime();
   setInterval(updateJSTTime, 1000);
+
+  const websocketStatusEl = document.getElementById('websocket-status');
+
+  socket.onopen = () => {
+    if (websocketStatusEl) {
+      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-green-500';
+      websocketStatusEl.title = 'WebSocket接続中';
+    }
+  };
+
+  socket.onclose = () => {
+    if (websocketStatusEl) {
+      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-red-500';
+      websocketStatusEl.title = 'WebSocket切断';
+    }
+  };
+
+  socket.onerror = (error) => {
+    console.error('WebSocket Error:', error);
+    if (websocketStatusEl) {
+      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-red-500';
+      websocketStatusEl.title = 'WebSocketエラー';
+    }
+  };
+
+  // 初期状態の表示
+  if (websocketStatusEl) {
+    if (socket.readyState === WebSocket.OPEN) {
+      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-green-500';
+      websocketStatusEl.title = 'WebSocket接続中';
+    } else if (socket.readyState === WebSocket.CONNECTING) {
+      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-yellow-500';
+      websocketStatusEl.title = 'WebSocket接続試行中';
+    } else {
+      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-red-500';
+      websocketStatusEl.title = 'WebSocket切断';
+    }
+  }
 </script>
