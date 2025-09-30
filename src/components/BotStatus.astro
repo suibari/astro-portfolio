@@ -1,5 +1,8 @@
 ---
-import Post from './Post.astro';
+import StatusPanel from './StatusPanel.astro';
+import ChartPanel from './ChartPanel.astro';
+import MoodPanel from './MoodPanel.astro';
+import TopPostPanel from './TopPostPanel.astro';
 ---
 
 <div class="bg-white rounded-lg">
@@ -9,103 +12,34 @@ import Post from './Post.astro';
   <p class="text-gray-600 mb-4"><strong>現在時刻(JST):</strong> <span id="jst-time">--:--:--</span></p>
 
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">元気</p>
-      <p id="energy" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">増えたフォロワー</p>
-      <p id="followers" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">いいねされた回数</p>
-      <p id="likes" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">いいねされ速度 (毎分)</p>
-      <p id="likes-speed" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">全肯定した回数</p>
-      <p id="affirmationCount" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">全肯定速度 (毎分)</p>
-      <p id="affirmation-speed" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">全肯定した人数</p>
-      <p id="uniqueAffirmationUserCount" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">占った回数</p>
-      <p id="fortune" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">応援した回数</p>
-      <p id="cheer" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">分析した回数</p>
-      <p id="analysis" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">DJした回数</p>
-      <p id="dj" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">記念日お祝い回数</p>
-      <p id="anniversary" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">質問コーナー回答数</p>
-      <p id="answer" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">Rate Limit Point (毎時)</p>
-      <p id="bskyrate-hourly" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-    <div class="bg-gray-100 p-3 rounded-lg text-center">
-      <p class="font-semibold text-gray-700">AI Request数</p>
-      <p id="rpd" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-  </div>
-    <div class="flex flex-col md:flex-row gap-4 mb-4">
-      <div class="bg-gray-100 p-3 rounded-lg text-center flex-1">
-        <p class="font-semibold text-gray-700 mb-2">フォロワー推移</p>
-        <canvas id="follower-chart" class="max-w-full mx-auto"></canvas>
-      </div>
-      <div class="bg-gray-100 p-3 rounded-lg text-center flex-1">
-        <p class="font-semibold text-gray-700 mb-2">フォロワーの使用言語</p>
-        <canvas id="lang-chart" class="max-w-full mx-auto"></canvas>
-      </div>
-    </div>
-    <div id="mood-container" class="bg-gray-100 p-3 rounded-lg text-center cursor-pointer mb-4">
-      <p class="font-semibold text-gray-700">今の気分</p>
-      <p id="mood" class="text-xl font-bold text-blue-600">---</p>
-    </div>
-  <!-- Image Modal -->
-  <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-    <div class="bg-white p-4 rounded-lg relative">
-      <button id="close-modal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
-      <img src="https://bot-tan.suibari.com/image.png" alt="Bot-tan Mood Image" class="max-w-full max-h-[80vh] rounded">
-    </div>
+    <StatusPanel title="元気" value="---" id="energy" />
+    <StatusPanel title="増えたフォロワー" value="---" id="followers" />
+    <StatusPanel title="いいねされた回数" value="---" id="likes" />
+    <StatusPanel title="いいねされ速度 (毎分)" value="---" id="likes-speed" />
+    <StatusPanel title="全肯定した回数" value="---" id="affirmationCount" />
+    <StatusPanel title="全肯定速度 (毎分)" value="---" id="affirmation-speed" />
+    <StatusPanel title="全肯定した人数" value="---" id="uniqueAffirmationUserCount" />
+    <StatusPanel title="占った回数" value="---" id="fortune" />
+    <StatusPanel title="応援した回数" value="---" id="cheer" />
+    <StatusPanel title="分析した回数" value="---" id="analysis" />
+    <StatusPanel title="DJした回数" value="---" id="dj" />
+    <StatusPanel title="記念日お祝い回数" value="---" id="anniversary" />
+    <StatusPanel title="質問コーナー回答数" value="---" id="answer" />
+    <StatusPanel title="Rate Limit Point (毎時)" value="---" id="bskyrate-hourly" />
+    <StatusPanel title="AI Request数" value="---" id="rpd" />
   </div>
 
-  <div>
-    <h3 class="text-xl font-bold my-2">いちおしポスト</h3>
-    <div id="top-post-container">
-      <p id="top-post-text">---</p>
-    </div>
-    <div class=" bg-gray-100 p-3 rounded-lg text-center mt-4">
-      <p class="font-semibold text-gray-700">botたんのコメント:</p>
-      <p id="daily-comment" class="text-xl font-bold text-blue-600">---</p>
-    </div>
+  <div class="flex flex-col md:flex-row gap-4 mb-4">
+    <ChartPanel title="フォロワー推移" canvasId="follower-chart" />
+    <ChartPanel title="フォロワーの使用言語" canvasId="lang-chart" />
   </div>
+
+  <MoodPanel title="今の気分" value="---" id="mood" />
+  <TopPostPanel title="いちおしポスト" />
+  <StatusPanel title="botたんのコメント:" value="---" id="daily-comment" />
 </div>
 
 <script>
-  import type { Props } from "./Post.astro";
   import { AtpAgent } from '@atproto/api';
   import Chart from 'chart.js/auto'; // Chart.jsをインポート
   import 'chartjs-adapter-date-fns'; // date-fnsアダプターをインポート
@@ -116,25 +50,7 @@ import Post from './Post.astro';
 
   let langChart: Chart | null = null; // Chartインスタンスを保持する変数
   let followerChart: Chart | null = null; // フォロワー推移グラフのChartインスタンスを保持する変数
-  let lastTopPostUri: string | null = null; // 前回のtopPostのURIを保持する変数
   
-  // Postコンポーネントを動的に生成するためのテンプレート
-  const createPostComponent = (post: Props) => `
-    <article class="border border-gray-300 rounded-lg p-4 bg-gray-50 transition-shadow duration-300 hover:shadow-md">
-      <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="block text-inherit">
-        <div class="flex flex-col">
-          <div class="flex items-center space-x-4">
-            ${post.image ? `<img src="${post.image}" alt="Bluesky Post Image" class="w-12 h-12 rounded-md" />` : ''}
-            <p class="text-base text-gray-800">${post.text}</p>
-          </div>
-          <time class="mt-2 text-sm text-gray-500 self-end">
-            ${new Date(post.date).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false })}
-          </time>
-        </div>
-      </a>
-    </article>
-  `;
-
   const socket = new WebSocket(`wss://bot-tan.suibari.com/ws`);
 
   // フォロワー推移グラフの初期化と更新
@@ -337,42 +253,6 @@ import Post from './Post.astro';
         if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = '---';
     }
     // --- End of new logic ---
-
-    const topPostContainer = document.getElementById('top-post-container');
-    if (topPostContainer && data.dailyStats.topPost) {
-      // topPostのURIが変更された場合のみフェッチ
-      if (data.dailyStats.topPost !== lastTopPostUri) {
-        try {
-          const { data: postData } = await agent.getPosts({ uris: [data.dailyStats.topPost] });
-
-          if (!postData.posts || postData.posts.length === 0) {
-            throw new Error('Post not found');
-          }
-          const post = postData.posts[0];
-          
-          // Blueskyの投稿データから必要な情報を抽出
-          const postValue = post.record as any;
-          const postText = postValue?.text || 'テキストが取得できませんでした';
-          const postDate = postValue?.createdAt || new Date().toISOString();
-          const postLink = `https://bsky.app/profile/${post.author.handle}/post/${post.uri.split('/').pop()}`;
-          const authorIcon = post.author.avatar;
-
-          topPostContainer.innerHTML = createPostComponent({
-            text: postText,
-            image: authorIcon, // 投稿者のアイコンを使用
-            date: postDate,
-            link: postLink
-          });
-          lastTopPostUri = data.dailyStats.topPost; // URIを更新
-        } catch (error) {
-          console.error('Failed to fetch post from Bluesky:', error);
-          topPostContainer.innerHTML = `<p id="top-post-text">投稿の取得に失敗しました。</p>`;
-        }
-      }
-    } else if (topPostContainer) {
-      topPostContainer.innerHTML = `<p id="top-post-text">---</p>`;
-      lastTopPostUri = null; // topPostがない場合はURIをリセット
-    }
   };
 
   function updateJSTTime() {
@@ -385,26 +265,4 @@ import Post from './Post.astro';
 
   updateJSTTime();
   setInterval(updateJSTTime, 1000);
-
-  // Modal script
-  const moodContainer = document.getElementById('mood-container');
-  const imageModal = document.getElementById('image-modal');
-  const closeModal = document.getElementById('close-modal');
-
-  if (moodContainer && imageModal && closeModal) {
-    moodContainer.addEventListener('click', () => {
-      imageModal.classList.remove('hidden');
-    });
-
-    closeModal.addEventListener('click', () => {
-      imageModal.classList.add('hidden');
-    });
-
-    imageModal.addEventListener('click', (event) => {
-      // Close modal if the background is clicked
-      if (event.target === imageModal) {
-        imageModal.classList.add('hidden');
-      }
-    });
-  }
 </script>

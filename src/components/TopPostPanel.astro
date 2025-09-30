@@ -1,0 +1,80 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div>
+  <h3 class="text-xl font-bold my-2">{title}</h3>
+  <div id="top-post-container">
+    <p id="top-post-text">---</p>
+  </div>
+</div>
+
+<script>
+  import { AtpAgent } from '@atproto/api';
+  import type { Props as PostProps } from "./Post.astro";
+
+  const agent = new AtpAgent({ service: 'https://public.api.bsky.app' });
+  let lastTopPostUri: string | null = null; // 前回のtopPostのURIを保持する変数
+
+  // Postコンポーネントを動的に生成するためのテンプレート
+  const createPostComponent = (post: PostProps) => `
+    <article class="border border-gray-300 rounded-lg p-4 bg-gray-50 transition-shadow duration-300 hover:shadow-md">
+      <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="block text-inherit">
+        <div class="flex flex-col">
+          <div class="flex items-center space-x-4">
+            ${post.image ? `<img src="${post.image}" alt="Bluesky Post Image" class="w-12 h-12 rounded-md" />` : ''}
+            <p class="text-base text-gray-800">${post.text}</p>
+          </div>
+          <time class="mt-2 text-sm text-gray-500 self-end">
+            ${new Date(post.date).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false })}
+          </time>
+        </div>
+      </a>
+    </article>
+  `;
+
+  // WebSocketからのデータ受信時にトップポストを更新するロジック
+  const socket = new WebSocket(`wss://bot-tan.suibari.com/ws`);
+
+  socket.onmessage = async (event) => {
+    const data = JSON.parse(event.data);
+    const topPostContainer = document.getElementById('top-post-container');
+
+    if (topPostContainer && data.dailyStats.topPost) {
+      if (data.dailyStats.topPost !== lastTopPostUri) {
+        try {
+          const { data: postData } = await agent.getPosts({ uris: [data.dailyStats.topPost] });
+
+          if (!postData.posts || postData.posts.length === 0) {
+            throw new Error('Post not found');
+          }
+          const post = postData.posts[0];
+          
+          const postValue = post.record as any;
+          const postText = postValue?.text || 'テキストが取得できませんでした';
+          const postDate = postValue?.createdAt || new Date().toISOString();
+          const postLink = `https://bsky.app/profile/${post.author.handle}/post/${post.uri.split('/').pop()}`;
+          const authorIcon = post.author.avatar;
+
+          topPostContainer.innerHTML = createPostComponent({
+            text: postText,
+            image: authorIcon,
+            date: postDate,
+            link: postLink
+          });
+          lastTopPostUri = data.dailyStats.topPost;
+        } catch (error) {
+          console.error('Failed to fetch post from Bluesky:', error);
+          topPostContainer.innerHTML = `<p id="top-post-text">投稿の取得に失敗しました。</p>`;
+        }
+      }
+    } else if (topPostContainer) {
+      topPostContainer.innerHTML = `<p id="top-post-text">---</p>`;
+      lastTopPostUri = null;
+    }
+  };
+</script>
