@@ -108,6 +108,7 @@ import Post from './Post.astro';
   import type { Props } from "./Post.astro";
   import { AtpAgent } from '@atproto/api';
   import Chart from 'chart.js/auto'; // Chart.jsをインポート
+  import 'chartjs-adapter-date-fns'; // date-fnsアダプターをインポート
   import { fetchFollowerData } from '../services/bottan/fetchFollowerData'; // フォロワーデータ取得関数をインポート
   
   // 認証不要の公開APIエンドポイントを指定
@@ -142,7 +143,8 @@ import Post from './Post.astro';
     const followerChartEl = document.getElementById('follower-chart') as HTMLCanvasElement;
 
     if (followerData && followerChartEl) {
-      const labels = followerData.map((item: { date: string; count: number }) => new Date(item.date).toLocaleDateString('ja-JP'));
+      // date-fnsアダプターを使用するため、日付文字列を直接渡す
+      const labels = followerData.map((item: { date: string; count: number }) => item.date);
       const counts = followerData.map((item: { date: string; count: number }) => item.count);
 
       if (followerChart) {
@@ -175,11 +177,17 @@ import Post from './Post.astro';
             },
             scales: {
               x: {
-                type: 'category',
-                labels: labels,
+                type: 'time', // 時間軸に変更
+                time: {
+                  unit: 'hour', // 時間単位を時間にする
+                  tooltipFormat: 'yyyy/MM/dd HH:mm', // ツールチップの表示形式
+                  displayFormats: {
+                    hour: 'MM/dd HH:mm' // 軸の表示形式
+                  }
+                },
                 title: {
                   display: true,
-                  text: '日付'
+                  text: '日時' // 軸のタイトルを「日時」に変更
                 }
               },
               y: {
