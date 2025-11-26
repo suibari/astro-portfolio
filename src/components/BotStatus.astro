@@ -196,24 +196,21 @@ import RetroStatus from './RetroStatus.astro';
       }
 
       const talkPowerEl = document.getElementById('talk-power');
-      if (talkPowerEl && data.totalStats.reply !== undefined) {
-        const power = Math.floor(data.totalStats.reply / 10);
-        talkPowerEl.textContent = power.toString();
-      } else if (talkPowerEl) {
-        talkPowerEl.textContent = data.totalStats.reply ? Math.floor(data.totalStats.reply / 10).toString() : '---';
+      if (talkPowerEl) {
+        talkPowerEl.textContent = data.totalStats.reply != null ? Math.floor(data.totalStats.reply / 10).toString() : '---';
       }
 
       const intelligenceEl = document.getElementById('intelligence');
-      if (intelligenceEl) intelligenceEl.textContent = data.totalStats.analysis || '---';
+      if (intelligenceEl) intelligenceEl.textContent = data.totalStats.analysis ?? '---';
 
       const luckEl = document.getElementById('luck');
-      if (luckEl) luckEl.textContent = data.totalStats.fortune || '---';
+      if (luckEl) luckEl.textContent = data.totalStats.fortune ?? '---';
 
       const spreadPowerEl = document.getElementById('spread-power');
-      if (spreadPowerEl) spreadPowerEl.textContent = data.totalStats.cheer || '---';
+      if (spreadPowerEl) spreadPowerEl.textContent = data.totalStats.cheer ?? '---';
 
       const partyPeopleDegreeEl = document.getElementById('party-people-degree');
-      if (partyPeopleDegreeEl) partyPeopleDegreeEl.textContent = data.totalStats.dj || '---';
+      if (partyPeopleDegreeEl) partyPeopleDegreeEl.textContent = data.totalStats.dj ?? '---';
 
       const magicPowerEl = document.getElementById('magic-power');
       if (magicPowerEl) {
