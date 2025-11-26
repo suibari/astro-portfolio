@@ -197,7 +197,8 @@ import RetroStatus from './RetroStatus.astro';
 
       const talkPowerEl = document.getElementById('talk-power');
       if (talkPowerEl) {
-        talkPowerEl.textContent = data.totalStats.reply != null ? Math.floor(data.totalStats.reply / 10).toString() : '---';
+        const talkPower = Math.floor(data.totalStats.reply / 100);
+        talkPowerEl.textContent = talkPower.toString();
       }
 
       const intelligenceEl = document.getElementById('intelligence');
