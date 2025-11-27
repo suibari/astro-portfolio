@@ -32,7 +32,7 @@
     font-family: 'DotGothic16', sans-serif;
   }
   .meter-segment {
-    margin-right: 2px; /* 目盛り間のスペース */
+    /* No specific styles needed here anymore */
   }
 </style>
 
@@ -96,10 +96,13 @@
       const activeMeters = Math.round(energy / 5);
 
       energyMeterEl.innerHTML = ''; // メーターをクリア
+      energyMeterEl.style.display = 'grid';
+      energyMeterEl.style.gridTemplateColumns = `repeat(${meterCount}, 1fr)`;
+      energyMeterEl.style.gap = '2px';
 
       for (let i = 0; i < meterCount; i++) {
         const meter = document.createElement('div');
-        meter.className = 'flex-grow h-full meter-segment';
+        meter.className = 'h-full';
         if (i < activeMeters) {
           meter.style.backgroundColor = energy >= 60 ? '#66ff66' : '#ff6666'; // 明るい緑 or 明るい赤
         } else {
