@@ -101,16 +101,15 @@ import RetroStatus from './RetroStatus.astro';
               x: {
                 type: 'time', // 時間軸に変更
                 time: {
-                  unit: 'hour', // 時間単位を時間にする
+                  unit: 'day', // 時間単位を日にする
                   tooltipFormat: 'yyyy/MM/dd HH:mm', // ツールチップの表示形式
                   displayFormats: {
-                    hour: 'HH:mm', // 軸の表示形式を時間のみに
-                    day: 'MM/dd' // 日付の表示形式も追加
+                    day: 'MM/dd' // 軸の表示形式を日付のみに
                   }
                 },
                 title: {
                   display: true,
-                  text: '日時' // 軸のタイトルを「日時」に変更
+                  text: '日付' // 軸のタイトルを「日付」に変更
                 }
               },
               y: {
