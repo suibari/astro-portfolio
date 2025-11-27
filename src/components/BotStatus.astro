@@ -18,7 +18,6 @@ import RetroStatus from './RetroStatus.astro';
   <RetroStatus />
 
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-    <StatusPanel title="元気" value="---" id="energy" />
     <StatusPanel title="増えたフォロワー" value="---" id="followers" />
     <StatusPanel title="いいねされた回数" value="---" id="likes" />
     <StatusPanel title="いいねされ速度 (毎分)" value="---" id="likes-speed" />
@@ -132,8 +131,9 @@ import RetroStatus from './RetroStatus.astro';
     const data = JSON.parse(event.data);
     console.log('Received data:', data); // データ構造を確認するためにログ出力
 
-    const energyEl = document.getElementById('energy');
-    if (energyEl) energyEl.textContent = data.energy.toFixed(1) + "%";
+    // カスタムイベントを発火させて他のコンポーネントにデータを渡す
+    const customEvent = new CustomEvent('botStatusUpdated', { detail: data });
+    document.dispatchEvent(customEvent);
 
     const moodEl = document.getElementById('mood');
     if (moodEl) moodEl.textContent = data.mood || 'No Status';
@@ -173,52 +173,6 @@ import RetroStatus from './RetroStatus.astro';
 
     const dailyCommentEl = document.getElementById('daily-comment');
     if (dailyCommentEl) dailyCommentEl.textContent = data.dailyStats.botComment;
-
-    // --- New logic for Retro Status ---
-    if (data.totalStats) {
-      const levelEl = document.getElementById('level');
-      if (levelEl) {
-        const level = Math.floor(data.totalStats.followers / 100) || 1;
-        levelEl.textContent = level.toString();
-      }
-
-      const affirmationPowerEl = document.getElementById('affirmation-power');
-      if (affirmationPowerEl) {
-        const power = Math.floor(data.totalStats.affirmationCount / 1000);
-        affirmationPowerEl.textContent = power.toString();
-      }
-
-      const bskyLoveEl = document.getElementById('bsky-love');
-      if (bskyLoveEl) {
-        const love = Math.floor(data.totalStats.likes / 1000);
-        bskyLoveEl.textContent = love.toString();
-      }
-
-      const talkPowerEl = document.getElementById('talk-power');
-      if (talkPowerEl) {
-        const talkPower = Math.floor(data.totalStats.reply / 100);
-        talkPowerEl.textContent = talkPower.toString();
-      }
-
-      const intelligenceEl = document.getElementById('intelligence');
-      if (intelligenceEl) intelligenceEl.textContent = data.totalStats.analysis ?? '---';
-
-      const luckEl = document.getElementById('luck');
-      if (luckEl) luckEl.textContent = data.totalStats.fortune ?? '---';
-
-      const spreadPowerEl = document.getElementById('spread-power');
-      if (spreadPowerEl) spreadPowerEl.textContent = data.totalStats.cheer ?? '---';
-
-      const partyPeopleDegreeEl = document.getElementById('party-people-degree');
-      if (partyPeopleDegreeEl) partyPeopleDegreeEl.textContent = data.totalStats.dj ?? '---';
-
-      const magicPowerEl = document.getElementById('magic-power');
-      if (magicPowerEl) {
-        const power = Math.floor(data.totalStats.anniversary / 1000);
-        magicPowerEl.textContent = power.toString();
-      }
-    }
-    // --- End of new logic for Retro Status ---
 
     // --- New logic for lang chart ---
     const langData = data.dailyStats.lang;
