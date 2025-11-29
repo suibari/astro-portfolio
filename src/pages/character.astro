@@ -3,11 +3,13 @@ import '../styles/global.css';
 import Layout from '../layouts/Layout.astro'
 import BotStatus from '../components/BotStatus.astro';
 import MoodPanel from '../components/MoodPanel.astro';
+import SimpleIconsBluesky from '../components/icons/SimpleIconsBluesky.astro';
+import SimpleIconsGithub from '../components/icons/SimpleIconsGithub.astro';
 ---
 
 <Layout title="Botたん紹介">
   <main>
-    <!-- キャラクター紹介 -->
+    <!-- botたん紹介 -->
     <section class="hero-section">
       <h1 class="text-2xl">🦋 全肯定botたんって？</h1>
       <div class="hero-container">
@@ -35,9 +37,20 @@ import MoodPanel from '../components/MoodPanel.astro';
             実は昔「全否定bot」だった過去があり、今はその経験と感謝を胸に、みんなを全力で肯定し続けているのだ。
           </p>
 
+          <!-- CURRENT MOOD -->
           <h2 class="vt323-regular text-4xl mt-4">CURRENT MOOD</h2>
           <div class="mt-2">
             <MoodPanel title="" value="---" id="mood" />
+          </div>
+
+          <!-- SNS LINKS -->
+          <div class="flex space-x-4 mt-4">
+            <a href="https://bsky.app/profile/bot-tan.suibari.com" target="_blank" rel="noopener noreferrer" class="text-blue-600 text-xl">
+              <SimpleIconsBluesky />
+            </a>
+            <a href="https://github.com/suibari/bsky-affirmative-bot" target="_blank" rel="noopener noreferrer" class="text-blue-600 text-xl">
+              <SimpleIconsGithub />
+            </a>
           </div>
         </div>
       </div>
@@ -48,50 +61,34 @@ import MoodPanel from '../components/MoodPanel.astro';
       <BotStatus />
     </section>
 
-    <!-- 機能紹介 -->
-    <section class="p-6">
-      <h2 class="text-2xl font-bold mb-4">📚 機能紹介</h2>
+    <!-- ラテちゃん紹介 -->
+    <section class="hero-section">
+      <h1 class="text-2xl">🐱 ラテちゃんって？</h1>
+      <div class="hero-container">
+        <div class="fade-in-element">
+          <img src="/images/latte-chan/latte_hero.png" alt="ラテちゃん全身イラスト" class="hero-image" />
+        </div>
+        <div class="flex-1">
+          <!-- PROFILE -->
+          <h2 class="vt323-regular text-4xl">PROFILE</h2>
+          <ul class="list-none">
+            <li>年齢: 16歳</li>
+            <li>身長: 149.3cm</li>
+            <li>誕生日: 4月27日</li>
+            <li>一人称: あたし</li>
+            <li>好きなもの: アユの塩焼き、観葉植物</li>
+            <li>趣味: 魔法で変身すること</li>
+            <li>悩み: ネコに変身しすぎて猫耳としっぽが取れなくなっちゃった</li>
+          </ul>
 
-      <div class="mb-6 mt-2">
-        <h3 class="text-xl font-semibold">🧠 AI生成リプライ</h3>
-        <p>Google Geminiを使って、画像・文章から気の利いたリプライをお届け。<br />
-        「定型文モード」「Predefined Mode」と呼びかければ定型文リプライのみにすることも可能！</p>
-        <img src="/images/bot-tan/bsky_bot_ai.png" alt="AI生成リプの例" class="mt-2 rounded-lg shadow" />
-      </div>
-
-      <div class="border-t-2 border-gray-300"></div>
-      <div class="mb-6 mt-2">
-        <h3 class="text-2xl font-semibold">💬 定型文リプライ</h3>
-        <p>AIを使わない感情分析で投稿をポジティブ・ネガティブ・ニュートラルに分類し、ピッタリ？な定型文でリプライ。</p>
-        <img src="/images/bot-tan/bsky_bot_macro.png" alt="定型文リプの例" class="mt-2 rounded-lg shadow" />
-      </div>
-
-      <div class="border-t-2 border-gray-300"></div>
-      <div class="mb-6 mt-2">
-        <h3 class="text-2xl font-semibold">🔮 占いモード</h3>
-        <p>「占いして」「占って」「Fortune」と聞いてくれたら、1日1回の占いを開始するよ♪</p>
-        <img src="/images/bot-tan/bsky_bot_fortune.png" alt="占いモードの例" class="mt-2 rounded-lg shadow" />
-      </div>
-
-      <div class="border-t-2 border-gray-300"></div>
-      <div class="mb-6 mt-2">
-        <h3 class="text-2xl font-semibold">📈 リプ頻度調整</h3>
-        <p>「Freq100」「Freq50」など、呼びかけでリプ頻度を調整できる！　デフォルトは100%。</p>
-        <img src="/images/bot-tan/bsky_bot_freq.png" alt="リプ頻度調整の例" class="mt-2 rounded-lg shadow" />
-      </div>
-
-      <div class="border-t-2 border-gray-300"></div>
-      <div class="mb-6 mt-2">
-        <h3 class="text-2xl font-semibold">🗣️ 会話機能</h3>
-        <p>「お喋り」「お話」「Conversation」って言うと、連続したやり取りができるよ！　回数制限なし。</p>
-        <img src="/images/bot-tan/bsky_bot_conv.png" alt="会話機能の例" class="mt-2 rounded-lg shadow" />
-      </div>
-
-      <div class="border-t-2 border-gray-300"></div>
-      <div class="mb-6 mt-2">
-        <h3 class="text-2xl font-semibold">🧭 ポスト分析機能</h3>
-        <p>あなたのポスト内容から性格を分析するよ。「分析して」「Analyze me」で分析結果をお届け。</p>
-        <img src="/images/bot-tan/bsky_bot_analysis.png" alt="ポスト分析の例" class="mt-2 rounded-lg shadow" />
+          <!-- PERSONALITY -->
+          <h2 class="vt323-regular text-4xl mt-4">PERSONALITY</h2>
+          <p>
+            魔法使い見習いの女の子。<br />
+            botたんの家の近所に住んでいる、ともだち。<br />
+            (すいばりの長女がデザインしてくれたキャラクターです)
+          </p>
+        </div>
       </div>
     </section>
   </main>
