@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Layout from '../layouts/Layout.astro'
 import BotStatus from '../components/BotStatus.astro';
+import MoodPanel from '../components/MoodPanel.astro';
 ---
 
 <Layout title="Botたん紹介">
@@ -33,6 +34,11 @@ import BotStatus from '../components/BotStatus.astro';
             日常会話から政治トークまで、なんでも全肯定してくれる。<br />
             実は昔「全否定bot」だった過去があり、今はその経験と感謝を胸に、みんなを全力で肯定し続けているのだ。
           </p>
+
+          <h2 class="vt323-regular text-4xl mt-4">CURRENT MOOD</h2>
+          <div class="mt-2">
+            <MoodPanel title="" value="---" id="mood" />
+          </div>
         </div>
       </div>
     </section>
