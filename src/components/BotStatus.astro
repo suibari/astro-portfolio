@@ -14,8 +14,10 @@ import RetroStatus from './RetroStatus.astro';
     <strong>現在時刻(JST):</strong> <span id="jst-time" class="mr-2">--:--:--</span>
   </p>
 
+  <h2 class="vt323-regular text-4xl mt-4">ABILITY SCORE</h2>
   <RetroStatus />
 
+  <h2 class="vt323-regular text-4xl mt-4">DAILY STATS</h2>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
     <StatusPanel title="増えたフォロワー" value="---" id="followers" />
     <StatusPanel title="いいねされた回数" value="---" id="likes" />
@@ -38,7 +40,8 @@ import RetroStatus from './RetroStatus.astro';
     <ChartPanel title="フォロワーの使用言語" canvasId="lang-chart" />
   </div>
 
-  <TopPostPanel title="いちおしポスト" />
+  <h2 class="vt323-regular text-4xl mt-4">BOT-TAN's RECOMMENDATION POST</h2>
+  <TopPostPanel title="" />
   <StatusPanel title="botたんのコメント:" value="---" id="daily-comment" />
 </div>
 
