@@ -1,8 +1,8 @@
 ---
-import StatusPanel from './StatusPanel.astro';
-import ChartPanel from './ChartPanel.astro';
-import TopPostPanel from './TopPostPanel.astro';
-import RetroStatus from './RetroStatus.astro';
+import StatusPanel from "./StatusPanel.astro";
+import ChartPanel from "./ChartPanel.astro";
+import TopPostPanel from "./TopPostPanel.astro";
+import RetroStatus from "./RetroStatus.astro";
 ---
 
 <div class="bg-white rounded-lg">
@@ -11,7 +11,8 @@ import RetroStatus from './RetroStatus.astro';
   </h2>
   <p class="text-gray-600 mb-4 flex gap-2 items-center">
     <span id="websocket-status" class="w-3 h-3 rounded-full"></span>
-    <strong>現在時刻(JST):</strong> <span id="jst-time" class="mr-2">--:--:--</span>
+    <strong>現在時刻(JST):</strong>
+    <span id="jst-time" class="mr-2">--:--:--</span>
   </p>
 
   <h2 class="vt323-regular text-4xl mt-4">ABILITY SCORE</h2>
@@ -24,14 +25,22 @@ import RetroStatus from './RetroStatus.astro';
     <StatusPanel title="いいねされ速度 (毎分)" value="---" id="likes-speed" />
     <StatusPanel title="全肯定した回数" value="---" id="affirmationCount" />
     <StatusPanel title="全肯定速度 (毎分)" value="---" id="affirmation-speed" />
-    <StatusPanel title="全肯定した人数" value="---" id="uniqueAffirmationUserCount" />
+    <StatusPanel
+      title="全肯定した人数"
+      value="---"
+      id="uniqueAffirmationUserCount"
+    />
     <StatusPanel title="占った回数" value="---" id="fortune" />
     <StatusPanel title="応援した回数" value="---" id="cheer" />
     <StatusPanel title="分析した回数" value="---" id="analysis" />
     <StatusPanel title="DJした回数" value="---" id="dj" />
     <StatusPanel title="記念日お祝い回数" value="---" id="anniversary" />
     <StatusPanel title="質問コーナー回答数" value="---" id="answer" />
-    <StatusPanel title="Rate Limit Point (毎時)" value="---" id="bskyrate-hourly" />
+    <StatusPanel
+      title="Rate Limit Point (毎時)"
+      value="---"
+      id="bskyrate-hourly"
+    />
     <StatusPanel title="AI Request数" value="---" id="rpd" />
   </div>
 
@@ -46,28 +55,37 @@ import RetroStatus from './RetroStatus.astro';
 </div>
 
 <script>
-  import { AtpAgent } from '@atproto/api';
-  import Chart from 'chart.js/auto'; // Chart.jsをインポート
-  import 'chartjs-adapter-date-fns'; // date-fnsアダプターをインポート
-  import { fetchFollowerData } from '../services/bottan/fetchFollowerData'; // フォロワーデータ取得関数をインポート
-  
+  import { AtpAgent } from "@atproto/api";
+  import Chart from "chart.js/auto"; // Chart.jsをインポート
+  import "chartjs-adapter-date-fns"; // date-fnsアダプターをインポート
+  import { fetchFollowerData } from "../services/bottan/fetchFollowerData"; // フォロワーデータ取得関数をインポート
+
   // 認証不要の公開APIエンドポイントを指定
-  const agent = new AtpAgent({ service: 'https://public.api.bsky.app' });
+  const agent = new AtpAgent({ service: "https://public.api.bsky.app" });
 
   let langChart: Chart | null = null; // Chartインスタンスを保持する変数
   let followerChart: Chart | null = null; // フォロワー推移グラフのChartインスタンスを保持する変数
-  
-  const socket = new WebSocket(`wss://bot-tan.suibari.com/ws`);
+
+  const mode = import.meta.env.MODE;
+  const socket = new WebSocket(
+    `${mode === "production" ? "wss://bot-tan.suibari.com" : "ws://localhost:3000"}/ws`,
+  );
 
   // フォロワー推移グラフの初期化と更新
   async function initFollowerChart() {
     const followerData = await fetchFollowerData();
-    const followerChartEl = document.getElementById('follower-chart') as HTMLCanvasElement;
+    const followerChartEl = document.getElementById(
+      "follower-chart",
+    ) as HTMLCanvasElement;
 
     if (followerData && followerChartEl) {
       // date-fnsアダプターを使用するため、日付文字列を直接渡す
-      const labels = followerData.map((item: { date: string; count: number }) => item.date);
-      const counts = followerData.map((item: { date: string; count: number }) => item.count);
+      const labels = followerData.map(
+        (item: { date: string; count: number }) => item.date,
+      );
+      const counts = followerData.map(
+        (item: { date: string; count: number }) => item.count,
+      );
 
       if (followerChart) {
         followerChart.data.labels = labels;
@@ -75,51 +93,53 @@ import RetroStatus from './RetroStatus.astro';
         followerChart.update();
       } else {
         followerChart = new Chart(followerChartEl, {
-          type: 'line',
+          type: "line",
           data: {
             labels: labels,
-            datasets: [{
-              label: 'フォロワー数',
-              data: counts,
-              borderColor: 'rgb(75, 192, 192)',
-              tension: 0.1,
-              fill: false
-            }]
+            datasets: [
+              {
+                label: "フォロワー数",
+                data: counts,
+                borderColor: "rgb(75, 192, 192)",
+                tension: 0.1,
+                fill: false,
+              },
+            ],
           },
           options: {
             responsive: true,
             plugins: {
               legend: {
-                position: 'top',
+                position: "top",
               },
               title: {
                 display: false,
-                text: 'フォロワー推移'
-              }
+                text: "フォロワー推移",
+              },
             },
             scales: {
               x: {
-                type: 'time', // 時間軸に変更
+                type: "time", // 時間軸に変更
                 time: {
-                  unit: 'day', // 時間単位を日にする
-                  tooltipFormat: 'yyyy/MM/dd HH:mm', // ツールチップの表示形式
+                  unit: "day", // 時間単位を日にする
+                  tooltipFormat: "yyyy/MM/dd HH:mm", // ツールチップの表示形式
                   displayFormats: {
-                    day: 'MM/dd' // 軸の表示形式を日付のみに
-                  }
+                    day: "MM/dd", // 軸の表示形式を日付のみに
+                  },
                 },
                 title: {
                   display: true,
-                  text: '日付' // 軸のタイトルを「日付」に変更
-                }
+                  text: "日付", // 軸のタイトルを「日付」に変更
+                },
               },
               y: {
                 title: {
                   display: true,
-                  text: 'フォロワー数'
-                }
-              }
-            }
-          }
+                  text: "フォロワー数",
+                },
+              },
+            },
+          },
         });
       }
     }
@@ -130,54 +150,143 @@ import RetroStatus from './RetroStatus.astro';
 
   socket.onmessage = async (event) => {
     const data = JSON.parse(event.data);
-    console.log('Received data:', data); // データ構造を確認するためにログ出力
+    console.log("Received data:", data); // データ構造を確認するためにログ出力
 
     // カスタムイベントを発火させて他のコンポーネントにデータを渡す
-    const customEvent = new CustomEvent('botStatusUpdated', { detail: data });
+    const customEvent = new CustomEvent("botStatusUpdated", { detail: data });
     document.dispatchEvent(customEvent);
 
-    const moodEl = document.getElementById('mood');
-    if (moodEl) moodEl.textContent = data.mood || 'No Status';
+    const moodEl = document.getElementById("mood");
+    if (moodEl) moodEl.textContent = data.mood || "No Status";
 
-    const followersEl = document.getElementById('followers');
+    const nextStepTimeEl = document.getElementById("next-step-time");
+    if (nextStepTimeEl) {
+      if (data.nextStepTime) {
+        const date = new Date(data.nextStepTime);
+        const timeString = date.toLocaleTimeString("ja-JP", {
+          timeZone: "Asia/Tokyo",
+          hour12: false,
+        });
+        nextStepTimeEl.textContent = timeString;
+      } else {
+        nextStepTimeEl.textContent = "---";
+      }
+    }
+
+    if (data.utilities) {
+      const utilityMap = {
+        Sleep: "utility-sleep",
+        WakeUp: "utility-wakeup",
+        Study: "utility-study",
+        FreeTime: "utility-freetime",
+        Relax: "utility-relax",
+      };
+
+      // Reset all panels
+      Object.values(utilityMap).forEach((id) => {
+        const panel = document.getElementById(`panel-${id}`);
+        if (panel) {
+          panel.classList.remove("bg-yellow-100", "ring-2", "ring-yellow-400");
+          panel.classList.add("bg-gray-100");
+        }
+      });
+
+      // Highlight active panel
+      if (data.status && utilityMap[data.status as keyof typeof utilityMap]) {
+        const activeId = utilityMap[data.status as keyof typeof utilityMap];
+        const activePanel = document.getElementById(`panel-${activeId}`);
+        if (activePanel) {
+          activePanel.classList.remove("bg-gray-100");
+          activePanel.classList.add(
+            "bg-yellow-100",
+            "ring-2",
+            "ring-yellow-400",
+          );
+        }
+      }
+
+      const sleepEl = document.getElementById("utility-sleep");
+      if (sleepEl)
+        sleepEl.textContent =
+          data.utilities.Sleep !== undefined
+            ? Math.round(data.utilities.Sleep).toString()
+            : "---";
+
+      const wakeUpEl = document.getElementById("utility-wakeup");
+      if (wakeUpEl)
+        wakeUpEl.textContent =
+          data.utilities.WakeUp !== undefined
+            ? Math.round(data.utilities.WakeUp).toString()
+            : "---";
+
+      const studyEl = document.getElementById("utility-study");
+      if (studyEl)
+        studyEl.textContent =
+          data.utilities.Study !== undefined
+            ? Math.round(data.utilities.Study).toString()
+            : "---";
+
+      const freeTimeEl = document.getElementById("utility-freetime");
+      if (freeTimeEl)
+        freeTimeEl.textContent =
+          data.utilities.FreeTime !== undefined
+            ? Math.round(data.utilities.FreeTime).toString()
+            : "---";
+
+      const relaxEl = document.getElementById("utility-relax");
+      if (relaxEl)
+        relaxEl.textContent =
+          data.utilities.Relax !== undefined
+            ? Math.round(data.utilities.Relax).toString()
+            : "---";
+    }
+
+    const followersEl = document.getElementById("followers");
     if (followersEl) followersEl.textContent = data.dailyStats.followers;
 
-    const likesEl = document.getElementById('likes');
+    const likesEl = document.getElementById("likes");
     if (likesEl) likesEl.textContent = data.dailyStats.likes;
 
-    const affirmationCountEl = document.getElementById('affirmationCount');
-    if (affirmationCountEl) affirmationCountEl.textContent = data.dailyStats.affirmationCount;
+    const affirmationCountEl = document.getElementById("affirmationCount");
+    if (affirmationCountEl)
+      affirmationCountEl.textContent = data.dailyStats.affirmationCount;
 
-    const uniqueAffirmationUserCountEl = document.getElementById('uniqueAffirmationUserCount');
-    if (uniqueAffirmationUserCountEl) uniqueAffirmationUserCountEl.textContent = data.dailyStats.uniqueAffirmationUserCount;
+    const uniqueAffirmationUserCountEl = document.getElementById(
+      "uniqueAffirmationUserCount",
+    );
+    if (uniqueAffirmationUserCountEl)
+      uniqueAffirmationUserCountEl.textContent =
+        data.dailyStats.uniqueAffirmationUserCount;
 
-    const fortuneEl = document.getElementById('fortune');
+    const fortuneEl = document.getElementById("fortune");
     if (fortuneEl) fortuneEl.textContent = data.dailyStats.fortune;
 
-    const cheerEl = document.getElementById('cheer');
+    const cheerEl = document.getElementById("cheer");
     if (cheerEl) cheerEl.textContent = data.dailyStats.cheer;
 
-    const analysisEl = document.getElementById('analysis');
+    const analysisEl = document.getElementById("analysis");
     if (analysisEl) analysisEl.textContent = data.dailyStats.analysis;
 
-    const djEl = document.getElementById('dj');
+    const djEl = document.getElementById("dj");
     if (djEl) djEl.textContent = data.dailyStats.dj;
 
-    const anniversaryEl = document.getElementById('anniversary');
+    const anniversaryEl = document.getElementById("anniversary");
     if (anniversaryEl) anniversaryEl.textContent = data.dailyStats.anniversary;
 
-    const answerEl = document.getElementById('answer');
+    const answerEl = document.getElementById("answer");
     if (answerEl) answerEl.textContent = data.dailyStats.answer;
 
-    const rpdEl = document.getElementById('rpd');
+    const rpdEl = document.getElementById("rpd");
     if (rpdEl) rpdEl.textContent = data.dailyStats.rpd;
 
-    const dailyCommentEl = document.getElementById('daily-comment');
+    const dailyCommentEl = document.getElementById("daily-comment");
     if (dailyCommentEl) dailyCommentEl.textContent = data.dailyStats.botComment;
 
     // --- New logic for lang chart ---
     const langData = data.dailyStats.lang;
-    const langChartEl = document.getElementById('lang-chart') as HTMLCanvasElement;
+    const langChartEl = document.getElementById(
+      "lang-chart",
+    ) as HTMLCanvasElement;
 
     if (langData && langChartEl) {
       const labels = langData.map((item: [string, number]) => item[0]);
@@ -189,124 +298,145 @@ import RetroStatus from './RetroStatus.astro';
         langChart.update();
       } else {
         langChart = new Chart(langChartEl, {
-          type: 'pie',
+          type: "pie",
           data: {
             labels: labels,
-            datasets: [{
-              data: values,
-              hoverOffset: 4
-            }]
+            datasets: [
+              {
+                data: values,
+                hoverOffset: 4,
+              },
+            ],
           },
           options: {
             responsive: true,
             plugins: {
               legend: {
-                position: 'top',
+                position: "top",
               },
               title: {
                 display: false,
-                text: '使用言語'
-              }
-            }
-          }
+                text: "使用言語",
+              },
+            },
+          },
         });
       }
     }
     // --- End of new logic for lang chart ---
 
     // --- New logic for speeds ---
-    const likesSpeedEl = document.getElementById('likes-speed');
-    const affirmationSpeedEl = document.getElementById('affirmation-speed');
+    const likesSpeedEl = document.getElementById("likes-speed");
+    const affirmationSpeedEl = document.getElementById("affirmation-speed");
 
     // Check if lastInitializedDate is available in the data
-    if (data.dailyStats && data.dailyStats.lastInitializedDate && likesEl && affirmationCountEl && likesSpeedEl && affirmationSpeedEl) {
-        const now = new Date();
-        const lastInitializedDate = new Date(data.dailyStats.lastInitializedDate);
-        const timeDifferenceInSeconds = (now.getTime() - lastInitializedDate.getTime()) / 1000;
+    if (
+      data.dailyStats &&
+      data.dailyStats.lastInitializedDate &&
+      likesEl &&
+      affirmationCountEl &&
+      likesSpeedEl &&
+      affirmationSpeedEl
+    ) {
+      const now = new Date();
+      const lastInitializedDate = new Date(data.dailyStats.lastInitializedDate);
+      const timeDifferenceInSeconds =
+        (now.getTime() - lastInitializedDate.getTime()) / 1000;
 
-        if (timeDifferenceInSeconds > 0) {
-            const likesPerMinute = (data.dailyStats.likes / timeDifferenceInSeconds) * 60;
-            const affirmationCountPerMinute = (data.dailyStats.affirmationCount / timeDifferenceInSeconds) * 60;
+      if (timeDifferenceInSeconds > 0) {
+        const likesPerMinute =
+          (data.dailyStats.likes / timeDifferenceInSeconds) * 60;
+        const affirmationCountPerMinute =
+          (data.dailyStats.affirmationCount / timeDifferenceInSeconds) * 60;
 
-    if (likesSpeedEl) likesSpeedEl.textContent = likesPerMinute.toFixed(1);
-    if (affirmationSpeedEl) affirmationSpeedEl.textContent = affirmationCountPerMinute.toFixed(1);
-        } else {
-            // Handle cases where time difference is zero or negative (should not happen with valid data)
-            if (likesSpeedEl) likesSpeedEl.textContent = 'N/A';
-            if (affirmationSpeedEl) affirmationSpeedEl.textContent = 'N/A';
-        }
+        if (likesSpeedEl) likesSpeedEl.textContent = likesPerMinute.toFixed(1);
+        if (affirmationSpeedEl)
+          affirmationSpeedEl.textContent = affirmationCountPerMinute.toFixed(1);
+      } else {
+        // Handle cases where time difference is zero or negative (should not happen with valid data)
+        if (likesSpeedEl) likesSpeedEl.textContent = "N/A";
+        if (affirmationSpeedEl) affirmationSpeedEl.textContent = "N/A";
+      }
     } else {
-        // If lastInitializedDate is not available or elements are missing, display placeholder
-        if (likesSpeedEl) likesSpeedEl.textContent = '---';
-        if (affirmationSpeedEl) affirmationSpeedEl.textContent = '---';
+      // If lastInitializedDate is not available or elements are missing, display placeholder
+      if (likesSpeedEl) likesSpeedEl.textContent = "---";
+      if (affirmationSpeedEl) affirmationSpeedEl.textContent = "---";
     }
     // --- End of new logic ---
 
     // --- New logic for bskyrate ---
-    const bskyrateHourlyEl = document.getElementById('bskyrate-hourly');
-    if (data.dailyStats && data.dailyStats.bskyrate && data.dailyStats.lastInitializedDate && bskyrateHourlyEl) {
-        const now = new Date();
-        const lastInitializedDate = new Date(data.dailyStats.lastInitializedDate);
-        const timeDifferenceInSeconds = (now.getTime() - lastInitializedDate.getTime()) / 1000;
+    const bskyrateHourlyEl = document.getElementById("bskyrate-hourly");
+    if (
+      data.dailyStats &&
+      data.dailyStats.bskyrate &&
+      data.dailyStats.lastInitializedDate &&
+      bskyrateHourlyEl
+    ) {
+      const now = new Date();
+      const lastInitializedDate = new Date(data.dailyStats.lastInitializedDate);
+      const timeDifferenceInSeconds =
+        (now.getTime() - lastInitializedDate.getTime()) / 1000;
 
-        if (timeDifferenceInSeconds > 0) {
-            const bskyratePerHour = (data.dailyStats.bskyrate / timeDifferenceInSeconds) * 3600;
-            if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = bskyratePerHour.toFixed(1);
-        } else {
-            if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = 'N/A';
-        }
+      if (timeDifferenceInSeconds > 0) {
+        const bskyratePerHour =
+          (data.dailyStats.bskyrate / timeDifferenceInSeconds) * 3600;
+        if (bskyrateHourlyEl)
+          bskyrateHourlyEl.textContent = bskyratePerHour.toFixed(1);
+      } else {
+        if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = "N/A";
+      }
     } else {
-        if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = '---';
+      if (bskyrateHourlyEl) bskyrateHourlyEl.textContent = "---";
     }
     // --- End of new logic ---
   };
 
   function updateJSTTime() {
     const now = new Date();
-    const jst = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+    const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
     const timeString = jst.toISOString().substr(11, 8);
-    const jstTimeEl = document.getElementById('jst-time');
+    const jstTimeEl = document.getElementById("jst-time");
     if (jstTimeEl) jstTimeEl.textContent = timeString;
   }
 
   updateJSTTime();
   setInterval(updateJSTTime, 1000);
 
-  const websocketStatusEl = document.getElementById('websocket-status');
+  const websocketStatusEl = document.getElementById("websocket-status");
 
   socket.onopen = () => {
     if (websocketStatusEl) {
-      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-green-500';
-      websocketStatusEl.title = 'WebSocket接続中';
+      websocketStatusEl.className = "w-3 h-3 rounded-full bg-green-500";
+      websocketStatusEl.title = "WebSocket接続中";
     }
   };
 
   socket.onclose = () => {
     if (websocketStatusEl) {
-      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-red-500';
-      websocketStatusEl.title = 'WebSocket切断';
+      websocketStatusEl.className = "w-3 h-3 rounded-full bg-red-500";
+      websocketStatusEl.title = "WebSocket切断";
     }
   };
 
   socket.onerror = (error) => {
-    console.error('WebSocket Error:', error);
+    console.error("WebSocket Error:", error);
     if (websocketStatusEl) {
-      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-red-500';
-      websocketStatusEl.title = 'WebSocketエラー';
+      websocketStatusEl.className = "w-3 h-3 rounded-full bg-red-500";
+      websocketStatusEl.title = "WebSocketエラー";
     }
   };
 
   // 初期状態の表示
   if (websocketStatusEl) {
     if (socket.readyState === WebSocket.OPEN) {
-      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-green-500';
-      websocketStatusEl.title = 'WebSocket接続中';
+      websocketStatusEl.className = "w-3 h-3 rounded-full bg-green-500";
+      websocketStatusEl.title = "WebSocket接続中";
     } else if (socket.readyState === WebSocket.CONNECTING) {
-      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-yellow-500';
-      websocketStatusEl.title = 'WebSocket接続試行中';
+      websocketStatusEl.className = "w-3 h-3 rounded-full bg-yellow-500";
+      websocketStatusEl.title = "WebSocket接続試行中";
     } else {
-      websocketStatusEl.className = 'w-3 h-3 rounded-full bg-red-500';
-      websocketStatusEl.title = 'WebSocket切断';
+      websocketStatusEl.className = "w-3 h-3 rounded-full bg-red-500";
+      websocketStatusEl.title = "WebSocket切断";
     }
   }
 </script>

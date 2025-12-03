@@ -1,10 +1,11 @@
 ---
-import '../styles/global.css';
-import Layout from '../layouts/Layout.astro'
-import BotStatus from '../components/BotStatus.astro';
-import MoodPanel from '../components/MoodPanel.astro';
-import SimpleIconsBluesky from '../components/icons/SimpleIconsBluesky.astro';
-import SimpleIconsGithub from '../components/icons/SimpleIconsGithub.astro';
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+import BotStatus from "../components/BotStatus.astro";
+import MoodPanel from "../components/MoodPanel.astro";
+import UtilityPanel from "../components/UtilityPanel.astro";
+import SimpleIconsBluesky from "../components/icons/SimpleIconsBluesky.astro";
+import SimpleIconsGithub from "../components/icons/SimpleIconsGithub.astro";
 ---
 
 <Layout title="Botたん紹介">
@@ -14,7 +15,11 @@ import SimpleIconsGithub from '../components/icons/SimpleIconsGithub.astro';
       <h1 class="text-2xl">🦋 全肯定botたんって？</h1>
       <div class="hero-container">
         <div class="fade-in-element">
-          <img src="/images/bot-tan/bsky_bot_hero.png" alt="Botたんの全身イラスト" class="hero-image" />
+          <img
+            src="/images/bot-tan/bsky_bot_hero.png"
+            alt="Botたんの全身イラスト"
+            class="hero-image"
+          />
         </div>
         <div class="flex-1">
           <!-- PROFILE -->
@@ -41,14 +46,35 @@ import SimpleIconsGithub from '../components/icons/SimpleIconsGithub.astro';
           <h2 class="vt323-regular text-4xl mt-4">CURRENT MOOD</h2>
           <div class="mt-2">
             <MoodPanel title="" value="---" id="mood" />
+            <div class="grid grid-cols-3 gap-2 mt-2">
+              <UtilityPanel title="Sleep" value="---" id="utility-sleep" />
+              <UtilityPanel title="WakeUp" value="---" id="utility-wakeup" />
+              <UtilityPanel title="Study" value="---" id="utility-study" />
+              <UtilityPanel
+                title="FreeTime"
+                value="---"
+                id="utility-freetime"
+              />
+              <UtilityPanel title="Relax" value="---" id="utility-relax" />
+            </div>
           </div>
 
           <!-- SNS LINKS -->
           <div class="flex space-x-4 mt-4">
-            <a href="https://bsky.app/profile/bot-tan.suibari.com" target="_blank" rel="noopener noreferrer" class="text-blue-600 text-xl">
+            <a
+              href="https://bsky.app/profile/bot-tan.suibari.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 text-xl"
+            >
               <SimpleIconsBluesky />
             </a>
-            <a href="https://github.com/suibari/bsky-affirmative-bot" target="_blank" rel="noopener noreferrer" class="text-blue-600 text-xl">
+            <a
+              href="https://github.com/suibari/bsky-affirmative-bot"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 text-xl"
+            >
               <SimpleIconsGithub />
             </a>
           </div>
@@ -66,7 +92,11 @@ import SimpleIconsGithub from '../components/icons/SimpleIconsGithub.astro';
       <h1 class="text-2xl">🐱 ラテちゃんって？</h1>
       <div class="hero-container">
         <div class="fade-in-element">
-          <img src="/images/latte-chan/latte_hero.png" alt="ラテちゃん全身イラスト" class="hero-image" />
+          <img
+            src="/images/latte-chan/latte_hero.png"
+            alt="ラテちゃん全身イラスト"
+            class="hero-image"
+          />
         </div>
         <div class="flex-1">
           <!-- PROFILE -->

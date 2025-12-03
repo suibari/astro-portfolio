@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  value: string;
+  id: string;
+}
+
+const { title, value, id } = Astro.props;
+---
+
+<div
+  id={`panel-${id}`}
+  class="bg-gray-100 p-3 rounded-lg text-center transition-colors duration-300"
+>
+  <p class="font-semibold text-gray-700 text-sm">{title}</p>
+  <p id={id} class="text-xl font-bold text-blue-600">{value}</p>
+</div>
