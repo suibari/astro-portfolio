@@ -174,6 +174,8 @@ import RetroStatus from "./RetroStatus.astro";
       const imagePath =
         imageMap[data.status] || "/images/bot-tan/bsky_bot_icon_relax.png"; // Default to Relax if status not found
       moodImageEl.src = imagePath;
+      // Remove opacity-0 to show the image with fade-in transition
+      moodImageEl.classList.remove("opacity-0");
     }
 
     const nextStepTimeEl = document.getElementById("next-step-time");
