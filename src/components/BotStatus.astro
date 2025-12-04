@@ -159,6 +159,23 @@ import RetroStatus from "./RetroStatus.astro";
     const moodEl = document.getElementById("mood");
     if (moodEl) moodEl.textContent = data.mood || "No Status";
 
+    const moodImageEl = document.getElementById(
+      "mood-image",
+    ) as HTMLImageElement;
+    if (moodImageEl && data.status) {
+      const imageMap: { [key: string]: string } = {
+        Sleep: "/images/bot-tan/bsky_bot_icon_sleep.png",
+        WakeUp: "/images/bot-tan/bsky_bot_icon_wakeup.png",
+        Study: "/images/bot-tan/bsky_bot_icon_study.png",
+        FreeTime: "/images/bot-tan/bsky_bot_icon_freetime.png",
+        Relax: "/images/bot-tan/bsky_bot_icon_relax.png",
+      };
+
+      const imagePath =
+        imageMap[data.status] || "/images/bot-tan/bsky_bot_icon_relax.png"; // Default to Relax if status not found
+      moodImageEl.src = imagePath;
+    }
+
     const nextStepTimeEl = document.getElementById("next-step-time");
     if (nextStepTimeEl) {
       if (data.nextStepTime) {
