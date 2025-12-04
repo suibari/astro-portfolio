@@ -11,9 +11,9 @@ const { title, value, id, nextStepId = "next-step-time" } = Astro.props;
 
 <div
   id="mood-container"
-  class="bg-gray-100 p-3 rounded-lg cursor-pointer mb-4 relative flex flex-col md:flex-row md:items-center"
+  class="bg-gray-100 p-3 rounded-lg mb-4 relative flex flex-col md:flex-row items-center"
 >
-  <div class="flex-1">
+  <div class="flex-1 w-full md:w-auto">
     <p class="font-semibold text-gray-700">{title}</p>
     <p id={id} class="text-xl font-bold text-blue-600">{value}</p>
     <div class="text-xs text-gray-500 mt-1">
@@ -24,7 +24,7 @@ const { title, value, id, nextStepId = "next-step-time" } = Astro.props;
     id="mood-image"
     src="/images/bot-tan/bsky_bot_icon_relax.png"
     alt="Mood Icon"
-    class="w-full h-auto object-contain mt-3 md:w-32 md:h-32 md:mt-0 md:mx-0 md:ml-2"
+    class="w-32 h-32 object-contain mt-4 md:mt-0 md:ml-4"
   />
 </div>
 
