@@ -20,16 +20,16 @@ const { title, value, id, nextStepId = "next-step-time" } = Astro.props;
       Next: <span id={nextStepId}>---</span>
     </div>
   </div>
-  <img
+  <!-- <img
     id="mood-image"
     src="/images/bot-tan/bsky_bot_icon_relax.png"
     alt="Mood Icon"
     class="w-32 h-32 object-contain mt-4 md:mt-0 md:ml-4 opacity-0 transition-opacity duration-300"
-  />
+  /> -->
 </div>
 
 <!-- Image Modal -->
-<div
+<!-- <div
   id="image-modal"
   class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
 >
@@ -45,9 +45,9 @@ const { title, value, id, nextStepId = "next-step-time" } = Astro.props;
       class="max-w-full max-h-[80vh] rounded"
     />
   </div>
-</div>
+</div> -->
 
-<script>
+<!-- <script>
   const moodContainer = document.getElementById("mood-container");
   const imageModal = document.getElementById("image-modal");
   const closeModal = document.getElementById("close-modal");
@@ -68,4 +68,4 @@ const { title, value, id, nextStepId = "next-step-time" } = Astro.props;
       }
     });
   }
-</script>
+</script> -->
