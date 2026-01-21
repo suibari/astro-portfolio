@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 export interface ContentProps {
   title: string;
   image: string;
@@ -13,37 +13,49 @@ export interface ContentProps {
 const formatDate = (inputDate: string): string => {
   const date = new Date(inputDate);
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
-const { title, image, tags, description, date, link } = Astro.props as ContentProps;
+const { title, image, tags, description, date, link } =
+  Astro.props as ContentProps;
 ---
-<div class="border border-gray-300 rounded-lg shadow-md overflow-hidden text-center bg-gray-50 hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 mb-5">
+
+<div
+  class="border border-navy-700 rounded-lg shadow-md overflow-hidden text-center bg-navy-800 hover:shadow-lg hover:shadow-navy-900/50 hover:-translate-y-1 transition-transform duration-200 mb-5"
+>
   <a href={link} target="_blank" rel="noopener noreferrer" class="block">
-    {image && (
-      <Image
-        src={image}
-        alt={title}
-        width={200}
-        height={200}
-        class="w-full h-auto object-cover"
-      />
-    )}
+    {
+      image && (
+        <Image
+          src={image}
+          alt={title}
+          width={200}
+          height={200}
+          class="w-full h-auto object-cover"
+        />
+      )
+    }
     <div class="p-4">
-      <h3 class="text-lg font-bold mb-2 text-gray-800">{title}</h3>
-      {tags && (
-        <div class="flex flex-wrap gap-2 mb-2">
-          {tags.map((tag: string) => (
-            <span class="bg-gray-200 text-gray-800 text-sm px-2 py-1 rounded">
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
-      {description && <p class="mb-2">{description}</p>}
-      <p class="text-sm text-gray-600">{formatDate(date)}</p>
+      <h3 class="text-lg font-bold mb-2 text-main">{title}</h3>
+      {
+        tags && (
+          <div class="flex flex-wrap gap-2 mb-2 justify-center">
+            {tags.map((tag: string) => (
+              <span class="bg-navy-700 text-accent-orange text-sm px-2 py-1 rounded border border-navy-600">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+      {
+        description && (
+          <p class="mb-2 text-text-main opacity-90">{description}</p>
+        )
+      }
+      <p class="text-sm text-muted">{formatDate(date)}</p>
     </div>
   </a>
 </div>

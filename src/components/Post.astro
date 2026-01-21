@@ -10,18 +10,35 @@ export interface Props {
 const { text, image, date, link } = Astro.props;
 ---
 
-<article class="border border-gray-300 rounded-lg p-4 bg-gray-50 transition-shadow duration-300 hover:shadow-md">
-  <a href={link} target="_blank" rel="noopener noreferrer" class="block text-inherit">
+<article
+  class="border border-navy-700 rounded-lg p-4 bg-navy-800 transition-shadow duration-300 hover:shadow-lg hover:shadow-navy-900/50"
+>
+  <a
+    href={link}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="block text-inherit"
+  >
     <div class="flex flex-col">
       <div class="flex items-center space-x-4">
-        {image && <img src={image} alt="Bluesky Post Image" class="w-12 h-12 rounded-md" />}
-        <p class="text-base text-gray-800">{text}</p>
+        {
+          image && (
+            <img
+              src={image}
+              alt="Bluesky Post Image"
+              class="w-12 h-12 rounded-md"
+            />
+          )
+        }
+        <p class="text-base text-main">{text}</p>
       </div>
-      <time class="mt-2 text-sm text-gray-500 self-end">
-        {new Date(date).toLocaleString('ja-JP', {
-          timeZone: 'Asia/Tokyo',
-          hour12: false, // 24時間形式
-        })}
+      <time class="mt-2 text-sm text-muted self-end">
+        {
+          new Date(date).toLocaleString("ja-JP", {
+            timeZone: "Asia/Tokyo",
+            hour12: false, // 24時間形式
+          })
+        }
       </time>
     </div>
   </a>
