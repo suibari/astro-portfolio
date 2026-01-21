@@ -1,5 +1,25 @@
 export const developments = [
   {
+    title: "あつめあっと",
+    image: "/images/ogp_atsumeat.png",
+    tags: ["#TypeScript", "#SvelteKit", "#ATProtocol", "#Bluesky", "#CloudflarePages"],
+    description: "デジタルシール交換",
+    date: "2026-01-14",
+    link: "https://atsuumeat.suibari.com/",
+    repoName: "bsky_AtsumeAt",
+    repoUrl: "https://github.com/suibari/bsky_AtsumeAt",
+  },
+  {
+    title: "TriLinesAt",
+    image: "/images/ogp_trilinesat.png",
+    tags: ["#TypeScript", "#SvelteKit", "#ATProtocol", "#Bluesky", "#CloudflarePages"],
+    description: "ポジティブ3行日記",
+    date: "2026-01-04",
+    link: "https://trilinesat.suibari.com/",
+    repoName: "bsky_TriLinesAt",
+    repoUrl: "https://github.com/suibari/bsky_TriLinesAt",
+  },
+  {
     title: "てのりbotたん",
     image: "/images/tenori_bot.jpg",
     tags: ["#C++", "#M5Stack", "#Gemini", "#SpeechToSpeech"],
@@ -9,7 +29,7 @@ export const developments = [
     repoName: "m5stack-tenori-bot",
     repoUrl: "https://github.com/suibari/m5stack-tenori-bot",
   },
-    {
+  {
     title: "SkyPutter",
     image: "/images/skyputter.png",
     tags: ["#Kotlin", "#Android", "#ATprotocol", "#Bluesky"],
