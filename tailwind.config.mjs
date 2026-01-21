@@ -10,7 +10,7 @@ export default {
         'navy-900': '#0a192f',
         'navy-800': '#112240',
         'navy-700': '#233554',
-        'accent-orange': '#ff6b6b',
+        'accent-orange': '#FF9F1C',
         'text-main': '#ccd6f6',
         'text-muted': '#8892b0',
         // Keeping legacy colors temporarily if needed, but intended to be replaced
