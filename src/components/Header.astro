@@ -2,37 +2,59 @@
 import SimpleLineIconsMenu from "./icons/SimpleLineIconsMenu.astro";
 ---
 
-<header class="sticky top-0 z-20 bg-dark-blue shadow-md">
+<header
+  class="sticky top-0 z-50 bg-navy-900/80 backdrop-blur-md border-b border-navy-700 shadow-lg"
+>
   <nav class="flex justify-between items-center px-6 md:px-16 lg:px-32 py-4">
     <!-- ロゴ -->
     <a
       href="/"
-      class="text-gray-100 hover:text-orange-600 text-4xl vt323-regular"
+      class="text-accent-orange hover:text-white transition-colors duration-300 text-4xl vt323-regular drop-shadow-[0_0_5px_rgba(255,159,28,0.5)]"
     >
       S.O.S.!!
     </a>
 
     <!-- デスクトップメニュー -->
     <div class="hidden md:flex space-x-12">
-      <a href="/character" class="text-gray-100 hover:text-orange-600"
+      <a
+        href="/character"
+        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
         >Character</a
       >
       <a
         href="https://guestbook.suibari.com/"
         target="_blank"
-        class="text-gray-100 hover:text-orange-600">GuestBook</a
+        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
+        >GuestBook</a
       >
-      <a href="/develop" class="text-gray-100 hover:text-orange-600"
+      <a
+        href="/develop"
+        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
         >Developments</a
       >
-      <a href="/illust" class="text-gray-100 hover:text-orange-600">Illusts</a>
-      <a href="/blog" class="text-gray-100 hover:text-orange-600">Blog</a>
-      <a href="/about" class="text-gray-100 hover:text-orange-600">About</a>
+      <a
+        href="/illust"
+        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
+        >Illusts</a
+      >
+      <a
+        href="/blog"
+        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
+        >Blog</a
+      >
+      <a
+        href="/about"
+        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
+        >About</a
+      >
     </div>
 
     <!-- ハンバーガーメニュー -->
     <div class="md:hidden">
-      <button id="menu-toggle" class="text-gray-100 hover:text-orange-600">
+      <button
+        id="menu-toggle"
+        class="text-text-main hover:text-accent-orange transition-colors duration-300"
+      >
         <!-- Simple Icons でハンバーガーアイコン -->
         <SimpleLineIconsMenu />
       </button>
@@ -42,18 +64,39 @@ import SimpleLineIconsMenu from "./icons/SimpleLineIconsMenu.astro";
   <!-- モバイル用メニュー -->
   <div
     id="mobile-menu"
-    class="hidden bg-dark-blue text-white space-y-2 text-right p-4 md:hidden"
+    class="hidden bg-navy-800/95 backdrop-blur-xl text-text-main space-y-4 text-center p-6 md:hidden border-t border-navy-700 absolute w-full shadow-2xl"
   >
-    <a href="/character" class="block hover:text-orange-600">Character</a>
+    <a
+      href="/character"
+      class="block hover:text-accent-orange py-2 transition-colors duration-300"
+      >Character</a
+    >
     <a
       href="https://guestbook.suibari.com/"
       target="_blank"
-      class="block hover:text-orange-600">GuestBook</a
+      class="block hover:text-accent-orange py-2 transition-colors duration-300"
+      >GuestBook</a
     >
-    <a href="/develop" class="block hover:text-orange-600">Developments</a>
-    <a href="/illust" class="block hover:text-orange-600">Illusts</a>
-    <a href="/blog" class="block hover:text-orange-600">Blog</a>
-    <a href="/about" class="block hover:text-orange-600">About</a>
+    <a
+      href="/develop"
+      class="block hover:text-accent-orange py-2 transition-colors duration-300"
+      >Developments</a
+    >
+    <a
+      href="/illust"
+      class="block hover:text-accent-orange py-2 transition-colors duration-300"
+      >Illusts</a
+    >
+    <a
+      href="/blog"
+      class="block hover:text-accent-orange py-2 transition-colors duration-300"
+      >Blog</a
+    >
+    <a
+      href="/about"
+      class="block hover:text-accent-orange py-2 transition-colors duration-300"
+      >About</a
+    >
   </div>
 </header>
 

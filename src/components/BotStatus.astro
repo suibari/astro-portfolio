@@ -5,20 +5,22 @@ import TopPostPanel from "./TopPostPanel.astro";
 import RetroStatus from "./RetroStatus.astro";
 ---
 
-<div class="bg-white rounded-lg">
-  <h2 class="text-2xl font-bold mb-4 flex items-center">
+<div class="bg-transparent rounded-lg">
+  <h2
+    class="text-2xl font-bold mb-4 flex items-center text-accent-orange drop-shadow-[0_0_5px_rgba(255,107,107,0.3)]"
+  >
     💖 Botたんのきもち (リアルタイム更新)
   </h2>
-  <p class="text-gray-600 mb-4 flex gap-2 items-center">
+  <p class="text-text-muted mb-4 flex gap-2 items-center">
     <span id="websocket-status" class="w-3 h-3 rounded-full"></span>
     <strong>現在時刻(JST):</strong>
     <span id="jst-time" class="mr-2">--:--:--</span>
   </p>
 
-  <h2 class="vt323-regular text-4xl mt-4">ABILITY SCORE</h2>
+  <h2 class="vt323-regular text-4xl mt-4 text-accent-orange">ABILITY SCORE</h2>
   <RetroStatus />
 
-  <h2 class="vt323-regular text-4xl mt-4">DAILY STATS</h2>
+  <h2 class="vt323-regular text-4xl mt-4 text-accent-orange">DAILY STATS</h2>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
     <StatusPanel title="増えたフォロワー" value="---" id="followers" />
     <StatusPanel title="いいねされた回数" value="---" id="likes" />
@@ -49,7 +51,9 @@ import RetroStatus from "./RetroStatus.astro";
     <ChartPanel title="フォロワーの使用言語" canvasId="lang-chart" />
   </div>
 
-  <h2 class="vt323-regular text-4xl mt-4">BOT-TAN's RECOMMENDATION POST</h2>
+  <h2 class="vt323-regular text-4xl mt-4 text-accent-orange">
+    BOT-TAN's RECOMMENDATION POST
+  </h2>
   <TopPostPanel title="" />
   <StatusPanel title="botたんのコメント:" value="---" id="daily-comment" />
 </div>

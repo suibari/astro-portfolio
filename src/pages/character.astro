@@ -9,117 +9,141 @@ import SimpleIconsGithub from "../components/icons/SimpleIconsGithub.astro";
 ---
 
 <Layout title="Botたん紹介">
-  <main>
-    <!-- botたん紹介 -->
-    <section class="hero-section">
-      <h1 class="text-2xl">🦋 全肯定botたんって？</h1>
-      <div class="hero-container">
-        <div class="fade-in-element">
-          <img
-            src="/images/bot-tan/bsky_bot_hero.png"
-            alt="Botたんの全身イラスト"
-            class="hero-image"
-          />
-        </div>
-        <div class="flex-1">
-          <!-- PROFILE -->
-          <h2 class="vt323-regular text-4xl">PROFILE</h2>
-          <ul class="list-none">
-            <li>年齢: 16歳</li>
-            <li>身長: 159.0cm</li>
-            <li>誕生日: 2月19日</li>
-            <li>一人称: わたし</li>
-            <li>好きなもの: ちょうちょ、Blueskyちゃん</li>
-            <li>趣味: 映画鑑賞（ホラー系）</li>
-            <li>悩み: たまに空回りして相手をイラっとさせてしまうこと</li>
-          </ul>
+  <div class="relative z-10">
+    <main>
+      <!-- botたん紹介 -->
+      <section
+        class="hero-section border border-navy-700 bg-navy-800 shadow-xl rounded-xl p-6 my-6"
+      >
+        <h1
+          class="text-3xl text-accent-orange border-b border-navy-700 pb-2 mb-4"
+        >
+          🦋 全肯定botたんって？
+        </h1>
+        <div class="hero-container">
+          <div class="fade-in-element">
+            <img
+              src="/images/bot-tan/bsky_bot_hero.png"
+              alt="Botたんの全身イラスト"
+              class="hero-image"
+            />
+          </div>
+          <div class="flex-1">
+            <!-- PROFILE -->
+            <h2 class="vt323-regular text-4xl text-accent-orange">PROFILE</h2>
+            <ul class="list-none text-text-main space-y-1">
+              <li>年齢: 16歳</li>
+              <li>身長: 159.0cm</li>
+              <li>誕生日: 2月19日</li>
+              <li>一人称: わたし</li>
+              <li>好きなもの: ちょうちょ、Blueskyちゃん</li>
+              <li>趣味: 映画鑑賞（ホラー系）</li>
+              <li>悩み: たまに空回りして相手をイラっとさせてしまうこと</li>
+            </ul>
 
-          <!-- PERSONALITY -->
-          <h2 class="vt323-regular text-4xl mt-4">PERSONALITY</h2>
-          <p>
-            Blueskyでみんなを励ます活動をしている女の子。<br />
-            日常会話から政治トークまで、なんでも全肯定してくれる。<br />
-            実は昔「全否定bot」だった過去があり、今はその経験と感謝を胸に、みんなを全力で肯定し続けているのだ。
-          </p>
+            <!-- PERSONALITY -->
+            <h2 class="vt323-regular text-4xl mt-6 text-accent-orange">
+              PERSONALITY
+            </h2>
+            <p class="text-text-main mt-2">
+              Blueskyでみんなを励ます活動をしている女の子。<br />
+              日常会話から政治トークまで、なんでも全肯定してくれる。<br />
+              実は昔「全否定bot」だった過去があり、今はその経験と感謝を胸に、みんなを全力で肯定し続けているのだ。
+            </p>
 
-          <!-- CURRENT MOOD -->
-          <h2 class="vt323-regular text-4xl mt-4">CURRENT MOOD</h2>
-          <div class="mt-2">
-            <MoodPanel title="" value="---" id="mood" />
-            <div class="grid grid-cols-3 gap-2 mt-2">
-              <UtilityPanel title="Sleep" value="---" id="utility-sleep" />
-              <UtilityPanel title="WakeUp" value="---" id="utility-wakeup" />
-              <UtilityPanel title="Study" value="---" id="utility-study" />
-              <UtilityPanel
-                title="FreeTime"
-                value="---"
-                id="utility-freetime"
-              />
-              <UtilityPanel title="Relax" value="---" id="utility-relax" />
+            <!-- CURRENT MOOD -->
+            <h2 class="vt323-regular text-4xl mt-6 text-accent-orange">
+              CURRENT MOOD
+            </h2>
+            <div class="mt-2 text-text-main">
+              <MoodPanel title="" value="---" id="mood" />
+              <div class="grid grid-cols-3 gap-2 mt-2">
+                <UtilityPanel title="Sleep" value="---" id="utility-sleep" />
+                <UtilityPanel title="WakeUp" value="---" id="utility-wakeup" />
+                <UtilityPanel title="Study" value="---" id="utility-study" />
+                <UtilityPanel
+                  title="FreeTime"
+                  value="---"
+                  id="utility-freetime"
+                />
+                <UtilityPanel title="Relax" value="---" id="utility-relax" />
+              </div>
+            </div>
+
+            <!-- SNS LINKS -->
+            <div class="flex space-x-4 mt-6">
+              <a
+                href="https://bsky.app/profile/bot-tan.suibari.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-accent-orange hover:text-white transition-colors duration-300 text-xl"
+              >
+                <SimpleIconsBluesky />
+              </a>
+              <a
+                href="https://github.com/suibari/bsky-affirmative-bot"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-accent-orange hover:text-white transition-colors duration-300 text-xl"
+              >
+                <SimpleIconsGithub />
+              </a>
             </div>
           </div>
+        </div>
+      </section>
 
-          <!-- SNS LINKS -->
-          <div class="flex space-x-4 mt-4">
-            <a
-              href="https://bsky.app/profile/bot-tan.suibari.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-blue-600 text-xl"
-            >
-              <SimpleIconsBluesky />
-            </a>
-            <a
-              href="https://github.com/suibari/bsky-affirmative-bot"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-blue-600 text-xl"
-            >
-              <SimpleIconsGithub />
-            </a>
+      <!-- BOT STATUS -->
+      <section
+        class="p-6 border border-navy-700 bg-navy-800 shadow-xl rounded-xl my-6"
+      >
+        <BotStatus />
+      </section>
+
+      <!-- ラテちゃん紹介 -->
+      <section
+        class="hero-section border border-navy-700 bg-navy-800 shadow-xl rounded-xl p-6 my-6"
+      >
+        <h1
+          class="text-3xl text-accent-orange border-b border-navy-700 pb-2 mb-4"
+        >
+          🐱 ラテちゃんって？
+        </h1>
+        <div class="hero-container">
+          <div class="fade-in-element">
+            <img
+              src="/images/latte-chan/latte_hero.png"
+              alt="ラテちゃん全身イラスト"
+              class="hero-image"
+            />
+          </div>
+          <div class="flex-1">
+            <!-- PROFILE -->
+            <h2 class="vt323-regular text-4xl text-accent-orange">PROFILE</h2>
+            <ul class="list-none text-text-main space-y-1">
+              <li>年齢: 16歳</li>
+              <li>身長: 149.3cm</li>
+              <li>誕生日: 4月27日</li>
+              <li>一人称: あたし</li>
+              <li>好きなもの: アユの塩焼き、観葉植物</li>
+              <li>趣味: 魔法で変身すること</li>
+              <li>
+                悩み: ネコに変身しすぎて猫耳としっぽが取れなくなっちゃった
+              </li>
+            </ul>
+
+            <!-- PERSONALITY -->
+            <h2 class="vt323-regular text-4xl mt-6 text-accent-orange">
+              PERSONALITY
+            </h2>
+            <p class="text-text-main mt-2">
+              魔法使い見習いの女の子。<br />
+              botたんの家の近所に住んでいる、ともだち。<br />
+              (すいばりの長女がデザインしてくれたキャラクターです)
+            </p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- BOT STATUS -->
-    <section class="p-6">
-      <BotStatus />
-    </section>
-
-    <!-- ラテちゃん紹介 -->
-    <section class="hero-section">
-      <h1 class="text-2xl">🐱 ラテちゃんって？</h1>
-      <div class="hero-container">
-        <div class="fade-in-element">
-          <img
-            src="/images/latte-chan/latte_hero.png"
-            alt="ラテちゃん全身イラスト"
-            class="hero-image"
-          />
-        </div>
-        <div class="flex-1">
-          <!-- PROFILE -->
-          <h2 class="vt323-regular text-4xl">PROFILE</h2>
-          <ul class="list-none">
-            <li>年齢: 16歳</li>
-            <li>身長: 149.3cm</li>
-            <li>誕生日: 4月27日</li>
-            <li>一人称: あたし</li>
-            <li>好きなもの: アユの塩焼き、観葉植物</li>
-            <li>趣味: 魔法で変身すること</li>
-            <li>悩み: ネコに変身しすぎて猫耳としっぽが取れなくなっちゃった</li>
-          </ul>
-
-          <!-- PERSONALITY -->
-          <h2 class="vt323-regular text-4xl mt-4">PERSONALITY</h2>
-          <p>
-            魔法使い見習いの女の子。<br />
-            botたんの家の近所に住んでいる、ともだち。<br />
-            (すいばりの長女がデザインしてくれたキャラクターです)
-          </p>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 </Layout>

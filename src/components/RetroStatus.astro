@@ -1,20 +1,24 @@
 ---
+
 ---
-<div class="font-dot border-2 border-white bg-black text-white p-4 rounded-md mb-4 text-2xl">
+
+<div
+  class="font-dot border-2 border-navy-500 bg-black text-text-main p-4 rounded-md mb-4 text-2xl shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+>
   <div class="grid grid-cols-2 gap-x-4 gap-y-2">
     <p>ぜんこうていbotたん</p>
     <p>しょくぎょう：JK</p>
     <p>レベル：<span id="level">1</span></p>
     <div class="col-span-2">
       <p>元気：<span id="energy-percentage">---%</span></p>
-      <div id="energy-meter-container" class="border-2 border-white p-1 h-8">
+      <div id="energy-meter-container" class="border-2 border-navy-500 p-1 h-8">
         <div id="energy-meter" class="flex h-full">
           <!-- メーターの目盛りはScriptで生成 -->
         </div>
       </div>
     </div>
   </div>
-  <div class="border-t border-white my-2"></div>
+  <div class="border-t border-navy-500 my-2"></div>
   <div class="grid grid-cols-2 gap-x-4 gap-y-2">
     <p>全肯定力：<span id="affirmation-power">---</span></p>
     <p>Bluesky愛：<span id="bsky-love">---</span></p>
@@ -29,7 +33,7 @@
 
 <style>
   .font-dot {
-    font-family: 'DotGothic16', sans-serif;
+    font-family: "DotGothic16", sans-serif;
   }
   .meter-segment {
     /* No specific styles needed here anymore */
@@ -37,48 +41,53 @@
 </style>
 
 <script>
-  document.addEventListener('botStatusUpdated', (event: any) => {
+  document.addEventListener("botStatusUpdated", (event: any) => {
     const data = event.detail;
 
     // --- New logic for Retro Status ---
     if (data.totalStats) {
-      const levelEl = document.getElementById('level');
+      const levelEl = document.getElementById("level");
       if (levelEl) {
         const level = Math.floor(data.totalStats.followers / 100) + 1 || 1;
         levelEl.textContent = level.toString();
       }
 
-      const affirmationPowerEl = document.getElementById('affirmation-power');
+      const affirmationPowerEl = document.getElementById("affirmation-power");
       if (affirmationPowerEl) {
         const power = Math.floor(data.totalStats.affirmationCount / 1000);
         affirmationPowerEl.textContent = power.toString();
       }
 
-      const bskyLoveEl = document.getElementById('bsky-love');
+      const bskyLoveEl = document.getElementById("bsky-love");
       if (bskyLoveEl) {
         const love = Math.floor(data.totalStats.likes / 1000);
         bskyLoveEl.textContent = love.toString();
       }
 
-      const talkPowerEl = document.getElementById('talk-power');
+      const talkPowerEl = document.getElementById("talk-power");
       if (talkPowerEl) {
         const talkPower = Math.floor(data.totalStats.reply / 100);
         talkPowerEl.textContent = talkPower.toString();
       }
 
-      const intelligenceEl = document.getElementById('intelligence');
-      if (intelligenceEl) intelligenceEl.textContent = data.totalStats.analysis ?? '---';
+      const intelligenceEl = document.getElementById("intelligence");
+      if (intelligenceEl)
+        intelligenceEl.textContent = data.totalStats.analysis ?? "---";
 
-      const luckEl = document.getElementById('luck');
-      if (luckEl) luckEl.textContent = data.totalStats.fortune ?? '---';
+      const luckEl = document.getElementById("luck");
+      if (luckEl) luckEl.textContent = data.totalStats.fortune ?? "---";
 
-      const spreadPowerEl = document.getElementById('spread-power');
-      if (spreadPowerEl) spreadPowerEl.textContent = data.totalStats.cheer ?? '---';
+      const spreadPowerEl = document.getElementById("spread-power");
+      if (spreadPowerEl)
+        spreadPowerEl.textContent = data.totalStats.cheer ?? "---";
 
-      const partyPeopleDegreeEl = document.getElementById('party-people-degree');
-      if (partyPeopleDegreeEl) partyPeopleDegreeEl.textContent = data.totalStats.dj ?? '---';
+      const partyPeopleDegreeEl = document.getElementById(
+        "party-people-degree",
+      );
+      if (partyPeopleDegreeEl)
+        partyPeopleDegreeEl.textContent = data.totalStats.dj ?? "---";
 
-      const magicPowerEl = document.getElementById('magic-power');
+      const magicPowerEl = document.getElementById("magic-power");
       if (magicPowerEl) {
         const power = Math.floor(data.totalStats.anniversary / 1000);
         magicPowerEl.textContent = power.toString();
@@ -86,27 +95,31 @@
     }
     // --- End of new logic for Retro Status ---
 
-    const energyMeterEl = document.getElementById('energy-meter');
-    const energyPercentageEl = document.getElementById('energy-percentage');
+    const energyMeterEl = document.getElementById("energy-meter");
+    const energyPercentageEl = document.getElementById("energy-percentage");
 
-    if (energyMeterEl && energyPercentageEl && typeof data.energy === 'number') {
+    if (
+      energyMeterEl &&
+      energyPercentageEl &&
+      typeof data.energy === "number"
+    ) {
       const energy = data.energy;
       energyPercentageEl.textContent = energy.toFixed(1) + "%";
       const meterCount = 20;
       const activeMeters = Math.round(energy / 5);
 
-      energyMeterEl.innerHTML = ''; // メーターをクリア
-      energyMeterEl.style.display = 'grid';
+      energyMeterEl.innerHTML = ""; // メーターをクリア
+      energyMeterEl.style.display = "grid";
       energyMeterEl.style.gridTemplateColumns = `repeat(${meterCount}, 1fr)`;
-      energyMeterEl.style.gap = '2px';
+      energyMeterEl.style.gap = "2px";
 
       for (let i = 0; i < meterCount; i++) {
-        const meter = document.createElement('div');
-        meter.className = 'h-full';
+        const meter = document.createElement("div");
+        meter.className = "h-full";
         if (i < activeMeters) {
-          meter.style.backgroundColor = energy >= 60 ? '#66ff66' : '#ff6666'; // 明るい緑 or 明るい赤
+          meter.style.backgroundColor = energy >= 60 ? "#66ff66" : "#ff6666"; // 明るい緑 or 明るい赤
         } else {
-          meter.style.backgroundColor = '#333333'; // 背景色
+          meter.style.backgroundColor = "#333333"; // 背景色
         }
         energyMeterEl.appendChild(meter);
       }

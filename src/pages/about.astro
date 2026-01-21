@@ -1,55 +1,83 @@
 ---
-import '../styles/global.css';
-import Layout from '../layouts/Layout.astro';
-import IconsSNS from '../components/IconsSNS.astro';
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+import IconsSNS from "../components/IconsSNS.astro";
 ---
+
 <Layout>
-  <section class="p-8 max-w-4xl mx-auto">
-    <div class="flex-col">
-      <h2 class="text-3xl vt323-regular mb-4">About me</h2>
-      <p class="text-lg mb-6">
-        はじめまして！
-      </p>
-      <p class="text-lg mb-6">
-        このサイトは すいばり の作品や活動をまとめたものです<br>
-        主に開発・イラスト・ブログを中心に活動しています
-      </p>
-    </div>
-    
-    <h2 class="text-3xl vt323-regular mt-8 mb-4">OFUSE</h2>
-    <p class="text-lg mb-6">
-      このサイトおよび、それぞれの開発物はすいばり個人で運用管理しており、あなたの応援が励みになります<br>
-      もしよければ以下のボタンから支援を送っていただけるとたいへん嬉しいです<br>
-    </p>
-
-    <!-- OFUSE -->
-    <div class="flex justify-center my-6">
-      <a data-ofuse-widget-button href="https://ofuse.me/o?uid=85918" data-ofuse-id="85918" data-ofuse-size="large" data-ofuse-color="dark-invert" data-ofuse-style="rectangle">
-        OFUSEで応援を送る
-      </a>
-      <script async src="https://ofuse.me/assets/platform/widget.js" charset="utf-8" is:inline></script>
-    </div>
-
-    <p class="text-lg mb-6">
-      おふせは以下に使わせていただきます！
-    </p>
-
-    <ul class="list-disc space-y-1">
-      <li>毎日をがんばるためのコーヒー1杯</li>
-      <li>開発物の運用管理費(サーバ電気代など)</li>
-      <li>イラストの機材費</li>
-      <li>開発やイラストの勉強費用(書籍など)</li>
-      <li>次回作品へのモチベーション！</li>
-    </ul>
-
-    <div class="mt-8 flex-col w-full">
-      <h2 class="text-3xl vt323-regular mt-8 mb-4">Contact</h2>
-      <p class="text-lg mb-4">
-        ご意見やご感想がありましたら、以下SNSからお気軽にお知らせください
-      </p>
-      <div class="flex justify-center">
-        <IconsSNS />
+  <div class="relative z-10">
+    <section
+      class="p-8 max-w-4xl mx-auto border border-navy-700 bg-navy-800 shadow-xl rounded-xl my-8"
+    >
+      <div class="flex-col">
+        <h2
+          class="text-3xl vt323-regular mb-4 text-accent-orange border-b border-navy-700 pb-2"
+        >
+          About me
+        </h2>
+        <p class="text-lg mb-6 text-text-main">はじめまして！</p>
+        <p class="text-lg mb-6 text-text-main">
+          このサイトは すいばり の作品や活動をまとめたものです<br />
+          主に開発・イラスト・ブログを中心に活動しています
+        </p>
       </div>
-    </div>
-  </section>
+
+      <h2
+        class="text-3xl vt323-regular mt-8 mb-4 text-accent-orange border-b border-navy-700 pb-2"
+      >
+        OFUSE
+      </h2>
+      <p class="text-lg mb-6 text-text-main">
+        このサイトおよび、それぞれの開発物はすいばり個人で運用管理しており、あなたの応援が励みになります<br
+        />
+        もしよければ以下のボタンから支援を送っていただけるとたいへん嬉しいです<br
+        />
+      </p>
+
+      <!-- OFUSE -->
+      <div class="flex justify-center my-6">
+        <a
+          data-ofuse-widget-button
+          href="https://ofuse.me/o?uid=85918"
+          data-ofuse-id="85918"
+          data-ofuse-size="large"
+          data-ofuse-color="dark-invert"
+          data-ofuse-style="rectangle"
+        >
+          OFUSEで応援を送る
+        </a>
+        <script
+          async
+          src="https://ofuse.me/assets/platform/widget.js"
+          charset="utf-8"
+          is:inline></script>
+      </div>
+
+      <p class="text-lg mb-6 text-text-main">
+        おふせは以下に使わせていただきます！
+      </p>
+
+      <ul class="list-disc space-y-1 pl-6 text-text-muted">
+        <li>毎日をがんばるためのコーヒー1杯</li>
+        <li>開発物の運用管理費(サーバ電気代など)</li>
+        <li>イラストの機材費</li>
+        <li>開発やイラストの勉強費用(書籍など)</li>
+        <li>次回作品へのモチベーション！</li>
+      </ul>
+
+      <div class="mt-8 flex-col w-full">
+        <h2
+          class="text-3xl vt323-regular mt-8 mb-4 text-accent-orange border-b border-navy-700 pb-2"
+        >
+          Contact
+        </h2>
+        <p class="text-lg mb-4 text-text-main">
+          ご意見やご感想がありましたら、以下SNSからお気軽にお知らせください
+        </p>
+        <div class="flex justify-center">
+          <IconsSNS />
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>

@@ -1,44 +1,62 @@
 ---
-import '../styles/global.css';
-import Layout from '../layouts/Layout.astro';
-import { developments } from '../data/developments';
-import Content from '../components/Content.astro';
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+import { developments } from "../data/developments";
+import Content from "../components/Content.astro";
 
 // Extract unique tags
-const allTags = developments.flatMap(item => item.tags);
+const allTags = developments.flatMap((item) => item.tags);
 const uniqueTags = [...new Set(allTags)];
 ---
+
 <Layout>
   <div class="relative z-10 md:px-20">
     <!-- Tag filtering section -->
-    <div class="p-4">
-      <h1 class="text-4xl vt323-regular mb-4 text-center md:text-left">DEVELOPMENT NEWS</h1>
+    <div class="p-6">
+      <h1
+        class="text-4xl vt323-regular mb-4 text-center md:text-left text-accent-orange drop-shadow-[0_0_5px_rgba(255,107,107,0.3)]"
+      >
+        DEVELOPMENT NEWS
+      </h1>
       <div class="flex flex-wrap gap-2 mb-4">
         <button
-          class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 tag-button"
+          class="px-4 py-2 rounded-md border border-navy-700 bg-navy-800 text-text-main hover:bg-navy-700 hover:text-accent-orange transition-colors focus:outline-none focus:ring-2 focus:ring-accent-orange tag-button"
           onclick="filterItems('All')"
         >
           All
         </button>
-        {uniqueTags.map(tag => (
-          <button
-            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 tag-button"
-            onclick={`filterItems('${tag}')`}
-          >
-            {tag}
-          </button>
-        ))}
+        {
+          uniqueTags.map((tag) => (
+            <button
+              class="px-4 py-2 rounded-md border border-navy-700 bg-navy-800 text-text-main hover:bg-navy-700 hover:text-accent-orange transition-colors focus:outline-none focus:ring-2 focus:ring-accent-orange tag-button"
+              onclick={`filterItems('${tag}')`}
+            >
+              {tag}
+            </button>
+          ))
+        }
       </div>
     </div>
 
     <!-- Development items grid -->
     <div class="fade-in-element">
-      <div id="developments-grid" class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
-        {developments.map((item) => (
-          <div class="content-item" data-tags={item.tags.join(',')}>
-            <Content title={item.title} image={item.image} date={item.date} link={item.link} tags={item.tags} />
-          </div>
-        ))}
+      <div
+        id="developments-grid"
+        class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2"
+      >
+        {
+          developments.map((item) => (
+            <div class="content-item" data-tags={item.tags.join(",")}>
+              <Content
+                title={item.title}
+                image={item.image}
+                date={item.date}
+                link={item.link}
+                tags={item.tags}
+              />
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>
