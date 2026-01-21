@@ -11,12 +11,17 @@ const { title, value, id, nextStepId = "next-step-time" } = Astro.props;
 
 <div
   id="mood-container"
-  class="bg-gray-100 p-3 rounded-lg mb-4 relative flex flex-col md:flex-row items-center"
+  class="bg-navy-700 p-3 rounded-lg mb-4 relative flex flex-col md:flex-row items-center shadow-lg border border-navy-600"
 >
   <div class="flex-1 w-full md:w-auto">
-    <p class="font-semibold text-gray-700">{title}</p>
-    <p id={id} class="text-xl font-bold text-blue-600">{value}</p>
-    <div class="text-xs text-gray-500 mt-1">
+    <p class="font-semibold text-text-muted">{title}</p>
+    <p
+      id={id}
+      class="text-xl font-bold text-accent-orange drop-shadow-[0_0_2px_rgba(255,159,28,0.5)]"
+    >
+      {value}
+    </p>
+    <div class="text-xs text-text-muted mt-1">
       Next: <span id={nextStepId}>---</span>
     </div>
   </div>
