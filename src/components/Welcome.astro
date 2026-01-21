@@ -3,16 +3,116 @@ import IconsSNS from "./IconsSNS.astro";
 ---
 
 <div class="flex flex-col items-start p-2">
-	<h1
-		class="lg:text-9xl text-8xl font-bold text-accent-orange vt323-regular drop-shadow-[0_0_10px_rgba(255,107,107,0.5)]"
-	>
-		S.O.S.!!
-	</h1>
-	<h2 class="text-xl dela-gothic-one-regular text-main">
-		世界を<br />
-		大いに盛り上げるための<br />
-		すいばり のサイト
-	</h2>
+	<div class="relative">
+		<h1
+			id="typing-title"
+			class="lg:text-9xl text-8xl font-bold text-accent-orange vt323-regular drop-shadow-[0_0_10px_rgba(255,107,107,0.5)] min-h-[0.8em]"
+		>
+		</h1>
+		<span
+			id="cursor-title"
+			class="cursor text-accent-orange lg:text-9xl text-8xl absolute top-0 -right-4 md:-right-8"
+			>_</span
+		>
+	</div>
+
+	<div class="relative mt-2">
+		<h2
+			id="typing-subtitle"
+			class="text-xl dela-gothic-one-regular text-main min-h-[4.5em] whitespace-pre-line leading-relaxed"
+		>
+		</h2>
+		<span
+			id="cursor-subtitle"
+			class="cursor text-main text-xl absolute top-0 hidden">_</span
+		>
+	</div>
 
 	<IconsSNS />
 </div>
+
+<style>
+	.cursor {
+		animation: blink 1s step-end infinite;
+		font-family: "VT323", monospace;
+	}
+
+	@keyframes blink {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0;
+		}
+	}
+</style>
+
+<script>
+	const titleText = "S.O.S.!!";
+	const subtitleText = "世界を\n大いに盛り上げるための\nすいばり のサイト";
+	const typeSpeed = 100; // ms per char
+	const linePause = 500; // pause before subtitle
+
+	async function typeWriter(elementId: string, text: string, speed: number) {
+		const element = document.getElementById(elementId);
+		if (!element) return;
+
+		// Clear content mainly for hot-reload safety, though logical flow handles it
+		element.textContent = "";
+
+		for (let i = 0; i < text.length; i++) {
+			element.textContent += text.charAt(i);
+			await new Promise((r) => setTimeout(r, speed));
+		}
+	}
+
+	async function startAnimation() {
+		const cursorTitle = document.getElementById("cursor-title");
+		const cursorSubtitle = document.getElementById("cursor-subtitle");
+		const subtitleEl = document.getElementById("typing-subtitle");
+
+		// Reset cursor visibility
+		if (cursorTitle) cursorTitle.style.display = "inline";
+		if (cursorSubtitle) cursorSubtitle.style.display = "none";
+
+		// Type Title
+		await typeWriter("typing-title", titleText, 150);
+
+		// Move cursor to subtitle
+		if (cursorTitle) cursorTitle.style.display = "none";
+		if (cursorSubtitle) {
+			cursorSubtitle.style.display = "inline";
+			// Initial position adjustment could be done here if needed,
+			// but static absolute positioning relative to container might be tricky with newlines.
+			// Let's rely on the flow or append the cursor to the text content itself?
+			// Actually, appending a span to the h2 might be better for the subtitle layout.
+		}
+
+		// Since subtitle has newlines, simple cursor positioning is hard with absolute.
+		// Let's change strategy for subtitle cursor: append it to the text.
+		if (cursorSubtitle) cursorSubtitle.remove(); // Remove standalone cursor
+
+		// Type Subtitle
+		const subtitleElement = document.getElementById("typing-subtitle");
+		if (subtitleElement) {
+			subtitleElement.textContent = "";
+			const cursorSpan = document.createElement("span");
+			cursorSpan.className = "cursor";
+			cursorSpan.textContent = "_";
+			subtitleElement.appendChild(cursorSpan);
+
+			for (let i = 0; i < subtitleText.length; i++) {
+				const char = subtitleText.charAt(i);
+				const textNode = document.createTextNode(char);
+				subtitleElement.insertBefore(textNode, cursorSpan);
+				await new Promise((r) => setTimeout(r, 80));
+			}
+
+			// Keep blinking cursor at the end
+		}
+	}
+
+	// Start on load
+	document.addEventListener("DOMContentLoaded", startAnimation);
+</script>
