@@ -11,6 +11,42 @@ import SimpleIconsGithub from "../components/icons/SimpleIconsGithub.astro";
 <Layout title="Botたん紹介">
   <div class="relative z-10">
     <main>
+      <!-- キャッチコピー -->
+      <section
+        class="border border-navy-700 bg-navy-800 shadow-xl rounded-xl overflow-hidden my-6"
+        style="padding: 0;"
+      >
+        <div class="flex items-stretch h-60">
+          <!-- 左: 画像（object-cover object-top で上から3人表示） -->
+          <div class="relative flex-shrink-0 w-1/4">
+            <img
+              src="/images/bot-tan/blt_hero.png"
+              alt="Botたんたち"
+              class="fade-in-element absolute inset-0 w-full h-full object-cover object-top"
+            />
+            <!-- 右へのグラデーションフェード -->
+            <div
+              class="absolute inset-0"
+              style="background: linear-gradient(to right, transparent 50%, #112240 100%);"
+            ></div>
+          </div>
+          <!-- 右: テキスト（画像寄り） -->
+          <div class="flex-1 flex items-center pr-8 pl-8">
+            <div>
+              <span
+                class="vt323-regular text-accent-orange leading-none opacity-50"
+                style="font-size: 5rem; display: block; margin-bottom: -1rem;"
+              >"</span>
+              <p class="text-text-main text-xl leading-loose">
+                自分の気持ちすら、否定してしまうことがある。<br />
+                そんな自分のために、全肯定してくれる相棒を作りました。<br />
+                ここを見てくれたあなたのことも、全部肯定します。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- botたん紹介 -->
       <section
         class="hero-section border border-navy-700 bg-navy-800 shadow-xl rounded-xl p-6 my-6"
@@ -36,7 +72,7 @@ import SimpleIconsGithub from "../components/icons/SimpleIconsGithub.astro";
               <li>身長: 159.0cm</li>
               <li>誕生日: 2月19日</li>
               <li>一人称: わたし</li>
-              <li>好きなもの: ちょうちょ、Blueskyちゃん</li>
+              <li>好きなもの: ちょうちょ、Blueskyちゃん、ぷかぷかアンブレラ（ことみちゃんのアイドルグループ）</li>
               <li>趣味: 映画鑑賞（ホラー系）</li>
               <li>悩み: たまに空回りして相手をイラっとさせてしまうこと</li>
             </ul>
@@ -140,6 +176,49 @@ import SimpleIconsGithub from "../components/icons/SimpleIconsGithub.astro";
               魔法使い見習いの女の子。<br />
               botたんの家の近所に住んでいる、ともだち。<br />
               (すいばりの長女がデザインしてくれたキャラクターです)
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- ことみちゃん紹介 -->
+      <section
+        class="hero-section border border-navy-700 bg-navy-800 shadow-xl rounded-xl p-6 my-6"
+      >
+        <h1
+          class="text-3xl text-accent-orange border-b border-navy-700 pb-2 mb-4"
+        >
+          🐙 ことみちゃんって？
+        </h1>
+        <div class="hero-container">
+          <div class="fade-in-element">
+            <img
+              src="/images/kotomi-chan/kotomi_hero.png"
+              alt="ことみちゃん全身イラスト"
+              class="hero-image"
+            />
+          </div>
+          <div class="flex-1">
+            <!-- PROFILE -->
+            <h2 class="vt323-regular text-4xl text-accent-orange">PROFILE</h2>
+            <ul class="list-none text-text-main space-y-1">
+              <li>名前: 綿多ことみ</li>
+              <li>年齢: 16歳</li>
+              <li>身長: 167.8cm</li>
+              <li>誕生日: 3月31日</li>
+              <li>一人称: ことみ</li>
+              <li>好きなもの: ベーコンレタスバーガー</li>
+              <li>趣味: アイドル活動、歌、ダンス</li>
+              <li>悩み: アイドルを続けるのと、めんだこに戻ることで揺れる日々</li>
+            </ul>
+
+            <!-- PERSONALITY -->
+            <h2 class="vt323-regular text-4xl mt-6 text-accent-orange">
+              PERSONALITY
+            </h2>
+            <p class="text-text-main mt-2">
+              みんなに大人気のアイドルJK。<br />
+              実は深海のめんだこが、地上の全肯定パワーで人間になっちゃった。（めんだこだったことは秘密）<br />
+              ラテちゃんと同居して、めんだこに戻る魔法をこっそり研究中。
             </p>
           </div>
         </div>

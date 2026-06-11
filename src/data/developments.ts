@@ -1,7 +1,7 @@
 export const developments = [
   {
     title: "あつめあっと",
-    image: "/images/ogp_atsumeat.png",
+    image: "/images/projects/ogp_atsumeat.png",
     tags: ["#TypeScript", "#SvelteKit", "#ATProtocol", "#Bluesky", "#CloudflarePages"],
     description: "デジタルシール交換",
     date: "2026-01-14",
@@ -11,7 +11,7 @@ export const developments = [
   },
   {
     title: "TriLinesAt",
-    image: "/images/ogp_trilinesat.png",
+    image: "/images/projects/ogp_trilinesat.png",
     tags: ["#TypeScript", "#SvelteKit", "#ATProtocol", "#Bluesky", "#CloudflarePages"],
     description: "ポジティブ3行日記",
     date: "2026-01-04",
@@ -21,7 +21,7 @@ export const developments = [
   },
   {
     title: "てのりbotたん",
-    image: "/images/tenori_bot.jpg",
+    image: "/images/projects/tenori_bot.jpg",
     tags: ["#C++", "#M5Stack", "#Gemini", "#SpeechToSpeech"],
     description: "AI対話デバイス。ウェイクワード検出機能つき",
     date: "2025-07-17",
@@ -31,7 +31,7 @@ export const developments = [
   },
   {
     title: "SkyPutter",
-    image: "/images/skyputter.png",
+    image: "/images/projects/skyputter.png",
     tags: ["#Kotlin", "#Android", "#ATprotocol", "#Bluesky"],
     description: "Bluesky投稿専用クライアント。自分のアウトプットに集中",
     date: "2025-06-28",
@@ -41,7 +41,7 @@ export const developments = [
   },
   {
     title: "LikeTracer",
-    image: "/images/liketracer.png",
+    image: "/images/projects/liketracer.png",
     tags: ["#Typescript", "#ATprotocol", "#Bluesky"],
     description: "Blueskyカスタムフィード。いいねした人を追跡する",
     date: "2025-05-04",
@@ -51,7 +51,7 @@ export const developments = [
   },
   {
     title: "LikesBack",
-    image: "/images/likesback.jpg",
+    image: "/images/projects/likesback.jpg",
     tags: ["#Typescript", "#ATprotocol", "#Bluesky"],
     description: "Blueskyカスタムフィード。いいねしてくれた人を表示する",
     date: "2025-05-01",
@@ -61,7 +61,7 @@ export const developments = [
   },
   {
     title: "HuntersAt",
-    image: "/images/ogp_huntersat.png",
+    image: "/images/projects/ogp_huntersat.png",
     tags: ["#Typescript", "#Sveltekit", "#ATprotocol", "#CloudflarePages"],
     description: "モンスターハンターギルドカード生成",
     date: "2025-02-24",
@@ -71,7 +71,7 @@ export const developments = [
   },
   {
     title: "DrawAt",
-    image: "/images/ogp_drawat.png",
+    image: "/images/projects/ogp_drawat.png",
     tags: ["#Typescript", "#Sveltekit", "#ATprotocol", "#CloudflarePages"],
     description: "ATProtocol簡易お絵描きチャット",
     date: "2025-02-09",
@@ -81,7 +81,7 @@ export const developments = [
   },
   {
     title: "Blu-lyzer",
-    image: "/images/lyzer_ogp.png",
+    image: "/images/projects/lyzer_ogp.png",
     tags: ["#Typescript", "#Sveltekit", "#Bluesky", "#Vercel"],
     description: "Bluesky総合解析Web App",
     date: "2024-09-22",
@@ -101,7 +101,7 @@ export const developments = [
   },
   {
     title: "ポケットクイズ",
-    image: "/images/pocketquiz.png",
+    image: "/images/projects/pocketquiz.png",
     tags: ["#node.js", "#Alexaスキル", "#AlexaSkillsKit"],
     description: "Alexaのポケモンクイズ&図鑑スキル",
     date: "2024-09-03",
@@ -109,7 +109,7 @@ export const developments = [
   },
   {
     title: "タイプチェッカー",
-    image: "/images/typechecker.png",
+    image: "/images/projects/typechecker.png",
     tags: ["#node.js", "#Alexaスキル", "#AlexaSkillsKit"],
     description: "Alexaのポケモンタイプ相性確認スキル",
     date: "2024-08-26",
@@ -117,7 +117,7 @@ export const developments = [
   },
   {
     title: "ひろがるBluesky!",
-    image: "/images/hirogaru_ogp.jpg",
+    image: "/images/projects/hirogaru_ogp.jpg",
     tags: ["#node.js", "#Sveltekit", "#Bluesky", "#Vercel"],
     description: "Bluesky相関図Web App",
     date: "2024-03-06",
@@ -127,7 +127,7 @@ export const developments = [
   },
   {
     title: "Bluesky全肯定bot",
-    image: "/images/bsky_bot.jpg",
+    image: "/images/projects/bsky_bot.jpg",
     tags: ["#node.js", "#Bluesky", "#RaspberryPi", "#Gemini"],
     description: "フォロワーの投稿を全肯定するBluesky Bot",
     date: "2024-02-19",
@@ -137,7 +137,7 @@ export const developments = [
   },
   {
     title: "スマート電光掲示板",
-    image: "/images/smartpanel.jpg",
+    image: "/images/projects/smartpanel.jpg",
     tags: ["#Python", "#RaspberryPi"],
     description: "Raspberry Piを使ったスマート電光掲示板",
     date: "2023-11-11",
@@ -145,7 +145,7 @@ export const developments = [
   },
   {
     title: "NPB live-cloud",
-    image: "/images/livecloud.png",
+    image: "/images/projects/livecloud.png",
     tags: ["#node.js", "#Twitter", "#heroku"],
     description: "プロ野球ワードクラウドWeb App",
     date: "2020-12-20",
@@ -153,7 +153,7 @@ export const developments = [
   },
   {
     title: "プロ野球選手名鑑LINE bot",
-    image: "/images/linebot.png",
+    image: "/images/projects/linebot.png",
     tags: ["#node.js", "#heroku"],
     description: "プロ野球選手のリアルタイム情報を返すLINE Bot",
     date: "2020-08-14",
@@ -177,7 +177,7 @@ export const developments = [
   },
   {
     title: "プロ野球実況Twiiterアプリ",
-    image: "/images/jsp.jpg",
+    image: "/images/projects/jsp.jpg",
     tags: ["#Java", "#Twitter"],
     description: "プロ野球実況に特化したデスクトップApp",
     date: "2016-04-12",
@@ -185,7 +185,7 @@ export const developments = [
   },
   {
     title: "プロ野球リーグシミュレータ",
-    image: "/images/vba.png",
+    image: "/images/projects/vba.png",
     tags: ["#VBA"],
     description: "プロ野球リーグ戦をシミュレーションするExcel VBA",
     date: "2016-01-28",
