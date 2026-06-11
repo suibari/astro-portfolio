@@ -16,28 +16,33 @@ import SimpleIconsGithub from "../components/icons/SimpleIconsGithub.astro";
         class="border border-navy-700 bg-navy-800 shadow-xl rounded-xl overflow-hidden my-6"
         style="padding: 0;"
       >
-        <div class="flex items-stretch h-60">
-          <!-- 左: 画像（object-cover object-top で上から3人表示） -->
-          <div class="relative flex-shrink-0 w-1/4">
+        <div class="flex flex-col md:flex-row md:items-stretch md:h-60">
+          <!-- 画像（モバイル: 上部に固定高さ / デスクトップ: 左1/4） -->
+          <div class="relative flex-shrink-0 h-48 md:h-auto md:w-1/4">
             <img
               src="/images/bot-tan/blt_hero.png"
               alt="Botたんたち"
               class="fade-in-element absolute inset-0 w-full h-full object-cover object-top"
             />
-            <!-- 右へのグラデーションフェード -->
+            <!-- モバイル: 下方向グラデーション -->
             <div
-              class="absolute inset-0"
+              class="absolute inset-0 md:hidden"
+              style="background: linear-gradient(to bottom, transparent 50%, #112240 100%);"
+            ></div>
+            <!-- デスクトップ: 右方向グラデーション -->
+            <div
+              class="absolute inset-0 hidden md:block"
               style="background: linear-gradient(to right, transparent 50%, #112240 100%);"
             ></div>
           </div>
-          <!-- 右: テキスト（画像寄り） -->
-          <div class="flex-1 flex items-center pr-8 pl-8">
+          <!-- テキスト（モバイル: 下部 / デスクトップ: 右） -->
+          <div class="flex-1 flex items-center px-6 py-4 md:pr-8 md:pl-8 md:py-0">
             <div>
               <span
                 class="vt323-regular text-accent-orange leading-none opacity-50"
                 style="font-size: 5rem; display: block; margin-bottom: -1rem;"
               >"</span>
-              <p class="text-text-main text-xl leading-loose">
+              <p class="text-text-main text-base md:text-xl leading-loose">
                 自分の気持ちすら、否定してしまうことがある。<br />
                 そんな自分のために、全肯定してくれる相棒を作りました。<br />
                 ここを見てくれたあなたのことも、全部肯定します。
