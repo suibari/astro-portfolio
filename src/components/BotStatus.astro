@@ -44,6 +44,7 @@ import RetroStatus from "./RetroStatus.astro";
       id="bskyrate-hourly"
     />
     <StatusPanel title="AI Request数" value="---" id="rpd" />
+    <StatusPanel title="AIエラー率" value="---" id="ai-error-rate" />
   </div>
 
   <div class="flex flex-col md:flex-row gap-4 mb-4">
@@ -301,6 +302,13 @@ import RetroStatus from "./RetroStatus.astro";
 
     const rpdEl = document.getElementById("rpd");
     if (rpdEl) rpdEl.textContent = data.dailyStats.rpd;
+
+    const aiErrorRateEl = document.getElementById("ai-error-rate");
+    if (aiErrorRateEl) {
+      const totalReq = (data.dailyStats.rpd || 0) + (data.dailyStats.rpdError || 0);
+      const errorRate = totalReq > 0 ? ((data.dailyStats.rpdError || 0) / totalReq * 100).toFixed(1) : "0.0";
+      aiErrorRateEl.textContent = `${errorRate}%`;
+    }
 
     const dailyCommentEl = document.getElementById("daily-comment");
     if (dailyCommentEl) dailyCommentEl.textContent = data.dailyStats.botComment;
