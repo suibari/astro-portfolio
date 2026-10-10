@@ -1,4 +1,60 @@
 export const developments = [
+  // 追加5作品の日付は、最初のコミットの日本時間を開発開始の目安として使用。
+  {
+    title: "なうぷれあっと",
+    image: "/images/projects/ogp_nowplayingat.png",
+    tags: ["#TypeScript", "#SvelteKit", "#ATProtocol", "#Bluesky", "#CloudflarePages"],
+    description: "Blueskyと連携して、聴いている音楽やプレイリストを共有するアプリ",
+    // 日付の根拠: https://github.com/suibari/bsky_NowPlayingAt/commit/5c4792475d3fc89ac3222c8045c4da3d9141e95a
+    date: "2026-01-22",
+    link: "https://nowplayingat.suibari.com/",
+    repoName: "bsky_NowPlayingAt",
+    repoUrl: "https://github.com/suibari/bsky_NowPlayingAt",
+  },
+  {
+    title: "めやすあっと",
+    image: "/images/projects/ogp_meyasuat.png",
+    tags: ["#TypeScript", "#SvelteKit", "#ATProtocol", "#Bluesky", "#CloudflareWorkers"],
+    description: "匿名でテキストや画像を送信できる、AT Protocolの目安箱サービス",
+    // 日付の根拠: https://github.com/suibari/bsky_meyasuat/commit/ec7bca9c5281119a999098251ecad10d2a575929
+    date: "2026-06-28",
+    link: "https://meyasuat.suibari.com/",
+    repoName: "bsky_meyasuat",
+    repoUrl: "https://github.com/suibari/bsky_meyasuat",
+  },
+  {
+    title: "超ひろがるBluesky",
+    image: "/images/projects/ogp_cosmic_hirogaru.png",
+    tags: ["#TypeScript", "#SvelteKit", "#Bluesky", "#CloudflarePages"],
+    description: "Blueskyユーザーのつながりを宇宙として可視化するWebアプリ",
+    // 日付の根拠: https://github.com/suibari/bsky_cosmic_hirogaru_bluesky/commit/3da9b4c8dfbcd2d9dc20b00325720652d8466da8
+    date: "2026-06-14",
+    link: "https://github.com/suibari/bsky_cosmic_hirogaru_bluesky",
+    repoName: "bsky_cosmic_hirogaru_bluesky",
+    repoUrl: "https://github.com/suibari/bsky_cosmic_hirogaru_bluesky",
+  },
+  {
+    title: "YouTuber-botたん",
+    image: "",
+    tags: ["#Python", "#Unity", "#YouTube", "#VOICEVOX", "#Ollama"],
+    description: "全肯定botたんのShorts自動生成・投稿とAITuberライブ配信",
+    // 日付の根拠: https://github.com/suibari/bot-tan-youtuber/commit/58dafea64b20eabfca2a6557e8b8b82af075abc8
+    date: "2026-06-06",
+    link: "https://www.youtube.com/@%E3%81%99%E3%81%84%E3%81%B0%E3%82%8A",
+    repoName: "bot-tan-youtuber",
+    repoUrl: "https://github.com/suibari/bot-tan-youtuber",
+  },
+  {
+    title: "Nagi",
+    image: "/images/projects/nagi_ogp.jpg",
+    tags: ["#TypeScript", "#SvelteKit", "#ATProtocol", "#Vercel"],
+    description: "全肯定botたんが言葉を受け止める、AT Protocol上の全肯定SNS",
+    // 日付の根拠: https://github.com/suibari/nagi_client/commit/a86eb8e315e894de0164d5e4222ac2e4c54a16e7
+    date: "2026-07-18",
+    link: "https://nagi.suibari.com/",
+    repoName: "nagi_client",
+    repoUrl: "https://github.com/suibari/nagi_client",
+  },
   {
     title: "あつめあっと",
     image: "/images/projects/ogp_atsumeat.png",

@@ -45,7 +45,7 @@ const { title, image, tags, description, date, link, filterableTags = false } =
           <p class="mb-2 text-text-main opacity-90">{description}</p>
         )
       }
-      <p class="text-sm text-muted">{formatDate(date)}</p>
+      {date && <p class="text-sm text-muted">{formatDate(date)}</p>}
     </div>
   </a>
   {
