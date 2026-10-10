@@ -2,13 +2,16 @@
 import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
 import Content from '../components/Content.astro';
+import { fetchNagiArticles } from '../services/blog/fetchNagiArticles';
 import { fetchRSS } from '../services/blog/fetchRSS';
 import { fetchQiitaArticles } from '../services/blog/fetchQiitaArticles';
 
 const noteArticles = await fetchRSS('https://note.com/suibari/rss');
 const qiitaArticles = await fetchQiitaArticles("Suibari_cha", import.meta.env.QIITA_ACCESS_TOKEN);
 
-const blogArticles = [...noteArticles, ...qiitaArticles];
+const nagiArticles = await fetchNagiArticles();
+const blogArticles = [...noteArticles, ...qiitaArticles, ...nagiArticles]
+  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 ---
 <Layout>
   <div class="fade-in-element">
