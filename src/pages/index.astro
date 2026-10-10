@@ -4,7 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import Welcome from "../components/Welcome.astro";
 import Content from "../components/Content.astro";
 import Post from "../components/Post.astro";
-import { fetchBlueskyPosts } from "../services/bluesky/fetchBlueskyPosts";
+import { fetchNagiPosts } from "../services/nagi/fetchNagiPosts";
 import { fetchRSS } from "../services/blog/fetchRSS";
 import { developments } from "../data/developments";
 import fetchPixivArtworks from "../services/illust/fetchPixivArtworks";
@@ -12,7 +12,7 @@ import Commits from "../components/Commits.astro";
 import GridContents from "../components/GridContents.astro";
 import { merchandises } from "../data/merchandises";
 
-const blueSkyFeeds = await fetchBlueskyPosts(); // Blueskyのポストデータを取得
+const nagiPosts = await fetchNagiPosts();
 
 const noteArticles = await fetchRSS("https://note.com/suibari/rss");
 const developLatest = developments; // Developの最新コンテンツ
@@ -32,25 +32,12 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
           <h1
             class="text-4xl vt323-regular mb-4 text-center md:text-left text-accent-orange drop-shadow-[0_0_5px_rgba(255,107,107,0.3)]"
           >
-            MOODS
+            LATEST POSTS
           </h1>
           <div class="fade-in-element">
             <div class="flex flex-col space-y-4">
               {
-                blueSkyFeeds
-                  .slice(0, 3)
-                  .map((feed) => (
-                    <Post
-                      text={(feed.post.record as { text: string }).text}
-                      image={feed.post.author.avatar}
-                      date={
-                        (feed.post.record as { createdAt: string }).createdAt
-                      }
-                      link={feed.post.uri
-                        .replace("at://", "https://bsky.app/profile/")
-                        .replace("app.bsky.feed.post", "post")}
-                    />
-                  ))
+                nagiPosts.map((post) => <Post {...post} />)
               }
             </div>
           </div>
@@ -64,7 +51,7 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
           <h1
             class="text-4xl vt323-regular mb-6 text-center md:text-left text-accent-orange border-b border-navy-700 pb-2"
           >
-            DEVELOPMENT NEWS
+            PROJECT UPDATES
           </h1>
           <div class="fade-in-element">
             <Commits />
@@ -77,7 +64,7 @@ const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテン�
           <h1
             class="text-4xl vt323-regular mb-6 text-center md:text-left text-accent-orange border-b border-navy-700 pb-2"
           >
-            GOODS: Now on sale!
+            MERCH
           </h1>
           <div class="fade-in-element">
             <GridContents items={merchandises} mdColumns={3} />

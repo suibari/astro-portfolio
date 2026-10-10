@@ -7,6 +7,7 @@ export interface ContentProps {
   description: string;
   date: string;
   link: string;
+  filterableTags?: boolean;
 }
 
 // 日付フォーマット関数
@@ -18,7 +19,7 @@ const formatDate = (inputDate: string): string => {
   return `${year}-${month}-${day}`;
 };
 
-const { title, image, tags, description, date, link } =
+const { title, image, tags, description, date, link, filterableTags = false } =
   Astro.props as ContentProps;
 ---
 
@@ -40,17 +41,6 @@ const { title, image, tags, description, date, link } =
     <div class="p-4">
       <h3 class="text-lg font-bold mb-2 text-main">{title}</h3>
       {
-        tags && (
-          <div class="flex flex-wrap gap-2 mb-2 justify-center">
-            {tags.map((tag: string) => (
-              <span class="bg-navy-700 text-accent-orange text-sm px-2 py-1 rounded border border-navy-600">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )
-      }
-      {
         description && (
           <p class="mb-2 text-text-main opacity-90">{description}</p>
         )
@@ -58,4 +48,17 @@ const { title, image, tags, description, date, link } =
       <p class="text-sm text-muted">{formatDate(date)}</p>
     </div>
   </a>
+  {
+    tags && (
+      <div class="flex flex-wrap gap-2 px-4 pb-4 justify-center">
+        {tags.map((tag: string) => filterableTags ? (
+          <button type="button" data-filter-tag={tag} aria-pressed="false" class="bg-navy-700 text-accent-orange text-sm px-2 py-1 rounded border border-navy-600 hover:bg-navy-600 focus:outline-none focus:ring-2 focus:ring-accent-orange">
+            {tag}
+          </button>
+        ) : (
+          <span class="bg-navy-700 text-accent-orange text-sm px-2 py-1 rounded border border-navy-600">{tag}</span>
+        ))}
+      </div>
+    )
+  }
 </div>
