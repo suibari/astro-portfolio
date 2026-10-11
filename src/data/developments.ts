@@ -247,4 +247,4 @@ export const developments = [
     date: "2016-01-28",
     link: "https://qiita.com/Suibari_cha/items/808a00a43a665c4ecc78",
   },
-];
+].sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
