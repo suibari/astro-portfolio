@@ -1,93 +1,46 @@
 ---
-import "../styles/global.css";
 import Layout from "../layouts/Layout.astro";
-import Welcome from "../components/Welcome.astro";
-import Content from "../components/Content.astro";
-import Post from "../components/Post.astro";
-import { fetchNagiPosts } from "../services/nagi/fetchNagiPosts";
-import { fetchRSS } from "../services/blog/fetchRSS";
-import { developments } from "../data/developments";
-import fetchPixivArtworks from "../services/illust/fetchPixivArtworks";
-import Commits from "../components/Commits.astro";
-import GridContents from "../components/GridContents.astro";
-import { merchandises } from "../data/merchandises";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProjectList from "../components/ProjectList.astro";
+import IllustGrid from "../components/IllustGrid.astro";
+import BlogList from "../components/BlogList.astro";
+import MerchGrid from "../components/MerchGrid.astro";
+import { getProjects } from "../lib/projects";
+import { getBlogPosts, getIllustrations } from "../lib/feeds";
 
-const nagiPosts = await fetchNagiPosts();
-
-const noteArticles = await fetchRSS("https://note.com/suibari/rss");
-const developLatest = developments; // Developの最新コンテンツ
-const illustLatest = await fetchPixivArtworks(); // Illustの最新コンテンツ
+const [projects, illustrations, posts] = await Promise.all([
+  getProjects(),
+  getIllustrations(),
+  getBlogPosts(),
+]);
 ---
 
 <Layout>
-  <div class="relative min-h-screen overflow-hidden">
-    <!-- Contents -->
-    <div class="relative max-w-[960px] mx-auto z-10 pt-8">
-      <div class="flex flex-col md:flex-row gap-8 mb-12">
-        <div class="md:w-1/2 p-4 flex items-center justify-start">
-          <Welcome />
-        </div>
-
-        <div class="md:w-1/2 p-4">
-          <h1
-            class="text-4xl vt323-regular mb-4 text-center md:text-left text-accent-orange drop-shadow-[0_0_5px_rgba(255,107,107,0.3)]"
-          >
-            LATEST POSTS
-          </h1>
-          <div class="fade-in-element">
-            <div class="flex flex-col space-y-4">
-              {
-                nagiPosts.map((post) => <Post {...post} />)
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <main class="space-y-12 pb-12">
-        <section
-          class="p-6 border border-navy-700 bg-navy-800 shadow-xl rounded-xl"
-        >
-          <h1
-            class="text-4xl vt323-regular mb-6 text-center md:text-left text-accent-orange border-b border-navy-700 pb-2"
-          >
-            PROJECT UPDATES
-          </h1>
-          <div class="fade-in-element">
-            <Commits />
-          </div>
-        </section>
-
-        <section
-          class="p-6 border border-navy-700 bg-navy-800 shadow-xl rounded-xl"
-        >
-          <h1
-            class="text-4xl vt323-regular mb-6 text-center md:text-left text-accent-orange border-b border-navy-700 pb-2"
-          >
-            MERCH
-          </h1>
-          <div class="fade-in-element">
-            <GridContents items={merchandises} mdColumns={3} />
-          </div>
-        </section>
-
-        <section
-          class="p-6 border border-navy-700 bg-navy-800 shadow-xl rounded-xl"
-        >
-          <h1
-            class="text-4xl vt323-regular mb-6 text-center md:text-left text-accent-orange border-b border-navy-700 pb-2"
-          >
-            LATEST ACTIVITIES
-          </h1>
-          <div class="fade-in-element">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Content {...developLatest[0]} />
-              <Content {...illustLatest[0]} />
-              <Content {...noteArticles[0]} />
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+  <Hero />
+  <div class="container sections">
+    <section>
+      <SectionHeading title="Projects" more={{ href: "/projects", label: `すべて見る（${projects.length}）` }} />
+      <ProjectList projects={projects.slice(0, 3)} />
+    </section>
+    <section>
+      <SectionHeading title="Illustrations" more={{ href: "/illust" }} />
+      <IllustGrid items={illustrations.slice(0, 3)} />
+    </section>
+    <section>
+      <SectionHeading title="Blog" more={{ href: "/blog" }} />
+      <BlogList posts={posts.slice(0, 3)} />
+    </section>
+    <section>
+      <SectionHeading title="Merch" more={{ href: "https://suzuri.jp/suibari", label: "SUZURI" }} />
+      <MerchGrid />
+    </section>
   </div>
 </Layout>
+
+<style>
+  .sections {
+    display: grid;
+    gap: 72px;
+  }
+</style>

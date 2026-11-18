@@ -1,6 +1,35 @@
-<footer class="bg-dark-blue text-white py-6 text-center">
-  <div class="container mx-auto">
-    <h2 class="text-2xl vt323-regular">S.O.S.!!</h2>
-    <p class="mt-2 text-sm">© suibari</p>
+---
+import IconsSNS from "./IconsSNS.astro";
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <p class="mark"><span class="font-pixel">S.O.S.!!</span> © suibari</p>
+    <IconsSNS />
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    margin-top: 96px;
+    border-top: 1px solid var(--line);
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-block: 20px 28px;
+  }
+  .mark {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--ink-soft);
+  }
+  .mark .font-pixel {
+    font-size: 1.25rem;
+    color: var(--ink);
+    margin-right: 6px;
+  }
+</style>

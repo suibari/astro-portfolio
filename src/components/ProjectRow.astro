@@ -1,0 +1,144 @@
+---
+import { Image } from "astro:assets";
+import { publicRepoUrl, type Project } from "../lib/projects";
+import { formatDate } from "../lib/feeds";
+import SimpleIconsGithub from "./icons/SimpleIconsGithub.astro";
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const { title, description, link, tags, image, date } = project.data;
+const repoUrl = publicRepoUrl(project);
+---
+
+<li class="row" data-tags={tags.join(",")}>
+  <div class="thumb">
+    {
+      image ? (
+        <Image src={image} alt="" widths={[160, 320]} sizes="160px" loading="lazy" />
+      ) : (
+        <span class="placeholder font-pixel" aria-hidden="true">&gt;_</span>
+      )
+    }
+  </div>
+  <div class="body">
+    <h3>
+      <a href={link} target="_blank" rel="noopener noreferrer" class="main-link">{title}</a>
+      {
+        repoUrl && (
+          <a href={repoUrl} target="_blank" rel="noopener noreferrer" class="repo" aria-label={`${title} のGitHubリポジトリ`} title="GitHub">
+            <SimpleIconsGithub />
+          </a>
+        )
+      }
+    </h3>
+    <p class="desc">{description}</p>
+    <p class="meta">
+      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+      {tags.length > 0 && <span class="tags">{tags.join(" · ")}</span>}
+    </p>
+  </div>
+</li>
+
+<style>
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 152px 1fr;
+    gap: 18px;
+    align-items: start;
+    padding: 14px 10px;
+    margin-inline: -10px;
+    border-radius: 10px;
+    transition: background-color 0.15s;
+  }
+  .row:hover {
+    background: var(--surface);
+  }
+  .thumb {
+    aspect-ratio: 1.91 / 1;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--blue-soft);
+  }
+  .thumb :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s;
+  }
+  .row:hover .thumb :global(img) {
+    transform: scale(1.04);
+  }
+  .placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-size: 2rem;
+    color: var(--blue);
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  /* 行全体をクリックできるようにする */
+  .main-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+  }
+  .row:hover .main-link {
+    color: var(--blue);
+  }
+  .main-link:focus-visible {
+    outline: none;
+  }
+  .main-link:focus-visible::after {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+  }
+  .repo {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .repo:hover {
+    color: var(--ink);
+    background: var(--blue-soft);
+  }
+  .desc {
+    margin: 2px 0 4px;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 12px;
+    margin: 0;
+    font-size: 0.75rem;
+    color: color-mix(in srgb, var(--ink-soft) 80%, var(--bg));
+  }
+  @media (max-width: 520px) {
+    .row {
+      grid-template-columns: 104px 1fr;
+      gap: 14px;
+    }
+  }
+</style>

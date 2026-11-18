@@ -1,0 +1,86 @@
+---
+import IconsSNS from "./IconsSNS.astro";
+
+const title = "S.O.S.!!";
+const subtitle = "世界を大いに盛り上げるための\nすいばり のサイト";
+---
+
+<section class="hero container" aria-label="はじめに">
+  <h1 class="title font-pixel">
+    <span class="sr-only">{title}</span>
+    <span class="typed" data-text={title} aria-hidden="true">{title}</span><span
+      class="cursor"
+      aria-hidden="true">_</span
+    >
+  </h1>
+  <p class="subtitle">
+    <span class="sr-only">{subtitle}</span>
+    <span class="typed" data-text={subtitle} aria-hidden="true">{subtitle}</span>
+  </p>
+  <p class="intro">
+    Bluesky / AT Protocol まわりのWebアプリやbotを作ったり、イラストを描いたりしています。
+  </p>
+  <IconsSNS />
+</section>
+
+<style>
+  .hero {
+    padding-block: 72px 56px;
+  }
+  .title {
+    margin: 0;
+    font-size: clamp(4.5rem, 16vw, 8rem);
+    line-height: 0.9;
+    color: var(--ink);
+  }
+  .subtitle {
+    margin: 16px 0 0;
+    min-height: 3.6em;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.8;
+    white-space: pre-line;
+  }
+  .intro {
+    margin: 12px 0 20px;
+    max-width: 34em;
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+  }
+  .subtitle .cursor {
+    margin-left: 2px;
+    font-size: 1.5em;
+    line-height: 0;
+  }
+</style>
+
+<script>
+  // 文字を1つずつ打ち込み、カーソルを打っている行へ移していく
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  async function type(target: HTMLElement, cursor: HTMLElement, speed: number) {
+    const text = target.dataset.text ?? "";
+    target.textContent = "";
+    target.after(cursor);
+    for (const char of text) {
+      target.textContent += char;
+      await sleep(char === "\n" ? speed * 4 : speed);
+    }
+  }
+
+  async function run() {
+    const [title, subtitle] = document.querySelectorAll<HTMLElement>(".hero .typed");
+    const cursor = document.querySelector<HTMLElement>(".hero .cursor");
+    if (!title || !subtitle || !cursor) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      subtitle.after(cursor);
+      return;
+    }
+    subtitle.textContent = "";
+    await type(title, cursor, 140);
+    await sleep(400);
+    await type(subtitle, cursor, 70);
+  }
+
+  run();
+</script>

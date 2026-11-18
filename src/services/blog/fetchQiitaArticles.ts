@@ -23,7 +23,7 @@ export async function fetchQiitaArticles(username: String, token: String) {
   return data.map((item: { title: any; url: any; created_at: string | number | Date; user: { profile_image_url: any; }; }) => ({
     title: item.title,
     link: item.url,
-    date: new Date(item.created_at).toLocaleDateString(),
+    date: new Date(item.created_at).toISOString(),
     image: null, // プロフィール画像を使用
   }));
 }

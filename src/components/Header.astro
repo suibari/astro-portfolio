@@ -1,115 +1,106 @@
 ---
-import SimpleLineIconsMenu from "./icons/SimpleLineIconsMenu.astro";
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const links = [
+  { href: "/projects", label: "Projects" },
+  { href: "/illust", label: "Illustrations" },
+  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
+];
 ---
 
-<header
-  class="sticky top-0 z-50 bg-navy-900/80 backdrop-blur-md border-b border-navy-700 shadow-lg"
->
-  <nav class="flex justify-between items-center px-6 md:px-16 lg:px-32 py-4">
-    <!-- ロゴ -->
-    <a
-      href="/"
-      class="text-accent-orange hover:text-white transition-colors duration-300 text-4xl vt323-regular drop-shadow-[0_0_5px_rgba(255,159,28,0.5)]"
-    >
-      S.O.S.!!
+<header class="site-header">
+  <div class="container inner">
+    <a href="/" class="logo font-pixel" aria-label="S.O.S.!! トップへ">
+      S.O.S.!!<span class="cursor logo-cursor" aria-hidden="true">_</span>
     </a>
-
-    <!-- デスクトップメニュー -->
-    <div class="hidden md:flex space-x-12">
-      <a
-        href="https://bot-tan.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Characters</a
-      >
-      <a
-        href="/develop"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Projects</a
-      >
-      <a
-        href="/illust"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Illustrations</a
-      >
-      <a
-        href="/blog"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Blog</a
-      >
-      <a
-        href="/about"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >About</a
-      >
-    </div>
-
-    <!-- ハンバーガーメニュー -->
-    <div class="md:hidden">
-      <button
-        id="menu-toggle"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300"
-      >
-        <!-- Simple Icons でハンバーガーアイコン -->
-        <SimpleLineIconsMenu />
-      </button>
-    </div>
-  </nav>
-
-  <!-- モバイル用メニュー -->
-  <div
-    id="mobile-menu"
-    class="hidden bg-navy-800/95 backdrop-blur-xl text-text-main space-y-4 text-center p-6 md:hidden border-t border-navy-700 absolute w-full shadow-2xl"
-  >
-    <a
-      href="https://bot-tan.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Characters</a
-    >
-    <a
-      href="/develop"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Projects</a
-    >
-    <a
-      href="/illust"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Illustrations</a
-    >
-    <a
-      href="/blog"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Blog</a
-    >
-    <a
-      href="/about"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >About</a
-    >
+    <nav aria-label="メインメニュー">
+      <ul>
+        {
+          links.map(({ href, label }) => (
+            <li>
+              <a href={href} aria-current={path === href ? "page" : undefined}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="https://bot-tan.com" target="_blank" rel="noopener noreferrer">
+            Characters<span class="ext" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </header>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector("#menu-toggle");
-    const mobileMenu = document.querySelector("#mobile-menu");
-
-    // ハンバーガーメニューの初期状態を非表示に設定
-    mobileMenu?.classList.add("hidden");
-
-    toggleButton?.addEventListener("click", () => {
-      const isVisible = !mobileMenu?.classList.contains("hidden");
-
-      if (isVisible) {
-        // すでに表示されている場合は閉じる
-        mobileMenu?.classList.add("hidden");
-      } else {
-        // 非表示なら表示する
-        mobileMenu?.classList.remove("hidden");
-      }
-    });
-  });
-</script>
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 24px;
+    padding-block: 10px;
+  }
+  .logo {
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+  /* ロゴのカーソルはホバーしたときだけ点滅させる */
+  .logo-cursor {
+    opacity: 0;
+    animation: none;
+  }
+  .logo:hover .logo-cursor,
+  .logo:focus-visible .logo-cursor {
+    opacity: 1;
+    animation: blink 1.06s step-end infinite;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  nav a {
+    display: inline-block;
+    padding-block: 6px;
+    color: var(--ink-soft);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav a:hover {
+    color: var(--ink);
+  }
+  nav a[aria-current="page"] {
+    color: var(--ink);
+    border-color: var(--orange);
+  }
+  @media (max-width: 520px) {
+    .inner {
+      padding-block: 8px 0;
+    }
+    ul {
+      gap: 0 14px;
+      font-size: 0.8125rem;
+    }
+  }
+  .ext {
+    margin-left: 2px;
+    font-size: 0.75em;
+  }
+</style>

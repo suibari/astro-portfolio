@@ -1,48 +1,49 @@
-# Astro Starter Kit: Basics
+# S.O.S.!! — suibari.com
+
+すいばりのポートフォリオサイト（Astro / Cloudflare Pages）。
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
+npm run dev      # http://localhost:4321
+npm run build
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## 作品（Projects）を追加する
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+1作品 = `src/content/projects/<slug>/index.md`。画像は同じフォルダに `cover.png` などで置く。
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+```sh
+# GitHubのリポジトリから（プライベートでも可。gh CLI のログイン情報か GITHUB_TOKEN を使う）
+npm run new:project https://github.com/suibari/bsky_meyasuat
 
-## 🚀 Project Structure
+# GitHubがない作品は、公開ページのURLから（OGPのタイトル・説明・画像を取得）
+npm run new:project https://example.com/
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+# 名前や公開URLを指定する
+npm run new:project https://github.com/suibari/xxx -- --slug xxx --link https://xxx.suibari.com/
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+できた `index.md` のタイトル・説明・タグを確認してコミットすれば一覧に載る。
 
-## 🧞 Commands
+| 項目 | 必須 | 内容 |
+| --- | --- | --- |
+| `title` | ○ | 作品名 |
+| `description` | ○ | 一言説明 |
+| `date` | ○ | 開発開始日（雛形では最初のコミット日・日本時間） |
+| `link` | ○ | 一覧から飛ぶ先 |
+| `repo` | | `owner/name`。公開リポジトリなら一覧にGitHubアイコンが出る |
+| `private` | | `true` ならリポジトリへのリンクを出さない |
+| `tags` | | 技術タグ。Projectsページの絞り込みに使う |
+| `image` | | `./cover.png` など。なければ `>_` の代わりの絵になる |
+| `hidden` | | `true` で一覧から隠す |
 
-All commands are run from the root of the project, from a terminal:
+書き間違いは `npm run build` / `npm run dev` で型エラーとして出る（`src/content.config.ts`）。
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 環境変数
 
-## 👀 Want to learn more?
+| 名前 | 用途 |
+| --- | --- |
+| `PIXIV_REFRESH_TOKEN` | Illustrations（pixiv） |
+| `QIITA_ACCESS_TOKEN` | Blog（Qiita） |
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+未設定・取得失敗でもビルドは止まらず、その取得元だけ空になる。

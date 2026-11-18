@@ -1,0 +1,82 @@
+---
+import { formatDate, type BlogPost } from "../lib/feeds";
+
+interface Props {
+  posts: BlogPost[];
+}
+const { posts } = Astro.props;
+---
+
+{
+  posts.length === 0 ? (
+    <p class="empty">記事を読み込めませんでした。</p>
+  ) : (
+    <ul>
+      {posts.map((post) => (
+        <li>
+          <a href={post.link} target="_blank" rel="noopener noreferrer">
+            <time datetime={post.date}>{formatDate(post.date)}</time>
+            <span class="source" data-source={post.source}>{post.source}</span>
+            <span class="title">{post.title}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li + li {
+    border-top: 1px dashed var(--line);
+  }
+  a {
+    display: grid;
+    grid-template-columns: 6.5em 3.75em 1fr;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  time {
+    font-family: "VT323", monospace;
+    font-size: 1.125rem;
+    line-height: 1;
+    color: var(--ink-soft);
+  }
+  .source {
+    justify-self: start;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: var(--blue);
+    background: var(--blue-soft);
+  }
+  .title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.6;
+    transition: color 0.15s;
+  }
+  a:hover .title {
+    color: var(--blue);
+  }
+  .empty {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 520px) {
+    a {
+      grid-template-columns: auto 1fr;
+      row-gap: 4px;
+    }
+    .title {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
