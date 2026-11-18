@@ -10,7 +10,7 @@ export async function fetchRSS(url: string) {
   return feed.items.map((item) => ({
     title: item.title,
     link: item.link,
-    date: new Date(String(item.pubDate)).toLocaleDateString(),
+    date: new Date(String(item.pubDate)).toISOString(),
     image: item.image || null, // RSSフィードの画像がある場合
   }));
 }

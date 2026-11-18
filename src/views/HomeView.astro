@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import NexusPanel from "../components/NexusPanel.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProjectList from "../components/ProjectList.astro";
+import IllustGrid from "../components/IllustGrid.astro";
+import BlogList from "../components/BlogList.astro";
+import MerchGrid from "../components/MerchGrid.astro";
+import { getProjects } from "../lib/projects";
+import { getBlogPosts, getIllustrations } from "../lib/feeds";
+import { langOf, localizePath, useTranslations } from "../i18n/ui";
+
+const lang = langOf(Astro.currentLocale);
+const t = useTranslations(lang);
+const [projects, illustrations, posts] = await Promise.all([getProjects(), getIllustrations(), getBlogPosts()]);
+---
+
+<Layout>
+  <Hero />
+  <div class="container">
+    <NexusPanel />
+    <div class="sections">
+      <section>
+        <SectionHeading
+          title="Projects"
+          more={{ href: localizePath(lang, "/projects"), label: `${t("section.all")} (${projects.length})` }}
+        />
+        <ProjectList projects={projects.slice(0, 3)} />
+      </section>
+      <section>
+        <SectionHeading title="Illustrations" more={{ href: localizePath(lang, "/illust"), label: t("section.more") }} />
+        <IllustGrid items={illustrations.slice(0, 12)} variant="dense" />
+      </section>
+      <section>
+        <SectionHeading title="Blog" more={{ href: localizePath(lang, "/blog"), label: t("section.more") }} />
+        <BlogList posts={posts.slice(0, 4)} />
+      </section>
+      <section>
+        <SectionHeading title="Merch" more={{ href: "https://suzuri.jp/suibari", label: "SUZURI" }} />
+        <MerchGrid />
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .sections {
+    display: grid;
+    gap: 72px;
+    margin-top: 72px;
+  }
+</style>

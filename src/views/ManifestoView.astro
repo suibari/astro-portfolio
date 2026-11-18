@@ -1,0 +1,259 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { charter, NEXUS_SOURCE_URL } from "../data/nexus";
+import { langOf } from "../i18n/ui";
+
+const lang = langOf(Astro.currentLocale);
+const c = charter[lang];
+const keys = ["technology", "creativity", "community"] as const;
+---
+
+<Layout title="Manifesto" description={`${c.lead} ${c.tagline}`}>
+  <div class="nexus-hero">
+    <div class="container">
+      <p class="eyebrow"><span class="font-pixel">Manifesto</span> — {c.pageTitle}</p>
+      <h1 class="font-pixel">Creative Nexus<span class="cursor" aria-hidden="true">_</span></h1>
+      <p class="formula">
+        {
+          keys.map((key, i) => (
+            <>
+              {i > 0 && <span class="times" aria-hidden="true">×</span>}
+              <span class="kw">{charter.en.keywords[key]}</span>
+            </>
+          ))
+        }
+      </p>
+      <p class="tagline">{c.tagline}</p>
+    </div>
+  </div>
+
+  <div class="container body">
+    <p class="lead">{c.lead}</p>
+
+    <div class="pair">
+      {
+        [c.mission, c.vision].map((item) => (
+          <section class="statement">
+            <h2><span class="font-pixel">{item.label}</span><small>{item.sub}</small></h2>
+            <p class="big">{item.statement}</p>
+            <p>{item.body}</p>
+          </section>
+        ))
+      }
+    </div>
+
+    <section>
+      <h2><span class="font-pixel">{c.values.label}</span><small>{c.values.sub}</small></h2>
+      <ol class="values">
+        {
+          c.values.items.map((item) => (
+            <li data-key={item.key}>
+              <span class="value-key font-pixel">{charter.en.keywords[item.key]}</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section>
+      <h2><span class="font-pixel">{c.principles.label}</span><small>{c.principles.sub}</small></h2>
+      <ol class="principles">
+        {
+          c.principles.items.map((item, i) => (
+            <li>
+              <span class="num font-pixel" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <span class="principle">{item}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section>
+      <h2><span class="font-pixel">{c.closing.label}</span>{c.closing.sub && <small>{c.closing.sub}</small>}</h2>
+      {c.closing.body.map((p) => <p>{p}</p>)}
+      <p class="sign font-pixel">— suibari<span class="cursor" aria-hidden="true">_</span></p>
+    </section>
+
+    <p class="source">
+      <a class="text-link" href={NEXUS_SOURCE_URL} target="_blank" rel="noopener noreferrer">{c.source} ↗</a>
+    </p>
+  </div>
+</Layout>
+
+<style>
+  .nexus-hero {
+    background-color: var(--blue);
+    color: #fff;
+    padding-block: 48px 56px;
+    background-image:
+      linear-gradient(105deg, var(--blue) 45%, transparent 80%),
+      radial-gradient(rgba(255, 255, 255, 0.16) 1.6px, transparent 2px);
+    background-size: auto, 16px 16px;
+  }
+  .eyebrow .font-pixel {
+    font-size: 1.25rem;
+    color: #fff;
+  }
+  .eyebrow {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  h1 {
+    margin: 4px 0 0;
+    font-size: clamp(3.5rem, 13vw, 6.5rem);
+    line-height: 0.95;
+  }
+  .formula {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 0;
+  }
+  .kw {
+    padding: 4px 14px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--blue-deep);
+    font-weight: 800;
+    font-size: 0.9375rem;
+  }
+  .times {
+    color: var(--orange);
+    font-weight: 800;
+  }
+  .tagline {
+    margin: 14px 0 0;
+    font-size: 1.125rem;
+    font-weight: 800;
+  }
+
+  .body {
+    padding-top: 40px;
+    font-size: 0.9375rem;
+  }
+  .lead {
+    margin: 0 0 8px;
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+  section {
+    margin-top: 48px;
+  }
+  section p {
+    margin: 0 0 12px;
+  }
+  h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 14px;
+  }
+  h2 .font-pixel {
+    font-size: 2rem;
+    line-height: 1.2;
+    border-bottom: 4px solid var(--blue);
+  }
+  h2 small {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .statement {
+    padding: 22px 22px 10px;
+    border-radius: 16px;
+    background: var(--blue-soft);
+  }
+  .big {
+    font-size: 1.125rem;
+    font-weight: 800;
+    line-height: 1.6;
+    color: var(--blue-deep);
+  }
+  .values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .values li {
+    padding: 18px;
+    border-radius: 16px;
+    background: var(--bg);
+    box-shadow: 0 10px 28px -16px rgba(12, 29, 74, 0.4), 0 1px 3px rgba(12, 29, 74, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .values li:hover {
+    transform: translateY(-4px) rotate(-0.6deg);
+    box-shadow: 0 14px 30px -14px rgba(12, 29, 74, 0.45), 0 4px 0 var(--orange);
+  }
+  .value-key {
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 1.25rem;
+  }
+  .values h3 {
+    margin: 10px 0 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .values p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+  }
+  .principles {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .principles li {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+  }
+  .principles li + li {
+    border-top: 1px dashed var(--line);
+  }
+  .num {
+    font-size: 2.25rem;
+    line-height: 1;
+    color: var(--blue);
+  }
+  .principle {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .sign {
+    font-size: 1.5rem;
+    text-align: right;
+  }
+  .source {
+    margin-top: 40px;
+    font-size: 0.8125rem;
+  }
+  @media (max-width: 680px) {
+    .pair,
+    .values {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import type { Project } from "../lib/projects";
+import ProjectRow from "./ProjectRow.astro";
+
+interface Props {
+  projects: Project[];
+  groupByYear?: boolean;
+}
+const { projects, groupByYear = false } = Astro.props;
+
+// projects は日付の降順で渡される前提なので、出てきた順にまとめれば年も降順になる
+const groups = new Map<string, Project[]>();
+for (const project of projects) {
+  const key = groupByYear ? String(project.data.date.getFullYear()) : "";
+  groups.set(key, [...(groups.get(key) ?? []), project]);
+}
+---
+
+<div class="project-list">
+  {
+    [...groups].map(([year, items]) => (
+      <section class="year-group" data-year={year || undefined}>
+        {year && <h3 class="year font-pixel">{year}</h3>}
+        <ul>
+          {items.map((project) => (
+            <ProjectRow project={project} />
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .year-group + .year-group {
+    margin-top: 28px;
+  }
+  .year {
+    margin: 0 0 4px;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--orange-ink);
+  }
+</style>

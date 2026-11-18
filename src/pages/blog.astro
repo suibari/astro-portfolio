@@ -1,26 +1,5 @@
 ---
-import '../styles/global.css';
-import Layout from '../layouts/Layout.astro';
-import Content from '../components/Content.astro';
-import { fetchNagiArticles } from '../services/blog/fetchNagiArticles';
-import { fetchRSS } from '../services/blog/fetchRSS';
-import { fetchQiitaArticles } from '../services/blog/fetchQiitaArticles';
-
-const noteArticles = await fetchRSS('https://note.com/suibari/rss');
-const qiitaArticles = await fetchQiitaArticles("Suibari_cha", import.meta.env.QIITA_ACCESS_TOKEN);
-
-const nagiArticles = await fetchNagiArticles();
-const blogArticles = [...noteArticles, ...qiitaArticles, ...nagiArticles]
-  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+import BlogView from "../views/BlogView.astro";
 ---
-<Layout>
-  <div class="fade-in-element">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full p-2">
-      {blogArticles.map((item) => (
-        <div>
-          <Content title={item.title} image={item.image} date={item.date} link={item.link} />
-        </div>
-      ))}
-    </div>
-  </div>
-</Layout>
+
+<BlogView />

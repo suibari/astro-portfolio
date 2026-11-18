@@ -3,39 +3,64 @@ import SimpleIconsBluesky from "./icons/SimpleIconsBluesky.astro";
 import SimpleIconsGithub from "./icons/SimpleIconsGithub.astro";
 import SimpleIconsPixiv from "./icons/SimpleIconsPixiv.astro";
 import ArcticonsSuzuri from "./icons/ArcticonsSuzuri.astro";
+import NagiIcon from "./icons/NagiIcon.astro";
+import SimpleIconsX from "./icons/SimpleIconsX.astro";
+
+interface Props {
+  tone?: "dark" | "light";
+}
+const { tone = "dark" } = Astro.props;
+
+// 並び順: Nagi, Bluesky, X, GitHub, pixiv, SUZURI
+const links = [
+  { href: "https://nagi.suibari.com/profile/did:plc:uixgxpiqf4i63p6rgpu7ytmx", label: "Nagi", Icon: NagiIcon },
+  { href: "https://bsky.app/profile/suibari.com", label: "Bluesky", Icon: SimpleIconsBluesky },
+  { href: "https://x.com/Suibari_cha", label: "X", Icon: SimpleIconsX },
+  { href: "https://github.com/suibari", label: "GitHub", Icon: SimpleIconsGithub },
+  { href: "https://www.pixiv.net/users/251033", label: "pixiv", Icon: SimpleIconsPixiv },
+  { href: "https://suzuri.jp/suibari", label: "SUZURI", Icon: ArcticonsSuzuri },
+];
 ---
 
-<div class="flex space-x-4 mt-4">
-  <a
-    href="https://bsky.app/profile/suibari.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="text-accent-orange hover:text-white transition-colors duration-300 text-xl drop-shadow-[0_0_2px_rgba(255,159,28,0.5)]"
-  >
-    <SimpleIconsBluesky />
-  </a>
-  <a
-    href="https://www.pixiv.net/users/251033"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="text-accent-orange hover:text-white transition-colors duration-300 text-xl drop-shadow-[0_0_2px_rgba(255,159,28,0.5)]"
-  >
-    <SimpleIconsPixiv />
-  </a>
-  <a
-    href="https://suzuri.jp/suibari"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="text-accent-orange hover:text-white transition-colors duration-300 text-xl drop-shadow-[0_0_2px_rgba(255,159,28,0.5)]"
-  >
-    <ArcticonsSuzuri />
-  </a>
-  <a
-    href="https://github.com/suibari"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="text-accent-orange hover:text-white transition-colors duration-300 text-xl drop-shadow-[0_0_2px_rgba(255,159,28,0.5)]"
-  >
-    <SimpleIconsGithub />
-  </a>
-</div>
+<ul class="sns" data-tone={tone}>
+  {
+    links.map(({ href, label, Icon }) => (
+      <li>
+        <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} title={label}>
+          <Icon />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .sns {
+    display: flex;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    transition: color 0.15s, background-color 0.15s;
+  }
+  a:hover {
+    color: var(--blue);
+    background: var(--blue-soft);
+  }
+  [data-tone="light"] a {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  [data-tone="light"] a:hover {
+    color: var(--ink);
+    background: var(--orange);
+  }
+</style>

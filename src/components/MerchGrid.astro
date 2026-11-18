@@ -1,0 +1,65 @@
+---
+import { Image } from "astro:assets";
+import { merchandises } from "../data/merchandises";
+---
+
+<ul class="grid">
+  {
+    merchandises.map((item) => (
+      <li>
+        <a href={item.link} target="_blank" rel="noopener noreferrer">
+          <Image src={item.image} alt="" widths={[240, 480]} sizes="(max-width: 520px) 45vw, 240px" />
+          <span class="name">{item.title}</span>
+          <span class="desc">{item.description}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  a {
+    display: block;
+  }
+  .grid :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    transition: transform 0.2s;
+  }
+  a:hover :global(img) {
+    transform: translateY(-3px);
+  }
+  .name {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+  a:hover .name {
+    color: var(--blue);
+  }
+  .desc {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 520px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -1,0 +1,451 @@
+---
+// トップの Creative Nexus。キーワードを押すと、関係する作品がバブルになって飛び出す
+//   Technology → Projects / Creativity → Illustrations（＋グッズ） / Community → Nagi
+import { getImage } from "astro:assets";
+import { charter, type NexusKey } from "../data/nexus";
+import { merchandises } from "../data/merchandises";
+import { langOf, localizePath, useTranslations } from "../i18n/ui";
+import { getProjects } from "../lib/projects";
+import { getBlogPosts, getIllustrations } from "../lib/feeds";
+
+const lang = langOf(Astro.currentLocale);
+const t = useTranslations(lang);
+const c = charter[lang];
+
+interface Bubble {
+  title: string;
+  href: string;
+  image?: string;
+  icon?: "nagi";
+  text?: string; // 画像がないときに丸の中に出す文字
+  external?: boolean;
+  more?: boolean; // 「もっと見る」用のバブル
+}
+
+const thumb = async (src: Parameters<typeof getImage>[0]["src"]) =>
+  (await getImage({ src, width: 240, format: "webp" })).src;
+
+const [projects, illustrations, posts] = await Promise.all([getProjects(), getIllustrations(), getBlogPosts()]);
+
+const technology: Bubble[] = projects
+  .filter((project) => project.cover && project.data.status === "active")
+  .slice(0, 7)
+  .map((project) => ({
+    title: project.data.title,
+    href: project.data.link,
+    image: project.cover!.src,
+    external: true,
+  }));
+technology.push({ title: t("nexus.moreProjects"), href: localizePath(lang, "/projects"), text: "more_", more: true });
+
+const creativity: Bubble[] = [
+  ...illustrations.slice(0, 5).map((item) => ({ title: item.title, href: item.link, image: item.image, external: true })),
+  ...(await Promise.all(
+    merchandises.map(async (item) => ({ title: item.title, href: item.link, image: await thumb(item.image), external: true })),
+  )),
+].slice(0, 7);
+creativity.push({ title: t("nexus.moreIllust"), href: localizePath(lang, "/illust"), text: "more_", more: true });
+
+const botProject = projects.find((project) => project.id === "affirmative-bot");
+const community: Bubble[] = [
+  { title: "Nagi", href: "https://nagi.suibari.com/", icon: "nagi", external: true },
+  ...posts
+    .filter((post) => post.source === "Nagi")
+    .slice(0, 4)
+    .map((post) => ({ title: post.title, href: post.link, image: post.image || undefined, text: post.title, external: true })),
+  ...(botProject?.cover
+    ? [{ title: botProject.data.title, href: botProject.data.link, image: botProject.cover.src, external: true }]
+    : []),
+].slice(0, 7);
+community.push({ title: "Blog", href: localizePath(lang, "/blog"), text: "blog_", more: true });
+
+const groups: Record<NexusKey, Bubble[]> = { technology, creativity, community };
+const keys = Object.keys(groups) as NexusKey[];
+
+// 種バブル（Technology / Creativity / Community）の位置（中心の x%）
+const seedX: Record<NexusKey, number> = { technology: 18, creativity: 50, community: 82 };
+
+// 展開したバブルの置き場所（中心の x%, y%, 直径px）。種バブルが上に寄ったあとの下側に並べる
+const slots: [number, number, number][] = [
+  [14, 54, 104],
+  [38, 47, 84],
+  [62, 53, 104],
+  [86, 47, 80],
+  [26, 84, 76],
+  [50, 85, 92],
+  [74, 85, 72],
+  [93, 80, 56],
+];
+---
+
+<section class="nexus" aria-labelledby="nexus-title">
+  <div class="head">
+    <p class="label">{t("nexus.label")}</p>
+    <h2 id="nexus-title" class="font-pixel">Creative Nexus<span class="cursor" aria-hidden="true">_</span></h2>
+    <p class="tagline">{c.tagline}</p>
+  </div>
+
+  <div class="stage" data-active="">
+    {
+      keys.map((key, index) => (
+        <>
+          {index > 0 && (
+            <span class="times" aria-hidden="true" style={`--x:${(seedX[keys[index - 1]] + seedX[key]) / 2}%`}>
+              ×
+            </span>
+          )}
+          <button
+            type="button"
+            class="seed"
+            data-key={key}
+            aria-pressed="false"
+            aria-controls={`nexus-${key}`}
+            style={`--x:${seedX[key]}%`}
+          >
+            <span class="seed-ball">{charter.en.keywords[key]}</span>
+          </button>
+        </>
+      ))
+    }
+    {
+      keys.map((key) => (
+        <ul id={`nexus-${key}`} class="bubbles" data-group={key} aria-label={charter.en.keywords[key]} hidden>
+          {groups[key].map((bubble, i) => {
+            const [x, y, size] = slots[i % slots.length];
+            return (
+              <li style={`--x:${x}%;--y:${y}%;--s:${size}px;--i:${i};--f:${3 + ((i * 7) % 5) * 0.4}s`}>
+                <a
+                  href={bubble.href}
+                  class="bubble"
+                  data-kind={bubble.more ? "more" : bubble.icon ?? (bubble.image ? "image" : "text")}
+                  {...(bubble.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  <span class="ball">
+                    {bubble.icon === "nagi" ? (
+                      <span class="nagi-mark" aria-hidden="true" />
+                    ) : bubble.image ? (
+                      <img src={bubble.image} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      <span class="ball-text">{bubble.text}</span>
+                    )}
+                  </span>
+                  <span class="tip">{bubble.title}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ))
+    }
+  </div>
+
+  <a class="read" href={localizePath(lang, "/manifesto")}>{t("nexus.read")}<span aria-hidden="true">→</span></a>
+</section>
+
+<style>
+  .nexus {
+    position: relative;
+    margin-top: -64px;
+    padding: 24px 24px 20px;
+    border-radius: 18px;
+    background: var(--bg);
+    box-shadow:
+      0 18px 40px -18px rgba(12, 29, 74, 0.35),
+      0 2px 6px rgba(12, 29, 74, 0.06);
+  }
+  .label {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--blue);
+  }
+  h2 {
+    margin: 0;
+    font-size: clamp(2.5rem, 8vw, 3.25rem);
+    line-height: 1.05;
+  }
+  .tagline {
+    margin: 4px 0 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  /* ---- バブルの舞台 ---- */
+  .stage {
+    --seed: 128px;
+    --seed-small: 64px;
+    position: relative;
+    height: 340px;
+    margin: 8px -8px 0;
+  }
+  /* 種バブル：最初は真ん中に大きく、どれかを開くと上に小さく寄る */
+  .seed {
+    position: absolute;
+    left: var(--x);
+    top: 50%;
+    z-index: 2;
+    width: var(--seed);
+    height: var(--seed);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    font: inherit;
+    translate: -50% -50%;
+    cursor: pointer;
+    transition:
+      top 0.45s cubic-bezier(0.34, 1.3, 0.64, 1),
+      width 0.45s cubic-bezier(0.34, 1.3, 0.64, 1),
+      height 0.45s cubic-bezier(0.34, 1.3, 0.64, 1);
+  }
+  .stage:not([data-active=""]) .seed {
+    top: 12%;
+    width: var(--seed-small);
+    height: var(--seed-small);
+  }
+  .seed-ball {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    font-size: 0.9375rem;
+    font-weight: 800;
+    box-shadow: 0 10px 22px -10px rgba(12, 29, 74, 0.55);
+    outline: 3px solid #fff;
+    animation: float 4s ease-in-out infinite;
+    transition: font-size 0.3s, outline-color 0.15s, opacity 0.2s;
+  }
+  .seed[data-key="technology"] .seed-ball { background: var(--blue); color: #fff; }
+  .seed[data-key="creativity"] .seed-ball { background: var(--orange); color: var(--ink); animation-delay: -1.3s; }
+  .seed[data-key="community"] .seed-ball { background: var(--sky); color: var(--ink); animation-delay: -2.6s; }
+  .stage:not([data-active=""]) .seed-ball {
+    font-size: 0.625rem;
+  }
+  /* 開いていない種は少し控えめに */
+  .stage:not([data-active=""]) .seed[aria-pressed="false"] .seed-ball {
+    opacity: 0.55;
+  }
+  .seed:hover .seed-ball,
+  .seed:focus-visible .seed-ball,
+  .seed[aria-pressed="true"] .seed-ball {
+    outline-color: var(--orange);
+    opacity: 1;
+  }
+  .seed[data-key="creativity"]:hover .seed-ball,
+  .seed[data-key="creativity"]:focus-visible .seed-ball,
+  .seed[data-key="creativity"][aria-pressed="true"] .seed-ball {
+    outline-color: var(--blue);
+  }
+  .seed:focus-visible {
+    outline: none;
+  }
+  .times {
+    position: absolute;
+    left: var(--x);
+    top: 50%;
+    translate: -50% -50%;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--orange);
+    transition: top 0.45s, opacity 0.2s;
+  }
+  .stage:not([data-active=""]) .times {
+    top: 12%;
+    opacity: 0;
+  }
+
+  .bubbles {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bubbles li {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: var(--s);
+    translate: -50% -50%;
+  }
+  .bubble {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .ball {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    box-shadow: 0 6px 16px -6px rgba(12, 29, 74, 0.45);
+    outline: 3px solid #fff;
+    animation: float var(--f) ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.6s);
+    transition: outline-color 0.15s;
+  }
+  .ball img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .bubble[data-kind="text"] .ball,
+  .bubble[data-kind="more"] .ball {
+    background: var(--blue);
+  }
+  .ball-text {
+    padding: 10%;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+    color: #fff;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .bubble[data-kind="more"] .ball-text {
+    font-family: "VT323", monospace;
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+  .bubble[data-kind="nagi"] .ball {
+    background: #fff;
+  }
+  .nagi-mark {
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(135deg, #8fd8d2, #5fb3d9);
+    -webkit-mask: url("/images/nagi-icon-mask.png") center / contain no-repeat;
+    mask: url("/images/nagi-icon-mask.png") center / contain no-repeat;
+  }
+  .bubble:hover .ball,
+  .bubble:focus-visible .ball {
+    outline-color: var(--orange);
+  }
+  .bubble:focus-visible {
+    outline: none;
+  }
+  .tip {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 6px);
+    translate: -50% 0;
+    z-index: 2;
+    max-width: 14em;
+    padding: 2px 10px;
+    border-radius: 6px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  .bubble:hover .tip,
+  .bubble:focus-visible .tip {
+    opacity: 1;
+  }
+  .bubbles li:hover {
+    z-index: 3;
+  }
+
+  .read {
+    display: inline-flex;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .read span {
+    transition: transform 0.15s;
+  }
+  .read:hover span {
+    transform: translateX(3px);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+
+  @media (max-width: 560px) {
+    .nexus {
+      padding: 20px 16px 16px;
+    }
+    .stage {
+      --seed: 86px;
+      --seed-small: 62px;
+      height: 320px;
+    }
+    .seed-ball {
+      font-size: 0.75rem;
+    }
+    .stage:not([data-active=""]) .seed-ball {
+      font-size: 0.5625rem;
+    }
+    .times {
+      display: none;
+    }
+    .bubbles li {
+      width: calc(var(--s) * 0.72);
+      height: calc(var(--s) * 0.72);
+    }
+  }
+</style>
+
+<script>
+  // 種バブルを押すと、そこから関係するバブルが飛び出す。もう一度押すと閉じる
+  const stage = document.querySelector<HTMLElement>(".nexus .stage");
+  const seeds = [...(stage?.querySelectorAll<HTMLButtonElement>(".seed") ?? [])];
+  const groups = [...(stage?.querySelectorAll<HTMLElement>(".bubbles") ?? [])];
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function show(key: string) {
+    if (!stage) return;
+    stage.dataset.active = key;
+    for (const seed of seeds) seed.setAttribute("aria-pressed", String(seed.dataset.key === key));
+    for (const group of groups) group.hidden = group.dataset.group !== key;
+    if (!key || reduceMotion) return;
+
+    const seed = seeds.find((s) => s.dataset.key === key);
+    const group = groups.find((g) => g.dataset.group === key);
+    if (!seed || !group) return;
+    // 種が上へ寄ったあとの位置（x は同じ、y は 12%）から、各バブルを今の位置へ飛ばす
+    const stageRect = stage.getBoundingClientRect();
+    const from = {
+      x: stageRect.left + (parseFloat(seed.style.getPropertyValue("--x")) / 100) * stageRect.width,
+      y: stageRect.top + stageRect.height * 0.12,
+    };
+    group.querySelectorAll<HTMLElement>("li").forEach((item, i) => {
+      const rect = item.getBoundingClientRect();
+      const dx = from.x - (rect.left + rect.width / 2);
+      const dy = from.y - (rect.top + rect.height / 2);
+      item.querySelector<HTMLElement>(".bubble")?.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) scale(0.15)`, opacity: 0 },
+          { opacity: 1, offset: 0.25 },
+          { transform: "translate(0, 0) scale(1)", opacity: 1 },
+        ],
+        { duration: 650, delay: 150 + i * 45, easing: "cubic-bezier(0.34, 1.45, 0.64, 1)", fill: "backwards" },
+      );
+    });
+  }
+
+  for (const seed of seeds) {
+    seed.addEventListener("click", () => {
+      const key = seed.dataset.key ?? "";
+      show(stage?.dataset.active === key ? "" : key);
+    });
+  }
+</script>
+

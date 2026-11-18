@@ -1,0 +1,64 @@
+---
+interface Props {
+  title: string;
+  more?: { href: string; label?: string };
+  level?: "h1" | "h2";
+}
+const { title, more, level = "h2" } = Astro.props;
+const Tag = level;
+const external = more ? /^https?:/.test(more.href) : false;
+---
+
+<div class="heading">
+  <Tag class="font-pixel">{title}<span class="cursor" aria-hidden="true">_</span></Tag>
+  {
+    more && (
+      <a
+        href={more.href}
+        class="more"
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {more.label ?? "もっと見る"}
+        <span aria-hidden="true">{external ? "↗" : "→"}</span>
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  h1,
+  h2 {
+    margin: 0;
+    font-size: 2.25rem;
+    line-height: 1.2;
+    color: var(--ink);
+    border-bottom: 4px solid var(--blue);
+  }
+  h1 {
+    font-size: 3rem;
+  }
+  .more {
+    flex-shrink: 0;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: color 0.15s;
+  }
+  .more span {
+    display: inline-block;
+    transition: transform 0.15s;
+  }
+  .more:hover {
+    color: var(--blue);
+  }
+  .more:hover span {
+    transform: translateX(3px);
+  }
+</style>

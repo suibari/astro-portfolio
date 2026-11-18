@@ -1,115 +1,256 @@
 ---
-import SimpleLineIconsMenu from "./icons/SimpleLineIconsMenu.astro";
+import { langOf, localizePath, useTranslations } from "../i18n/ui";
+
+const lang = langOf(Astro.currentLocale);
+const t = useTranslations(lang);
+const other = lang === "ja" ? "en" : "ja";
+const current = localizePath("ja", Astro.url.pathname.replace(/\/+$/, "") || "/");
+const links = [
+  { href: "/manifesto", label: t("nav.manifesto") },
+  { href: "/projects", label: t("nav.projects") },
+  { href: "/illust", label: t("nav.illust") },
+  { href: "/blog", label: t("nav.blog") },
+  { href: "/about", label: t("nav.about") },
+];
 ---
 
-<header
-  class="sticky top-0 z-50 bg-navy-900/80 backdrop-blur-md border-b border-navy-700 shadow-lg"
->
-  <nav class="flex justify-between items-center px-6 md:px-16 lg:px-32 py-4">
-    <!-- ロゴ -->
-    <a
-      href="/"
-      class="text-accent-orange hover:text-white transition-colors duration-300 text-4xl vt323-regular drop-shadow-[0_0_5px_rgba(255,159,28,0.5)]"
-    >
-      S.O.S.!!
+<header class="site-header">
+  <div class="container inner">
+    <a href={localizePath(lang, "/")} class="logo font-pixel" aria-label={`S.O.S.!! ${t("about.top")}`}>
+      S.O.S.!!<span class="cursor logo-cursor" aria-hidden="true">_</span>
     </a>
-
-    <!-- デスクトップメニュー -->
-    <div class="hidden md:flex space-x-12">
-      <a
-        href="https://bot-tan.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Characters</a
-      >
-      <a
-        href="/develop"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Projects</a
-      >
-      <a
-        href="/illust"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Illustrations</a
-      >
-      <a
-        href="/blog"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >Blog</a
-      >
-      <a
-        href="/about"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300 font-bold tracking-wide"
-        >About</a
-      >
-    </div>
-
-    <!-- ハンバーガーメニュー -->
-    <div class="md:hidden">
-      <button
-        id="menu-toggle"
-        class="text-text-main hover:text-accent-orange transition-colors duration-300"
-      >
-        <!-- Simple Icons でハンバーガーアイコン -->
-        <SimpleLineIconsMenu />
-      </button>
-    </div>
-  </nav>
-
-  <!-- モバイル用メニュー -->
-  <div
-    id="mobile-menu"
-    class="hidden bg-navy-800/95 backdrop-blur-xl text-text-main space-y-4 text-center p-6 md:hidden border-t border-navy-700 absolute w-full shadow-2xl"
-  >
+    <nav id="site-nav" aria-label={t("nav.label")}>
+      <ul>
+        {
+          links.map(({ href, label }) => (
+            <li>
+              <a href={localizePath(lang, href)} aria-current={current === href ? "page" : undefined}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="https://bot-tan.com" target="_blank" rel="noopener noreferrer">
+            {t("nav.characters")}<span class="ext" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
     <a
-      href="https://bot-tan.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Characters</a
+      class="lang"
+      href={localizePath(other, Astro.url.pathname)}
+      hreflang={other}
+      lang={other}
+      data-lang={other}
     >
-    <a
-      href="/develop"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Projects</a
+      <span class="font-pixel" aria-hidden="true">{lang === "ja" ? "JA" : "EN"}<b>/</b>{lang === "ja" ? "EN" : "JA"}</span>
+      <span class="sr-only">{t("lang.switch")}</span>
+    </a>
+    <button
+      type="button"
+      class="burger"
+      aria-controls="site-nav"
+      aria-expanded="false"
+      aria-label={t("nav.open")}
+      data-open-label={t("nav.open")}
+      data-close-label={t("nav.close")}
     >
-    <a
-      href="/illust"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Illustrations</a
-    >
-    <a
-      href="/blog"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >Blog</a
-    >
-    <a
-      href="/about"
-      class="block hover:text-accent-orange py-2 transition-colors duration-300"
-      >About</a
-    >
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector("#menu-toggle");
-    const mobileMenu = document.querySelector("#mobile-menu");
+  // スマホのハンバーガーメニュー
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const burger = header?.querySelector<HTMLButtonElement>(".burger");
+  function setOpen(open: boolean) {
+    if (!header || !burger) return;
+    header.dataset.open = String(open);
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", (open ? burger.dataset.closeLabel : burger.dataset.openLabel) ?? "");
+  }
+  burger?.addEventListener("click", () => setOpen(header?.dataset.open !== "true"));
+  header?.querySelectorAll("nav a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && header?.dataset.open === "true") {
+      setOpen(false);
+      burger?.focus();
+    }
+  });
 
-    // ハンバーガーメニューの初期状態を非表示に設定
-    mobileMenu?.classList.add("hidden");
-
-    toggleButton?.addEventListener("click", () => {
-      const isVisible = !mobileMenu?.classList.contains("hidden");
-
-      if (isVisible) {
-        // すでに表示されている場合は閉じる
-        mobileMenu?.classList.add("hidden");
-      } else {
-        // 非表示なら表示する
-        mobileMenu?.classList.remove("hidden");
-      }
-    });
+  // 言語を手動で選んだら、次からはその言語で開く
+  // 絞り込みなどの ?tag= も引き継ぐ
+  document.querySelector<HTMLAnchorElement>(".site-header .lang")?.addEventListener("click", (event) => {
+    const link = event.currentTarget as HTMLAnchorElement;
+    try {
+      localStorage.setItem("lang", link.dataset.lang ?? "ja");
+    } catch {}
+    link.href = link.pathname + location.search + location.hash;
   });
 </script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--blue);
+    color: #fff;
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-block: 10px;
+  }
+  .logo {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  /* ロゴのカーソルはホバーしたときだけ点滅させる */
+  .logo-cursor {
+    opacity: 0;
+    animation: none;
+  }
+  .logo:hover .logo-cursor,
+  .logo:focus-visible .logo-cursor {
+    opacity: 1;
+    animation: blink 1.06s step-end infinite;
+  }
+  nav {
+    margin-left: auto;
+    min-width: 0;
+  }
+  ul {
+    display: flex;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  nav a {
+    display: inline-block;
+    padding-block: 6px;
+    color: rgba(255, 255, 255, 0.78);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav a:hover {
+    color: #fff;
+  }
+  nav a[aria-current="page"] {
+    color: #fff;
+    border-color: var(--orange);
+  }
+  .ext {
+    margin-left: 2px;
+    font-size: 0.75em;
+  }
+  .lang {
+    flex-shrink: 0;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 1.25rem;
+    line-height: 1.3;
+    transition: background-color 0.15s;
+  }
+  .lang b {
+    margin-inline: 3px;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+  .lang:hover {
+    background: var(--orange);
+    color: var(--ink);
+  }
+  .burger {
+    display: none;
+  }
+  /* スマホではハンバーガーメニューにする */
+  @media (max-width: 760px) {
+    .inner {
+      position: relative;
+    }
+    .lang {
+      margin-left: auto;
+    }
+    .burger {
+      display: grid;
+      place-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      margin-right: -8px;
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: none;
+      cursor: pointer;
+    }
+    .burger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 1px;
+      background: #fff;
+      transition: transform 0.2s, opacity 0.2s, background-color 0.2s;
+    }
+    [data-open="true"] .burger span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+      background: var(--orange);
+    }
+    [data-open="true"] .burger span:nth-child(2) {
+      opacity: 0;
+    }
+    [data-open="true"] .burger span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+      background: var(--orange);
+    }
+    nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin: 0;
+      padding: 8px 20px 20px;
+      background: var(--blue);
+      box-shadow: 0 16px 24px -12px rgba(12, 29, 74, 0.5);
+      visibility: hidden;
+      opacity: 0;
+      translate: 0 -8px;
+      transition: opacity 0.18s, translate 0.18s, visibility 0s 0.18s;
+    }
+    [data-open="true"] nav {
+      visibility: visible;
+      opacity: 1;
+      translate: 0 0;
+      transition: opacity 0.18s, translate 0.18s;
+    }
+    ul {
+      flex-direction: column;
+      gap: 0;
+      font-size: 1rem;
+    }
+    nav li + li {
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    nav a {
+      display: block;
+      padding-block: 12px;
+      border-bottom: 0;
+    }
+    nav a[aria-current="page"] {
+      color: var(--orange);
+    }
+    nav a[aria-current="page"]::before {
+      content: "> ";
+      font-family: "VT323", monospace;
+    }
+  }
+</style>

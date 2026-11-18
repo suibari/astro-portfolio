@@ -19,8 +19,11 @@ export async function fetchNagiArticles() {
   return documents.flatMap(record => {
     const document = record.value;
     const site = sites.get(document.site) ?? document.site;
-    // Other publishing apps also use standard.document in this account.
-    if (site.replace(/\/+$/, '') !== 'https://nagi.suibari.com') return [];
+    // 同じアカウントで他の公開アプリ（blento / mochott など）も standard.document を使うので、
+    // Nagiのブログ（https://nagi.suibari.com/blog/<did>）に載っている記事だけを拾う
+    if (!site.startsWith('https://nagi.suibari.com/')) return [];
+    // スレッドを記事化したもの（/thread/...）はブログ記事ではないので除く
+    if ((document.path ?? '').startsWith('/thread/')) return [];
     return [{
       title: document.title,
       link: `${site.replace(/\/+$/, '')}/${(document.path ?? '').replace(/^\/+/, '')}`,

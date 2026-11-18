@@ -1,0 +1,40 @@
+---
+// 下層ページの見出し帯（青い面）
+interface Props {
+  title: string;
+  lead?: string;
+}
+const { title, lead } = Astro.props;
+---
+
+<div class="page-hero">
+  <div class="container">
+    <h1 class="font-pixel">{title}<span class="cursor" aria-hidden="true">_</span></h1>
+    {lead && <p>{lead}</p>}
+    <slot />
+  </div>
+</div>
+
+<style>
+  .page-hero {
+    background-color: var(--blue);
+    color: #fff;
+    padding-block: 36px 40px;
+    margin-bottom: 40px;
+    background-image:
+      linear-gradient(105deg, var(--blue) 50%, transparent 85%),
+      radial-gradient(rgba(255, 255, 255, 0.16) 1.6px, transparent 2px);
+    background-size: auto, 16px 16px;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(3rem, 10vw, 4.5rem);
+    line-height: 1;
+  }
+  p {
+    margin: 10px 0 0;
+    max-width: 36em;
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.85);
+  }
+</style>
