@@ -8,10 +8,10 @@ const c = charter[lang];
 const keys = ["technology", "creativity", "community"] as const;
 ---
 
-<Layout title={`Creative Nexus — ${c.pageTitle}`} description={`${c.lead} ${c.tagline}`}>
+<Layout title="Manifesto" description={`${c.lead} ${c.tagline}`}>
   <div class="nexus-hero">
     <div class="container">
-      <p class="eyebrow">{c.pageTitle}</p>
+      <p class="eyebrow"><span class="font-pixel">Manifesto</span> — {c.pageTitle}</p>
       <h1 class="font-pixel">Creative Nexus<span class="cursor" aria-hidden="true">_</span></h1>
       <p class="formula">
         {
@@ -29,11 +29,6 @@ const keys = ["technology", "creativity", "community"] as const;
 
   <div class="container body">
     <p class="lead">{c.lead}</p>
-
-    <section>
-      <h2><span class="font-pixel">{c.philosophy.label}</span><small>{c.philosophy.sub}</small></h2>
-      {c.philosophy.body.map((p) => <p>{p}</p>)}
-    </section>
 
     <div class="pair">
       {
@@ -69,10 +64,7 @@ const keys = ["technology", "creativity", "community"] as const;
           c.principles.items.map((item, i) => (
             <li>
               <span class="num font-pixel" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </div>
+              <span class="principle">{item}</span>
             </li>
           ))
         }
@@ -100,6 +92,10 @@ const keys = ["technology", "creativity", "community"] as const;
       linear-gradient(105deg, var(--blue) 45%, transparent 80%),
       radial-gradient(rgba(255, 255, 255, 0.16) 1.6px, transparent 2px);
     background-size: auto, 16px 16px;
+  }
+  .eyebrow .font-pixel {
+    font-size: 1.25rem;
+    color: #fff;
   }
   .eyebrow {
     margin: 0;
@@ -229,26 +225,22 @@ const keys = ["technology", "creativity", "community"] as const;
   }
   .principles li {
     display: grid;
-    grid-template-columns: 56px 1fr;
+    grid-template-columns: 48px 1fr;
+    align-items: center;
     gap: 12px;
-    padding: 14px 0;
+    padding: 10px 0;
   }
   .principles li + li {
     border-top: 1px dashed var(--line);
   }
   .num {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     line-height: 1;
     color: var(--blue);
   }
-  .principles h3 {
-    margin: 0 0 4px;
-    font-weight: 700;
+  .principle {
     font-size: 1rem;
-  }
-  .principles p {
-    margin: 0;
-    color: var(--ink-soft);
+    font-weight: 700;
   }
   .sign {
     font-size: 1.5rem;

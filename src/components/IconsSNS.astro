@@ -4,15 +4,18 @@ import SimpleIconsGithub from "./icons/SimpleIconsGithub.astro";
 import SimpleIconsPixiv from "./icons/SimpleIconsPixiv.astro";
 import ArcticonsSuzuri from "./icons/ArcticonsSuzuri.astro";
 import NagiIcon from "./icons/NagiIcon.astro";
+import SimpleIconsX from "./icons/SimpleIconsX.astro";
 
 interface Props {
   tone?: "dark" | "light";
 }
 const { tone = "dark" } = Astro.props;
 
+// 並び順: Nagi, Bluesky, X, GitHub, pixiv, SUZURI
 const links = [
-  { href: "https://bsky.app/profile/suibari.com", label: "Bluesky", Icon: SimpleIconsBluesky },
   { href: "https://nagi.suibari.com/profile/did:plc:uixgxpiqf4i63p6rgpu7ytmx", label: "Nagi", Icon: NagiIcon },
+  { href: "https://bsky.app/profile/suibari.com", label: "Bluesky", Icon: SimpleIconsBluesky },
+  { href: "https://x.com/Suibari_cha", label: "X", Icon: SimpleIconsX },
   { href: "https://github.com/suibari", label: "GitHub", Icon: SimpleIconsGithub },
   { href: "https://www.pixiv.net/users/251033", label: "pixiv", Icon: SimpleIconsPixiv },
   { href: "https://suzuri.jp/suibari", label: "SUZURI", Icon: ArcticonsSuzuri },

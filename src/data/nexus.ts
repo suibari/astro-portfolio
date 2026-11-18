@@ -1,6 +1,6 @@
 // 活動憲章「Creative Nexus」
 // 原文: https://nagi.suibari.com/blog/did:plc:uixgxpiqf4i63p6rgpu7ytmx/3mzeh6lueb22i
-// 英語版は原文からの翻訳（下書き）
+// 英語版は原文からの翻訳（下書き）。サイトでは要約版を載せている（Philosophy は lead に統合、Principles は見出しのみ）
 import type { Lang } from "../i18n/ui";
 
 export const NEXUS_SOURCE_URL =
@@ -18,11 +18,10 @@ interface Charter {
   lead: string;
   tagline: string;
   keywords: Record<NexusKey, string>;
-  philosophy: Section & { body: string[] };
   mission: Section & { statement: string; body: string };
   vision: Section & { statement: string; body: string };
   values: Section & { items: { key: NexusKey; title: string; body: string }[] };
-  principles: Section & { items: { title: string; body: string }[] };
+  principles: Section & { items: string[] };
   closing: Section & { body: string[] };
   source: string;
 }
@@ -30,18 +29,9 @@ interface Charter {
 export const charter: Record<Lang, Charter> = {
   ja: {
     pageTitle: "すいばりのみちしるべ：活動憲章",
-    lead: "Creative Nexus という言葉を定義し、私のこれからのみちしるべにします。",
+    lead: "Creative Nexus という言葉を定義し、私のこれからのみちしるべにします。技術と創作、そしてコミュニティ。それぞれの領域を自由に行き来し、むすびつけることで、人を楽しませ、心を動かし、人と人がつながる体験を作りたいです。",
     tagline: "技術と創作をむすび、誰かの日常を大いに盛り上げるために。",
     keywords: { technology: "技術", creativity: "創作", community: "コミュニティ" },
-    philosophy: {
-      label: "Philosophy",
-      sub: "基本理念",
-      body: [
-        "私がやりたいことは、技術を極めることでも、最先端を追い続けることでも、優れた作品を生み出すことだけでもないことに気づきました。",
-        "技術と創作、そしてコミュニティ。それぞれの領域を自由に行き来し、むすびつけることで、人を楽しませ、心を動かし、人と人がつながる体験を作りたいです。",
-        "それが、私の考える Creative Nexus です。",
-      ],
-    },
     mission: {
       label: "Mission",
       sub: "使命",
@@ -79,26 +69,11 @@ export const charter: Record<Lang, Charter> = {
       label: "Principles",
       sub: "迷ったときのみちしるべ",
       items: [
-        {
-          title: "手段よりも目的を大切にする",
-          body: "最新技術を使うことも、表現を極めることも、それ自体を目的にしません。「それは誰かを楽しませるだろうか？」迷ったときは、この問いに立ち返ります。",
-        },
-        {
-          title: "他人の尺度で自分の活動を測らない",
-          body: "技術力、画力、知名度、ユーザー数。それらは活動の一面を表す指標であって、活動の価値そのものではありません。他人との比較ではなく、自分が実現したかった体験に近づいているかを大切にします。",
-        },
-        {
-          title: "小さなつながりを大切にする",
-          body: "大勢に届くことだけが成功ではありません。たとえ少人数でも、楽しみにしてくれる人がいること、居場所だと感じてくれる人がいることを大切にします。",
-        },
-        {
-          title: "自分の「作りたい」を忘れない",
-          body: "誰かを楽しませるために、自分自身が創作の楽しさを失ってしまっては本末転倒です。他人の期待に応えることだけを考えず、自分の好奇心や作りたい気持ちを尊重します。",
-        },
-        {
-          title: "無理なく、長く続ける",
-          body: "活動を続けることは大切だが、活動を守るために自分の生活や健康を犠牲にしません。休むこと、立ち止まること、方向転換することも認めます。自分自身も、安心して過ごせる場所を持ち続けます。",
-        },
+        "手段よりも目的を大切にする",
+        "他人の尺度で自分の活動を測らない",
+        "小さなつながりを大切にする",
+        "自分の「作りたい」を忘れない",
+        "無理なく、長く続ける",
       ],
     },
     closing: {
@@ -112,19 +87,10 @@ export const charter: Record<Lang, Charter> = {
     source: "原文（Nagi）",
   },
   en: {
-    pageTitle: "suibari's Guidepost: Activity Charter",
-    lead: "I define the words Creative Nexus as the guidepost for everything I make from here on.",
+    pageTitle: "suibari's Guidepost: A Manifesto",
+    lead: "I define the words Creative Nexus as the guidepost for everything I make from here on. Technology, creativity, and community — by moving freely between these fields and connecting them, I want to create experiences that entertain people, move their hearts, and bring people together.",
     tagline: "Connecting technology and creativity to make someone's everyday life a lot more exciting.",
     keywords: { technology: "Technology", creativity: "Creativity", community: "Community" },
-    philosophy: {
-      label: "Philosophy",
-      sub: "Core idea",
-      body: [
-        "I realized that what I want isn't to master technology, to keep chasing the cutting edge, or only to produce outstanding work.",
-        "Technology, creativity, and community. By moving freely between these fields and connecting them, I want to create experiences that entertain people, move their hearts, and bring people together.",
-        "That is what I call Creative Nexus.",
-      ],
-    },
     mission: {
       label: "Mission",
       sub: "What I do",
@@ -162,26 +128,11 @@ export const charter: Record<Lang, Charter> = {
       label: "Principles",
       sub: "When I'm unsure",
       items: [
-        {
-          title: "Put purpose before means",
-          body: "Using the latest technology or perfecting my craft is never a goal in itself. \"Will this bring someone joy?\" Whenever I'm unsure, I come back to this question.",
-        },
-        {
-          title: "Don't measure my work by other people's yardsticks",
-          body: "Technical skill, drawing skill, recognition, user counts — these show one side of my work, not its worth. Instead of comparing myself to others, I care about whether I'm getting closer to the experience I set out to create.",
-        },
-        {
-          title: "Cherish small connections",
-          body: "Reaching a crowd isn't the only kind of success. Even if it's only a few people, I treasure those who look forward to what I make and those who feel at home in the places I build.",
-        },
-        {
-          title: "Never forget what I want to make",
-          body: "If I lose the joy of creating while trying to entertain others, I've missed the point. I don't only try to meet other people's expectations — I respect my own curiosity and my urge to create.",
-        },
-        {
-          title: "Keep going, sustainably",
-          body: "Continuing matters, but I won't sacrifice my life or health to protect my work. Resting, pausing, and changing direction are all allowed. I'll keep a place where I, too, can feel at ease.",
-        },
+        "Put purpose before means",
+        "Don't measure my work by other people's yardsticks",
+        "Cherish small connections",
+        "Never forget what I want to make",
+        "Keep going, sustainably",
       ],
     },
     closing: {

@@ -6,7 +6,7 @@ const t = useTranslations(lang);
 const other = lang === "ja" ? "en" : "ja";
 const current = localizePath("ja", Astro.url.pathname.replace(/\/+$/, "") || "/");
 const links = [
-  { href: "/nexus", label: t("nav.nexus") },
+  { href: "/manifesto", label: t("nav.manifesto") },
   { href: "/projects", label: t("nav.projects") },
   { href: "/illust", label: t("nav.illust") },
   { href: "/blog", label: t("nav.blog") },
@@ -19,7 +19,7 @@ const links = [
     <a href={localizePath(lang, "/")} class="logo font-pixel" aria-label={`S.O.S.!! ${t("about.top")}`}>
       S.O.S.!!<span class="cursor logo-cursor" aria-hidden="true">_</span>
     </a>
-    <nav aria-label={t("nav.label")}>
+    <nav id="site-nav" aria-label={t("nav.label")}>
       <ul>
         {
           links.map(({ href, label }) => (
@@ -47,10 +47,39 @@ const links = [
       <span class="font-pixel" aria-hidden="true">{lang === "ja" ? "JA" : "EN"}<b>/</b>{lang === "ja" ? "EN" : "JA"}</span>
       <span class="sr-only">{t("lang.switch")}</span>
     </a>
+    <button
+      type="button"
+      class="burger"
+      aria-controls="site-nav"
+      aria-expanded="false"
+      aria-label={t("nav.open")}
+      data-open-label={t("nav.open")}
+      data-close-label={t("nav.close")}
+    >
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
 <script>
+  // スマホのハンバーガーメニュー
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const burger = header?.querySelector<HTMLButtonElement>(".burger");
+  function setOpen(open: boolean) {
+    if (!header || !burger) return;
+    header.dataset.open = String(open);
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", (open ? burger.dataset.closeLabel : burger.dataset.openLabel) ?? "");
+  }
+  burger?.addEventListener("click", () => setOpen(header?.dataset.open !== "true"));
+  header?.querySelectorAll("nav a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && header?.dataset.open === "true") {
+      setOpen(false);
+      burger?.focus();
+    }
+  });
+
   // 言語を手動で選んだら、次からはその言語で開く
   // 絞り込みなどの ?tag= も引き継ぐ
   document.querySelector<HTMLAnchorElement>(".site-header .lang")?.addEventListener("click", (event) => {
@@ -140,26 +169,88 @@ const links = [
     background: var(--orange);
     color: var(--ink);
   }
-  /* スマホではメニューを2段目に回し、横にスクロールできるようにする */
+  .burger {
+    display: none;
+  }
+  /* スマホではハンバーガーメニューにする */
   @media (max-width: 760px) {
     .inner {
-      flex-wrap: wrap;
-      row-gap: 0;
-      padding-bottom: 0;
+      position: relative;
     }
     .lang {
       margin-left: auto;
     }
+    .burger {
+      display: grid;
+      place-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      margin-right: -8px;
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: none;
+      cursor: pointer;
+    }
+    .burger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 1px;
+      background: #fff;
+      transition: transform 0.2s, opacity 0.2s, background-color 0.2s;
+    }
+    [data-open="true"] .burger span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+      background: var(--orange);
+    }
+    [data-open="true"] .burger span:nth-child(2) {
+      opacity: 0;
+    }
+    [data-open="true"] .burger span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+      background: var(--orange);
+    }
     nav {
-      order: 3;
-      width: 100%;
-      margin-left: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin: 0;
+      padding: 8px 20px 20px;
+      background: var(--blue);
+      box-shadow: 0 16px 24px -12px rgba(12, 29, 74, 0.5);
+      visibility: hidden;
+      opacity: 0;
+      translate: 0 -8px;
+      transition: opacity 0.18s, translate 0.18s, visibility 0s 0.18s;
+    }
+    [data-open="true"] nav {
+      visibility: visible;
+      opacity: 1;
+      translate: 0 0;
+      transition: opacity 0.18s, translate 0.18s;
     }
     ul {
-      gap: 16px;
-      font-size: 0.8125rem;
+      flex-direction: column;
+      gap: 0;
+      font-size: 1rem;
+    }
+    nav li + li {
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    nav a {
+      display: block;
+      padding-block: 12px;
+      border-bottom: 0;
+    }
+    nav a[aria-current="page"] {
+      color: var(--orange);
+    }
+    nav a[aria-current="page"]::before {
+      content: "> ";
+      font-family: "VT323", monospace;
     }
   }
 </style>
