@@ -19,8 +19,13 @@ const projects = defineCollection({
       repo: z.string().regex(/^[\w.-]+\/[\w.-]+$/).optional(),
       private: z.boolean().default(false),
       tags: z.array(z.string()).default([]),
+      // 画像は基本的にリンク先のOGP画像を自動で使う。image は取れなかったときの予備
       image: image().optional(),
-      // true にすると一覧から隠す（下書き・公開終了など）
+      // false にすると、リンク先のOGP画像を使わず image（手元の画像）を使う
+      ogp: z.boolean().default(true),
+      // ended: 公開終了（一覧に印を出し、リンク先のOGPは取りに行かない）
+      status: z.enum(["active", "ended"]).default("active"),
+      // true にすると一覧から隠す（下書きなど）
       hidden: z.boolean().default(false),
     }),
 });

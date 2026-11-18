@@ -3,11 +3,14 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "node scripts/fetch-ogp.mjs --cached",
     "dev": "astro dev",
+    "prebuild": "node scripts/fetch-ogp.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "new:project": "node scripts/new-project.mjs"
+    "new:project": "node scripts/new-project.mjs",
+    "fetch:ogp": "node scripts/fetch-ogp.mjs"
   },
   "dependencies": {
     "@astrojs/tailwind": "^6.0.0",

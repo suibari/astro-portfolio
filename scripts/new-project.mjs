@@ -6,7 +6,9 @@
 //
 // GitHubのURLなら、説明・言語・使っているライブラリ・最初のコミット日・公開サイトを取得する。
 // 認証は `gh auth token`（gh CLIのログイン）か環境変数 GITHUB_TOKEN を使うので、
-// プライベートリポジトリも読める。サイトのOGP画像があれば cover.* として保存する。
+// プライベートリポジトリも読める。
+// 画像はビルド時にリンク先の OGP 画像を自動で取るので、ここではダウンロードしない
+// （OGP がないサイトだけ、あとで cover.png などを置いて image: ./cover.png を足す）。
 
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
@@ -140,17 +142,6 @@ async function readOgp(url) {
   }
 }
 
-async function downloadImage(url, dir) {
-  const response = await fetch(url);
-  if (!response.ok) return undefined;
-  const type = response.headers.get("content-type") ?? "";
-  const ext = { "image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp", "image/gif": ".gif" }[type.split(";")[0]]
-    ?? (path.extname(new URL(url).pathname) || ".png");
-  const file = `cover${ext}`;
-  writeFileSync(path.join(dir, file), Buffer.from(await response.arrayBuffer()));
-  return file;
-}
-
 const github_ = input.match(/^https?:\/\/github\.com\/([^/]+)\/([^/#?]+)/);
 const base = github_
   ? await fromGitHub(github_[1], github_[2].replace(/\.git$/, ""))
@@ -173,9 +164,6 @@ if (existsSync(dir)) {
 }
 mkdirSync(dir, { recursive: true });
 
-// 公開リポジトリならGitHubが作るOGP画像を代わりに使える
-const imageUrl = ogp.image ?? (github_ && !project.private ? `https://opengraph.githubassets.com/1/${project.repo}` : undefined);
-const image = imageUrl ? await downloadImage(imageUrl, dir).catch(() => undefined) : undefined;
 
 const q = JSON.stringify;
 const frontmatter = [
@@ -187,14 +175,16 @@ const frontmatter = [
   project.repo && `repo: ${project.repo}`,
   project.private && "private: true",
   `tags: [${project.tags.map(q).join(", ")}]`,
-  image && `image: ./${image}`,
   "---",
   "",
 ].filter((line) => line !== undefined && line !== false && line !== "").join("\n") + "\n";
 writeFileSync(path.join(dir, "index.md"), frontmatter);
 
 const rel = path.relative(process.cwd(), dir);
-console.log(`\n作成しました: ${rel}/index.md${image ? `\n画像: ${rel}/${image}` : "\n画像: なし（あとで cover.png などを置いて image: ./cover.png を足せます）"}\n`);
+const imageNote = ogp.image
+  ? `画像: リンク先の OGP 画像をビルド時に自動で使います（${ogp.image}）`
+  : `画像: リンク先に OGP 画像が見つかりませんでした。必要なら ${rel}/cover.png を置いて image: ./cover.png を足してください`;
+console.log(`\n作成しました: ${rel}/index.md\n${imageNote}\n`);
 console.log(frontmatter);
 if (project.private && project.link.startsWith("https://github.com/")) {
   console.warn("⚠ プライベートリポジトリで公開サイトが見つかりませんでした。link を公開URLに書き換えてください（--link でも指定できます）。");

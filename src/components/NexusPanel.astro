@@ -27,17 +27,15 @@ const thumb = async (src: Parameters<typeof getImage>[0]["src"]) =>
 
 const [projects, illustrations, posts] = await Promise.all([getProjects(), getIllustrations(), getBlogPosts()]);
 
-const technology: Bubble[] = await Promise.all(
-  projects
-    .filter((project) => project.data.image)
-    .slice(0, 7)
-    .map(async (project) => ({
-      title: project.data.title,
-      href: project.data.link,
-      image: await thumb(project.data.image!),
-      external: true,
-    })),
-);
+const technology: Bubble[] = projects
+  .filter((project) => project.cover && project.data.status === "active")
+  .slice(0, 7)
+  .map((project) => ({
+    title: project.data.title,
+    href: project.data.link,
+    image: project.cover!.src,
+    external: true,
+  }));
 technology.push({ title: t("nexus.moreProjects"), href: localizePath(lang, "/projects"), text: "more_", more: true });
 
 const creativity: Bubble[] = [
@@ -55,8 +53,8 @@ const community: Bubble[] = [
     .filter((post) => post.source === "Nagi")
     .slice(0, 4)
     .map((post) => ({ title: post.title, href: post.link, image: post.image || undefined, text: post.title, external: true })),
-  ...(botProject?.data.image
-    ? [{ title: botProject.data.title, href: botProject.data.link, image: await thumb(botProject.data.image), external: true }]
+  ...(botProject?.cover
+    ? [{ title: botProject.data.title, href: botProject.data.link, image: botProject.cover.src, external: true }]
     : []),
 ].slice(0, 7);
 community.push({ title: "Blog", href: localizePath(lang, "/blog"), text: "blog_", more: true });

@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# ビルド前に取ってくる作品の OGP 画像
+src/generated/

@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { publicRepoUrl, type Project } from "../lib/projects";
 import { formatDate } from "../lib/feeds";
 import { langOf, useTranslations } from "../i18n/ui";
@@ -9,16 +8,18 @@ interface Props {
   project: Project;
 }
 const { project } = Astro.props;
-const { title, description, link, tags, image, date } = project.data;
+const { title, description, link, tags, date, status } = project.data;
+const cover = project.cover;
+const ended = status === "ended";
 const repoUrl = publicRepoUrl(project);
 const t = useTranslations(langOf(Astro.currentLocale));
 ---
 
-<li class="row" data-tags={tags.join(",")}>
+<li class="row" data-tags={tags.join(",")} data-status={status}>
   <div class="thumb">
     {
-      image ? (
-        <Image src={image} alt="" widths={[160, 320]} sizes="160px" loading="lazy" />
+      cover ? (
+        <img src={cover.src} srcset={cover.srcset} sizes="(max-width: 520px) 104px, 152px" alt="" loading="lazy" decoding="async" />
       ) : (
         <span class="placeholder font-pixel" aria-hidden="true">&gt;_</span>
       )
@@ -37,6 +38,7 @@ const t = useTranslations(langOf(Astro.currentLocale));
     </h3>
     <p class="desc">{description}</p>
     <p class="meta">
+      {ended && <span class="ended">{t("projects.ended")}</span>}
       <time datetime={date.toISOString()}>{formatDate(date)}</time>
       {tags.length > 0 && <span class="tags">{tags.join(" · ")}</span>}
     </p>
@@ -136,6 +138,17 @@ const t = useTranslations(langOf(Astro.currentLocale));
     margin: 0;
     font-size: 0.75rem;
     color: var(--ink-soft);
+  }
+  .ended {
+    padding: 0 6px;
+    border-radius: 4px;
+    background: var(--line);
+    color: var(--ink-soft);
+    font-weight: 700;
+  }
+  [data-status="ended"] .thumb :global(img) {
+    filter: grayscale(0.7);
+    opacity: 0.75;
   }
   .tags {
     font-weight: 700;
