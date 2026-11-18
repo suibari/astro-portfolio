@@ -3,16 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f6f9fd;
-  --surface: #ffffff;
-  --ink: #10233f;
-  --ink-soft: #52627c;
-  --line: #dce4ef;
-  --blue: #2563c9;
-  --blue-soft: #e7effa;
+  --bg: #ffffff;
+  --surface: #f2f6ff;
+  --ink: #0c1d4a;
+  --ink-soft: #4a5a80;
+  --line: #dbe4f5;
+  --blue: #1450f5; /* 面に使うメインの青 */
+  --blue-deep: #0b2fa8;
+  --blue-soft: #e9f0ff;
+  --sky: #47b3ff;
   --orange: #ff9f1c;
   --orange-ink: #b85f00; /* 小さい文字に使うときのオレンジ（白地でも読める濃さ） */
-  --content-width: 760px;
+  --content-width: 800px;
 }
 
 html {
@@ -78,6 +80,12 @@ a {
   50% {
     opacity: 0;
   }
+}
+
+/* 青い面に敷くドット模様 */
+.dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.6px, transparent 2px);
+  background-size: 16px 16px;
 }
 
 /* 本文中のテキストリンク */

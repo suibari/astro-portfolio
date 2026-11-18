@@ -11,6 +11,7 @@ export default {
         "ink-soft": "var(--ink-soft)",
         line: "var(--line)",
         blue: "var(--blue)",
+        "blue-deep": "var(--blue-deep)",
         "blue-soft": "var(--blue-soft)",
         orange: "var(--orange)",
         "orange-ink": "var(--orange-ink)",

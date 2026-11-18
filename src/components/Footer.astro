@@ -2,17 +2,18 @@
 import IconsSNS from "./IconsSNS.astro";
 ---
 
-<footer class="site-footer">
+<footer class="site-footer dots">
   <div class="container inner">
     <p class="mark"><span class="font-pixel">S.O.S.!!</span> © suibari</p>
-    <IconsSNS />
+    <IconsSNS tone="light" />
   </div>
 </footer>
 
 <style>
   .site-footer {
     margin-top: 96px;
-    border-top: 1px solid var(--line);
+    background-color: var(--blue-deep);
+    color: #fff;
   }
   .inner {
     display: flex;
@@ -20,16 +21,16 @@ import IconsSNS from "./IconsSNS.astro";
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding-block: 20px 28px;
+    padding-block: 24px 32px;
   }
   .mark {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ink-soft);
+    color: rgba(255, 255, 255, 0.75);
   }
   .mark .font-pixel {
-    font-size: 1.25rem;
-    color: var(--ink);
+    font-size: 1.5rem;
+    color: #fff;
     margin-right: 6px;
   }
 </style>

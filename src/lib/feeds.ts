@@ -15,6 +15,7 @@ export interface BlogPost {
   link: string;
   date: string; // ISO 8601
   source: "note" | "Qiita" | "Nagi";
+  image?: string | null;
 }
 
 // 1つの取得元が落ちてもビルド全体は止めない
@@ -36,8 +37,8 @@ export function getIllustrations(): Promise<Illustration[]> {
 let blogCache: Promise<BlogPost[]> | undefined;
 export function getBlogPosts(): Promise<BlogPost[]> {
   blogCache ??= (async () => {
-    const tag = (source: BlogPost["source"]) => (items: { title?: string; link?: string; date: string }[]) =>
-      items.map((item) => ({ title: item.title ?? "", link: item.link ?? "", date: item.date, source }));
+    const tag = (source: BlogPost["source"]) => (items: { title?: string; link?: string; date: string; image?: string | null }[]) =>
+      items.map((item) => ({ title: item.title ?? "", link: item.link ?? "", date: item.date, image: item.image, source }));
     const [note, qiita, nagi] = await Promise.all([
       safely("note", () => fetchRSS("https://note.com/suibari/rss").then(tag("note"))),
       safely("Qiita", async () => {

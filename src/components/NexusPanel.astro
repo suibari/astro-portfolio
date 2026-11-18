@@ -1,0 +1,438 @@
+---
+// トップの Creative Nexus。キーワードを押すと、関係する作品がバブルになって飛び出す
+//   Technology → Projects / Creativity → Illustrations（＋グッズ） / Community → Nagi
+import { getImage } from "astro:assets";
+import { charter, type NexusKey } from "../data/nexus";
+import { merchandises } from "../data/merchandises";
+import { langOf, localizePath, useTranslations } from "../i18n/ui";
+import { getProjects } from "../lib/projects";
+import { getBlogPosts, getIllustrations } from "../lib/feeds";
+
+const lang = langOf(Astro.currentLocale);
+const t = useTranslations(lang);
+const c = charter[lang];
+
+interface Bubble {
+  title: string;
+  href: string;
+  image?: string;
+  icon?: "nagi";
+  text?: string; // 画像がないときに丸の中に出す文字
+  external?: boolean;
+  more?: boolean; // 「もっと見る」用のバブル
+}
+
+const thumb = async (src: Parameters<typeof getImage>[0]["src"]) =>
+  (await getImage({ src, width: 240, format: "webp" })).src;
+
+const [projects, illustrations, posts] = await Promise.all([getProjects(), getIllustrations(), getBlogPosts()]);
+
+const technology: Bubble[] = await Promise.all(
+  projects
+    .filter((project) => project.data.image)
+    .slice(0, 7)
+    .map(async (project) => ({
+      title: project.data.title,
+      href: project.data.link,
+      image: await thumb(project.data.image!),
+      external: true,
+    })),
+);
+technology.push({ title: t("nexus.moreProjects"), href: localizePath(lang, "/projects"), text: "more_", more: true });
+
+const creativity: Bubble[] = [
+  ...illustrations.slice(0, 5).map((item) => ({ title: item.title, href: item.link, image: item.image, external: true })),
+  ...(await Promise.all(
+    merchandises.map(async (item) => ({ title: item.title, href: item.link, image: await thumb(item.image), external: true })),
+  )),
+].slice(0, 7);
+creativity.push({ title: t("nexus.moreIllust"), href: localizePath(lang, "/illust"), text: "more_", more: true });
+
+const botProject = projects.find((project) => project.id === "affirmative-bot");
+const community: Bubble[] = [
+  { title: "Nagi", href: "https://nagi.suibari.com/", icon: "nagi", external: true },
+  ...posts
+    .filter((post) => post.source === "Nagi")
+    .slice(0, 4)
+    .map((post) => ({ title: post.title, href: post.link, image: post.image || undefined, text: post.title, external: true })),
+  ...(botProject?.data.image
+    ? [{ title: botProject.data.title, href: botProject.data.link, image: await thumb(botProject.data.image), external: true }]
+    : []),
+].slice(0, 7);
+community.push({ title: "Blog", href: localizePath(lang, "/blog"), text: "blog_", more: true });
+
+const groups: Record<NexusKey, Bubble[]> = { technology, creativity, community };
+const keys = Object.keys(groups) as NexusKey[];
+
+// バブルの置き場所（中心の x%, y%, 直径px）。1つ目が一番大きい
+const slots: [number, number, number][] = [
+  [20, 42, 124],
+  [48, 26, 96],
+  [76, 40, 112],
+  [36, 78, 84],
+  [62, 76, 92],
+  [90, 76, 72],
+  [8, 82, 64],
+  [92, 14, 64],
+];
+---
+
+<section class="nexus" aria-labelledby="nexus-title">
+  <div class="head">
+    <p class="label">{t("nexus.label")}</p>
+    <h2 id="nexus-title" class="font-pixel">Creative Nexus<span class="cursor" aria-hidden="true">_</span></h2>
+    <p class="tagline">{c.tagline}</p>
+  </div>
+
+  <div class="keys" role="group" aria-label="Creative Nexus">
+    {
+      keys.map((key, index) => (
+        <>
+          {index > 0 && <span class="times" aria-hidden="true">×</span>}
+          <button type="button" class="key" data-key={key} aria-pressed="false" aria-controls={`nexus-${key}`}>
+            {charter.en.keywords[key]}
+          </button>
+        </>
+      ))
+    }
+  </div>
+
+  <div class="stage" data-active="">
+    <p class="hint" aria-hidden="true">
+      <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+      <span class="hint-text">{t("nexus.hint")}<span class="cursor">_</span></span>
+    </p>
+    {
+      keys.map((key) => (
+        <ul id={`nexus-${key}`} class="bubbles" data-group={key} aria-label={charter.en.keywords[key]} hidden>
+          {groups[key].map((bubble, i) => {
+            const [x, y, size] = slots[i % slots.length];
+            return (
+              <li style={`--x:${x}%;--y:${y}%;--s:${size}px;--i:${i};--f:${3 + ((i * 7) % 5) * 0.4}s`}>
+                <a
+                  href={bubble.href}
+                  class="bubble"
+                  data-kind={bubble.more ? "more" : bubble.icon ?? (bubble.image ? "image" : "text")}
+                  {...(bubble.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  <span class="ball">
+                    {bubble.icon === "nagi" ? (
+                      <span class="nagi-mark" aria-hidden="true" />
+                    ) : bubble.image ? (
+                      <img src={bubble.image} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      <span class="ball-text">{bubble.text}</span>
+                    )}
+                  </span>
+                  <span class="tip">{bubble.title}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ))
+    }
+  </div>
+
+  <a class="read" href={localizePath(lang, "/nexus")}>{t("nexus.read")}<span aria-hidden="true">→</span></a>
+</section>
+
+<style>
+  .nexus {
+    position: relative;
+    margin-top: -64px;
+    padding: 24px 24px 20px;
+    border-radius: 18px;
+    background: var(--bg);
+    box-shadow:
+      0 18px 40px -18px rgba(12, 29, 74, 0.35),
+      0 2px 6px rgba(12, 29, 74, 0.06);
+  }
+  .label {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--blue);
+  }
+  h2 {
+    margin: 0;
+    font-size: clamp(2.5rem, 8vw, 3.25rem);
+    line-height: 1.05;
+  }
+  .tagline {
+    margin: 4px 0 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .keys {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .times {
+    font-weight: 800;
+    color: var(--orange);
+  }
+  .key {
+    padding: 6px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    color: var(--blue-deep);
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  .key:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 0 var(--orange);
+  }
+  .key[aria-pressed="true"] {
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 3px 0 var(--orange);
+  }
+
+  /* ---- バブルの舞台 ---- */
+  .stage {
+    position: relative;
+    height: 300px;
+    margin: 12px -8px 0;
+  }
+  .hint {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    transition: opacity 0.2s;
+  }
+  .stage:not([data-active=""]) .hint {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hint-text {
+    font-family: "VT323", monospace;
+    font-size: 1.5rem;
+    color: var(--ink-soft);
+  }
+  .dot {
+    position: absolute;
+    border-radius: 50%;
+    animation: float 4s ease-in-out infinite;
+  }
+  .d1 { left: 24%; top: 30%; width: 22px; height: 22px; background: var(--blue); }
+  .d2 { left: 70%; top: 24%; width: 14px; height: 14px; background: var(--orange); animation-delay: -1.3s; }
+  .d3 { left: 60%; top: 72%; width: 18px; height: 18px; background: var(--sky); animation-delay: -2.6s; }
+
+  .bubbles {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bubbles li {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: var(--s);
+    translate: -50% -50%;
+  }
+  .bubble {
+    display: block;
+    width: 100%;
+    height: 100%;
+    scale: 0;
+    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: calc(var(--i) * 55ms);
+  }
+  .ball {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    box-shadow: 0 6px 16px -6px rgba(12, 29, 74, 0.45);
+    outline: 3px solid #fff;
+    animation: float var(--f) ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.6s);
+    transition: outline-color 0.15s;
+  }
+  .ball img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .bubble[data-kind="text"] .ball,
+  .bubble[data-kind="more"] .ball {
+    background: var(--blue);
+  }
+  .ball-text {
+    padding: 10%;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+    color: #fff;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .bubble[data-kind="more"] .ball-text {
+    font-family: "VT323", monospace;
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+  .bubble[data-kind="nagi"] .ball {
+    background: #fff;
+  }
+  .nagi-mark {
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(135deg, #8fd8d2, #5fb3d9);
+    -webkit-mask: url("/images/nagi-icon-mask.png") center / contain no-repeat;
+    mask: url("/images/nagi-icon-mask.png") center / contain no-repeat;
+  }
+  .bubble:hover .ball,
+  .bubble:focus-visible .ball {
+    outline-color: var(--orange);
+  }
+  .bubble:focus-visible {
+    outline: none;
+  }
+  .tip {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 6px);
+    translate: -50% 0;
+    z-index: 2;
+    max-width: 14em;
+    padding: 2px 10px;
+    border-radius: 6px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  .bubble:hover .tip,
+  .bubble:focus-visible .tip {
+    opacity: 1;
+  }
+  .bubbles li:hover {
+    z-index: 3;
+  }
+
+  .read {
+    display: inline-flex;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .read span {
+    transition: transform 0.15s;
+  }
+  .read:hover span {
+    transform: translateX(3px);
+  }
+
+  @keyframes pop {
+    to {
+      scale: 1;
+    }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+
+  @media (max-width: 560px) {
+    .nexus {
+      padding: 20px 16px 16px;
+    }
+    .keys {
+      gap: 4px;
+    }
+    .keys {
+      flex-wrap: nowrap;
+    }
+    .key {
+      padding: 5px 9px;
+      font-size: 0.75rem;
+    }
+    .stage {
+      height: 280px;
+    }
+    .bubbles li {
+      width: calc(var(--s) * 0.72);
+      height: calc(var(--s) * 0.72);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bubble {
+      scale: 1;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>(".nexus");
+  const stage = root?.querySelector<HTMLElement>(".stage");
+  const buttons = [...(root?.querySelectorAll<HTMLButtonElement>(".key") ?? [])];
+  const groups = [...(root?.querySelectorAll<HTMLElement>(".bubbles") ?? [])];
+
+  function show(key: string) {
+    if (!stage) return;
+    stage.dataset.active = key;
+    for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.key === key));
+    for (const group of groups) {
+      const visible = group.dataset.group === key;
+      group.hidden = !visible;
+      // 表示し直すたびに飛び出すアニメーションをやり直す
+      if (visible) for (const bubble of group.querySelectorAll<HTMLElement>(".bubble")) {
+        bubble.style.animation = "none";
+        void bubble.offsetWidth;
+        bubble.style.animation = "";
+      }
+    }
+  }
+
+  let touched = false;
+  for (const button of buttons) {
+    button.addEventListener("click", () => {
+      touched = true;
+      const key = button.dataset.key ?? "";
+      show(stage?.dataset.active === key ? "" : key);
+    });
+  }
+
+  // 何も押されないまま画面に入ったら、少し待って Technology を開いてみせる
+  if (stage) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        setTimeout(() => {
+          if (!touched) show("technology");
+        }, 900);
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(stage);
+  }
+</script>

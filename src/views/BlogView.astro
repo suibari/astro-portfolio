@@ -1,0 +1,17 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import BlogList from "../components/BlogList.astro";
+import { getBlogPosts } from "../lib/feeds";
+import { langOf, useTranslations } from "../i18n/ui";
+
+const t = useTranslations(langOf(Astro.currentLocale));
+const posts = await getBlogPosts();
+---
+
+<Layout title="Blog" description={t("blog.description")}>
+  <PageHero title="Blog" lead={t("blog.description")} />
+  <div class="container">
+    <BlogList posts={posts} />
+  </div>
+</Layout>

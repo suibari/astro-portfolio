@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import ProjectList from "../components/ProjectList.astro";
+import { getProjects } from "../lib/projects";
+import { langOf, useTranslations } from "../i18n/ui";
+
+const t = useTranslations(langOf(Astro.currentLocale));
+const projects = await getProjects();
+
+// よく使うタグから順に並べる
+const tagCounts = new Map<string, number>();
+for (const project of projects) {
+  for (const tag of project.data.tags) tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+}
+const tags = [...tagCounts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+
+<Layout title="Projects" description={t("projects.description")}>
+  <PageHero title="Projects" lead={t("projects.description")} />
+  <div class="container">
+    <div class="filter" role="group" aria-label={t("projects.filter")}>
+      <button type="button" data-tag="" aria-pressed="true">All<span>{projects.length}</span></button>
+      {
+        tags.map(([tag, count]) => (
+          <button type="button" data-tag={tag} aria-pressed="false">
+            {tag}
+            <span>{count}</span>
+          </button>
+        ))
+      }
+    </div>
+    <ProjectList projects={projects} groupByYear />
+  </div>
+</Layout>
+
+<style>
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 32px;
+    font-size: 0.75rem;
+  }
+  button {
+    padding: 3px 10px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    font: inherit;
+    font-weight: 500;
+    color: var(--blue-deep);
+    cursor: pointer;
+    transition: color 0.15s, background-color 0.15s;
+  }
+  button span {
+    margin-left: 4px;
+    font-size: 0.85em;
+    opacity: 0.6;
+  }
+  button:hover {
+    background: color-mix(in srgb, var(--blue) 18%, white);
+  }
+  button[aria-pressed="true"] {
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 2px 0 var(--orange);
+  }
+</style>
+
+<script>
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>(".filter button")];
+  const rows = [...document.querySelectorAll<HTMLElement>(".project-list .row")];
+  const groups = [...document.querySelectorAll<HTMLElement>(".project-list .year-group")];
+
+  function apply(tag: string) {
+    for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.tag === tag));
+    for (const row of rows) row.hidden = tag !== "" && !(row.dataset.tags ?? "").split(",").includes(tag);
+    for (const group of groups) group.hidden = !group.querySelector(".row:not([hidden])");
+    const url = new URL(location.href);
+    if (tag) url.searchParams.set("tag", tag);
+    else url.searchParams.delete("tag");
+    history.replaceState(null, "", url);
+  }
+
+  for (const button of buttons) {
+    button.addEventListener("click", () => {
+      const tag = button.dataset.tag ?? "";
+      apply(button.getAttribute("aria-pressed") === "true" ? "" : tag);
+    });
+  }
+
+  const initial = new URLSearchParams(location.search).get("tag");
+  if (initial && buttons.some((button) => button.dataset.tag === initial)) apply(initial);
+</script>

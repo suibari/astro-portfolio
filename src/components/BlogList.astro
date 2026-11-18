@@ -1,5 +1,8 @@
 ---
 import { formatDate, type BlogPost } from "../lib/feeds";
+import { langOf, useTranslations } from "../i18n/ui";
+
+const t = useTranslations(langOf(Astro.currentLocale));
 
 interface Props {
   posts: BlogPost[];
@@ -9,7 +12,7 @@ const { posts } = Astro.props;
 
 {
   posts.length === 0 ? (
-    <p class="empty">記事を読み込めませんでした。</p>
+    <p class="empty">{t("blog.empty")}</p>
   ) : (
     <ul>
       {posts.map((post) => (

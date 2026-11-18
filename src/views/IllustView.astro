@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import IllustGrid from "../components/IllustGrid.astro";
+import { getIllustrations } from "../lib/feeds";
+import { langOf, useTranslations } from "../i18n/ui";
+
+const t = useTranslations(langOf(Astro.currentLocale));
+const illustrations = await getIllustrations();
+---
+
+<Layout title="Illustrations" description={t("illust.description")}>
+  <PageHero title="Illustrations" lead={t("illust.description")}>
+    <a class="pixiv" href="https://www.pixiv.net/users/251033" target="_blank" rel="noopener noreferrer">pixiv ↗</a>
+  </PageHero>
+  <div class="container">
+    <IllustGrid items={illustrations} />
+  </div>
+</Layout>
+
+<style>
+  .pixiv {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 2px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+  .pixiv:hover {
+    background: var(--orange);
+    color: var(--ink);
+  }
+</style>

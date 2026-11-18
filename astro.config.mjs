@@ -8,6 +8,12 @@ export default defineConfig({
   redirects: {
     // 旧URL
     "/develop": "/projects",
+    "/en/develop": "/en/projects",
+  },
+  i18n: {
+    defaultLocale: "ja",
+    locales: ["ja", "en"],
+    routing: { prefixDefaultLocale: false },
   },
   integrations: [tailwind({ applyBaseStyles: false })],
 });
