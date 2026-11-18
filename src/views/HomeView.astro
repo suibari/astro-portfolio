@@ -30,7 +30,7 @@ const [projects, illustrations, posts] = await Promise.all([getProjects(), getIl
       </section>
       <section>
         <SectionHeading title="Illustrations" more={{ href: localizePath(lang, "/illust"), label: t("section.more") }} />
-        <IllustGrid items={illustrations.slice(0, 3)} />
+        <IllustGrid items={illustrations.slice(0, 12)} variant="dense" />
       </section>
       <section>
         <SectionHeading title="Blog" more={{ href: localizePath(lang, "/blog"), label: t("section.more") }} />
